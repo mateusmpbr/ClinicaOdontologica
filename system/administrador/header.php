@@ -1,5 +1,5 @@
 <?php
-include_once'../../php/funcoesAuxiliares.php';
+include_once __DIR__ . '/../../app/Helpers/funcoesAuxiliares.php';
 verificaFuncionarioLogado();
 verificarAdministradorLogado();
 ?>

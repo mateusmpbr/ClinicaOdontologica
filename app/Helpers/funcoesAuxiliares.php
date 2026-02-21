@@ -1,9 +1,11 @@
 <?php
 
-include 'classAdministrador.php';
-include 'classRecepcionista.php';
+require_once __DIR__ . '/../Models/classAdministrador.php';
+require_once __DIR__ . '/../Models/classRecepcionista.php';
 
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+	session_start();
+}
 
 function verificaFuncionarioLogado(){
 	if(!isset($_SESSION["funcionario"])){
