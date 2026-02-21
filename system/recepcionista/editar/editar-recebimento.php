@@ -3,34 +3,44 @@
 
 $flag = 0;
 
- 
 
-$paciente = new Paciente();
-$recebimento = new Recebimento();
 
-if(!isset($_POST['valor']))$valor = "";
-if(!isset($_POST['data']))$data = "";
-if(!isset($_POST['nome_paciente']))$nome_paciente = "";
-if(!isset($_POST['cpf_paciente']))$cpf_paciente = "";
-if(!isset($_POST['modo_pagamento']))$modo_pagamento = "";
+$paciente = new \ClinicaOdontologica\Models\Paciente();
+$recebimento = new \ClinicaOdontologica\Models\Recebimento();
 
-if(isset($_POST['botao'])){ 
+if (!has_input('valor')) {
+    $valor = "";
+}
+if (!has_input('data')) {
+    $data = "";
+}
+if (!has_input('nome_paciente')) {
+    $nome_paciente = "";
+}
+if (!has_input('cpf_paciente')) {
+    $cpf_paciente = "";
+}
+if (!has_input('modo_pagamento')) {
+    $modo_pagamento = "";
+}
 
-    $id = $_POST['id'];
-    $valor = $_POST['valor'];
-    $data = $_POST['data'];
-    $nome_paciente = $_POST['nome_paciente'];
-    $cpf_paciente = $_POST['cpf_paciente'];
-    $modo_pagamento = $_POST['modo_pagamento'];
+if (has_input('botao')) {
+
+    $id = (request()->getParsedBody()['id'] ?? request()->getQueryParams()['id'] ?? null);
+    $valor = (request()->getParsedBody()['valor'] ?? request()->getQueryParams()['valor'] ?? null);
+    $data = (request()->getParsedBody()['data'] ?? request()->getQueryParams()['data'] ?? null);
+    $nome_paciente = (request()->getParsedBody()['nome_paciente'] ?? request()->getQueryParams()['nome_paciente'] ?? null);
+    $cpf_paciente = (request()->getParsedBody()['cpf_paciente'] ?? request()->getQueryParams()['cpf_paciente'] ?? null);
+    $modo_pagamento = (request()->getParsedBody()['modo_pagamento'] ?? request()->getQueryParams()['modo_pagamento'] ?? null);
 
     $id_recepcionista = $_SESSION['funcionario'];
 
     $paciente->setNome($nome_paciente);
     $paciente->setCpf($cpf_paciente);
-    
+
     $recebimento->setId($id);
 
-    if($paciente->semNomeCpf()){
+    if ($paciente->semNomeCpf()) {
         $recebimento->setValor($valor);
         $recebimento->setData($data);
         $recebimento->setRecepcionistaId($id_recepcionista);
@@ -38,7 +48,7 @@ if(isset($_POST['botao'])){
         $recebimento->edit();
         header("Location: ../recebimentos.php");
 
-    }elseif($id_paciente = $paciente->existeNomeCpf()){
+    } elseif ($id_paciente = $paciente->existeNomeCpf()) {
         $recebimento->setPacienteId($id_paciente);
         $recebimento->setValor($valor);
         $recebimento->setData($data);
@@ -46,12 +56,11 @@ if(isset($_POST['botao'])){
         $recebimento->setModoPagamento($modo_pagamento);
         var_dump($recebimento->edit());
         header("Location: ../recebimentos.php");
-    }
-    else{
+    } else {
         $flag = 1;
     }
-}else{
-    $id = $_GET['id'];
+} else {
+    $id = (request()->getParsedBody()['id'] ?? request()->getQueryParams()['id'] ?? null);
     $recebimento->setId($id);
     $r = $recebimento->viewRecebimento();
 
@@ -61,7 +70,7 @@ if(isset($_POST['botao'])){
 
     $paciente_id = $r->paciente_id;
 
-    if(!empty($paciente_id)){
+    if (!empty($paciente_id)) {
         $paciente->setId($paciente_id);
         $p = $paciente->viewPaciente();
         $nome_paciente = $p->nome;
@@ -82,7 +91,7 @@ if(isset($_POST['botao'])){
             </div>
         </div>
         <div class="card-body">
-        <?php if($flag == 1){ ?>
+        <?php if ($flag == 1) { ?>
           <div class="alert alert-danger form-group" role="alert">
             <b>Não há esse paciente cadastrado</b>
           </div>

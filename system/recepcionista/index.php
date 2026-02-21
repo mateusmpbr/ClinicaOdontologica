@@ -1,11 +1,11 @@
 <?php include_once'header.php' ?>
 <?php
 
-if(isset($_POST['botao-remover'])){
-  $id = $_POST['id'];
-  $paciente = new Paciente();
-  $paciente->setId($id);
-  $paciente->delete();
+if (has_input('botao-remover')) {
+    $id = (request()->getParsedBody()['id'] ?? request()->getQueryParams()['id'] ?? null);
+    $paciente = new \ClinicaOdontologica\Models\Paciente();
+    $paciente->setId($id);
+    $paciente->delete();
 } ?>
       <div id="content-wrapper">
 
@@ -48,21 +48,21 @@ if(isset($_POST['botao-remover'])){
                     </tr>
                   </tfoot>
                   <tbody>
-                      <?php 
+                      <?php
 
-                      $p = new Paciente();
-                      $stmt = $p->viewAll();
+                      $p = new \ClinicaOdontologica\Models\Paciente();
+$stmt = $p->viewAll();
 
-                      while($row = $stmt->fetch(PDO::FETCH_OBJ)){ ?>
+while ($row = $stmt->fetch(PDO::FETCH_OBJ)) { ?>
                       <tr align="center">
                         <td> <?= $row->nome; ?> </td>
                         <td> <?= $row->sobrenome; ?> </td>
                         <td> <?= $row->nascimento; ?> </td>
-                        <td> <?= empty($row->cpf)? "" : $row->cpf; ?> </td>
+                        <td> <?= empty($row->cpf) ? "" : $row->cpf; ?> </td>
                         <?php
-                          $p->setId($row->id);
-                          $plano_dentario = $p->nomePlanoDentario();
-                        ?>
+    $p->setId($row->id);
+    $plano_dentario = $p->nomePlanoDentario();
+    ?>
                         <td> <?= $plano_dentario; ?> </td>
                         <td><a href="editar/editar-paciente.php?id=<?=$row->id?>" class="btn btn-primary">Alterar</a></td>
                         <td><a href="#" class="btn btn-danger" data-toggle="modal" data-target="#removeModal<?=$row->id?>">Remover</a></td>
@@ -81,7 +81,7 @@ if(isset($_POST['botao-remover'])){
 
       $stmt = $p->viewAll();
 
-      while($row = $stmt->fetch(PDO::FETCH_OBJ)){ ?>
+while ($row = $stmt->fetch(PDO::FETCH_OBJ)) { ?>
       <div class="modal fade" id="removeModal<?=$row->id?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
           <div class="modal-content">

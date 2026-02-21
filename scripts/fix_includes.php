@@ -1,10 +1,15 @@
 <?php
+
 $root = realpath(__DIR__ . "/../");
 $it = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($root));
 $changed = [];
 foreach ($it as $file) {
-    if (!$file->isFile()) continue;
-    if (pathinfo($file->getFilename(), PATHINFO_EXTENSION) !== 'php') continue;
+    if (!$file->isFile()) {
+        continue;
+    }
+    if (pathinfo($file->getFilename(), PATHINFO_EXTENSION) !== 'php') {
+        continue;
+    }
     $path = $file->getPathname();
     $contents = file_get_contents($path);
     $pattern = '/\b(include|require)(?:_once)?\s*\(?\s*["\'](\.\.\/\.\.\/\.\.\/php\/([^"\']+))["\']\s*\)?\s*;/i';
@@ -34,4 +39,3 @@ if ($changed) {
 } else {
     echo "No files updated\n";
 }
-?>

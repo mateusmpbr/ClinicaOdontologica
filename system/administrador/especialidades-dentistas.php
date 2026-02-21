@@ -1,15 +1,15 @@
 <?php include_once'header.php' ?>
 <?php
 
-if(isset($_POST['botao-remover'])){
-  $dhe = new Dentista_has_Especialidade();
+if (has_input('botao-remover')) {
+    $dhe = new \ClinicaOdontologica\Models\DentistaHasEspecialidade();
 
-  $dentista_id = $_POST['dentista_id'];
-  $especialidade_nome = $_POST['especialidade_nome'];
+    $dentista_id = (request()->getParsedBody()['dentista_id'] ?? request()->getQueryParams()['dentista_id'] ?? null);
+    $especialidade_nome = (request()->getParsedBody()['especialidade_nome'] ?? request()->getQueryParams()['especialidade_nome'] ?? null);
 
-  $dhe->setEspecialidadeNome($especialidade_nome);
-  $dhe->setDentistaId($dentista_id);
-  $dhe->delete();
+    $dhe->setEspecialidadeNome($especialidade_nome);
+    $dhe->setDentistaId($dentista_id);
+    $dhe->delete();
 }
 ?>
       <div id="content-wrapper">
@@ -48,16 +48,16 @@ if(isset($_POST['botao-remover'])){
                   </tfoot>
                   <tbody>
                       <?php
-                      $dhe = new Dentista_has_Especialidade();
+                      $dhe = new \ClinicaOdontologica\Models\DentistaHasEspecialidade();
 
-                      $stmt = $dhe->viewAll();
+$stmt = $dhe->viewAll();
 
-                      while($row = $stmt->fetch(PDO::FETCH_OBJ)){ ?>
+while ($row = $stmt->fetch(PDO::FETCH_OBJ)) { ?>
                       <tr align="center">
                         <?php
-                          $dhe->setDentistaId($row->dentista_id);
-                          $dentista_nome = $dhe->nomeDentista();
-                        ?>
+    $dhe->setDentistaId($row->dentista_id);
+    $dentista_nome = $dhe->nomeDentista();
+    ?>
                         <td> <?= $dentista_nome; ?> </td>
                         <td> <?= $row->especialidade_nome; ?> </td>
                         <td><a href="editar/editar-especialidade-dentista.php?dentista_id=<?=$row->dentista_id?>&especialidade_nome=<?=$row->especialidade_nome?>" class="btn btn-primary">Alterar</a></td>
@@ -73,19 +73,19 @@ if(isset($_POST['botao-remover'])){
         <!-- /.container-fluid -->
       </div>
       <!-- /.content-wrapper -->
-<?php 
+<?php
 
       $stmt = $dhe->viewAll();
 
-      while($row = $stmt->fetch(PDO::FETCH_OBJ)){ ?>
+while ($row = $stmt->fetch(PDO::FETCH_OBJ)) { ?>
       <div class="modal fade" id="removeModal<?=$row->dentista_id?>-<?=$row->especialidade_nome?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
               <?php
-                $dhe->setDentistaId($row->dentista_id);
-                $dentista_nome = $dhe->nomeDentista();
-              ?>
+          $dhe->setDentistaId($row->dentista_id);
+    $dentista_nome = $dhe->nomeDentista();
+    ?>
               <h5 class="modal-title" id="exampleModalLabel">Você tem certeza que deseja remover a especialidade <?=$row->especialidade_nome?> do dentista <?=$dentista_nome?> ?</h5>
               <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">×</span>

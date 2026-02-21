@@ -1,41 +1,43 @@
 <?php include_once"header.php" ?>
 <?php
 
- 
 
-$f = new funcionario();
-$d = new Dentista();
-$e = new Especialidade();
-$dhe = new Dentista_has_Especialidade();
+
+$f = new \ClinicaOdontologica\Models\Funcionario();
+$d = new \ClinicaOdontologica\Models\Dentista();
+$e = new \ClinicaOdontologica\Models\Especialidade();
+$dhe = new \ClinicaOdontologica\Models\DentistaHasEspecialidade();
 
 $flag = 0;
 
-if(isset($_POST['botao'])){ 
+if (has_input('botao')) {
 
-    $dentista_id_atual = $_POST['dentista_id_atual'];
-    $especialidade_atual = $_POST['especialidade_atual'];
-    $nome_dentista = $_POST['nome_dentista'];
-    $cro_dentista = $_POST['cro_dentista'];
-    $nova_especialidade = $_POST['nova_especialidade'];
-    
+    $dentista_id_atual = (request()->getParsedBody()['dentista_id_atual'] ?? request()->getQueryParams()['dentista_id_atual'] ?? null);
+    $especialidade_atual = (request()->getParsedBody()['especialidade_atual'] ?? request()->getQueryParams()['especialidade_atual'] ?? null);
+    $nome_dentista = (request()->getParsedBody()['nome_dentista'] ?? request()->getQueryParams()['nome_dentista'] ?? null);
+    $cro_dentista = (request()->getParsedBody()['cro_dentista'] ?? request()->getQueryParams()['cro_dentista'] ?? null);
+    $nova_especialidade = (request()->getParsedBody()['nova_especialidade'] ?? request()->getQueryParams()['nova_especialidade'] ?? null);
+
     $dentista_id_novo = $d->existeNomeCro($nome_dentista, $cro_dentista);
 
-    if(!$dhe->existeDentista($dentista_id_novo)) $flag = 1;
+    if (!$dhe->existeDentista($dentista_id_novo)) {
+        $flag = 1;
+    }
 
-    if($flag == 0){
+    if ($flag == 0) {
 
-    $dhe->setDentistaId($dentista_id_atual);
-    $dhe->setEspecialidadeNome($especialidade_atual);
-    var_dump($dhe->edit($dentista_id_novo, $nova_especialidade));
-    header("Location: ../especialidades-dentistas.php");
+        $dhe->setDentistaId($dentista_id_atual);
+        $dhe->setEspecialidadeNome($especialidade_atual);
+        var_dump($dhe->edit($dentista_id_novo, $nova_especialidade));
+        header("Location: ../especialidades-dentistas.php");
 
-    }else{
+    } else {
         $dentista_id = $dentista_id_novo;
         $especialidade_nome = $nova_especialidade;
     }
-}else{
-    $dentista_id = $_GET['dentista_id'];
-    $especialidade_nome = $_GET['especialidade_nome'];
+} else {
+    $dentista_id = (request()->getParsedBody()['dentista_id'] ?? request()->getQueryParams()['dentista_id'] ?? null);
+    $especialidade_nome = (request()->getParsedBody()['especialidade_nome'] ?? request()->getQueryParams()['especialidade_nome'] ?? null);
 
     $dhe->setDentistaId($dentista_id);
     $dhe->setEspecialidadeNome($especialidade_nome);
@@ -63,7 +65,7 @@ if(isset($_POST['botao'])){
             </div>
         </div>
         <div class="card-body">
-        <?php if($flag == 1){ ?>
+        <?php if ($flag == 1) { ?>
           <div class="alert alert-danger form-group" role="alert">
             <b>Não há esse dentista cadastrado</b>
           </div>
@@ -80,12 +82,12 @@ if(isset($_POST['botao'])){
             <div class="form-group">
                 <label>Especialidade</label><br>
                 <select name="nova_especialidade">
-                <?php 
-                $e = new Especialidade();
-                $stmt = $e->viewAll();
+                <?php
+                $e = new \ClinicaOdontologica\Models\Especialidade();
+$stmt = $e->viewAll();
 
-                while($row = $stmt->fetch(PDO::FETCH_OBJ)){ ?>
-                <?php $selected  = ($row->nome == $especialidade_nome)? "selected='selected'" : "" ?>
+while ($row = $stmt->fetch(PDO::FETCH_OBJ)) { ?>
+                <?php $selected  = ($row->nome == $especialidade_nome) ? "selected='selected'" : "" ?>
                 <option value= "<?= $row->nome; ?>"<?=$selected?>> <?= $row->nome; ?> </option>
                 <?php } ?>
                 </select>

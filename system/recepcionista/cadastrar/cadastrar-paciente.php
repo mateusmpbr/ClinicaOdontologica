@@ -5,29 +5,33 @@ verificarRecepcionistaLogadoCadastro();
 
 $flag = 0;
 
-if(isset($_POST['botao'])){ 
+if (has_input('botao')) {
 
-  $nome = $_POST['nome'];
-  $sobrenome = $_POST['sobrenome'];
-  $nascimento = $_POST['nascimento'];
-  $cpf = $_POST['cpf'];
-  $plano_dentario = $_POST['plano_dentario'];
+    $nome = (request()->getParsedBody()['nome'] ?? request()->getQueryParams()['nome'] ?? null);
+    $sobrenome = (request()->getParsedBody()['sobrenome'] ?? request()->getQueryParams()['sobrenome'] ?? null);
+    $nascimento = (request()->getParsedBody()['nascimento'] ?? request()->getQueryParams()['nascimento'] ?? null);
+    $cpf = (request()->getParsedBody()['cpf'] ?? request()->getQueryParams()['cpf'] ?? null);
+    $plano_dentario = (request()->getParsedBody()['plano_dentario'] ?? request()->getQueryParams()['plano_dentario'] ?? null);
 
-  $paciente = new Paciente();
+    $paciente = new \ClinicaOdontologica\Models\Paciente();
 
-  $paciente->setNome($nome);
-  $paciente->setSobrenome($sobrenome);
-  $paciente->setNascimento($nascimento);
-  $paciente->setCpf($cpf);
-  $paciente->setPlanoDentarioId($plano_dentario);
-  if(!$paciente->validaCPF($cpf)) $flag = 1;
-  if($paciente->existeCpf())$flag = 2;
+    $paciente->setNome($nome);
+    $paciente->setSobrenome($sobrenome);
+    $paciente->setNascimento($nascimento);
+    $paciente->setCpf($cpf);
+    $paciente->setPlanoDentarioId($plano_dentario);
+    if (!$paciente->validaCPF($cpf)) {
+        $flag = 1;
+    }
+    if ($paciente->existeCpf()) {
+        $flag = 2;
+    }
 
-  if ($flag == 0) {
-    $paciente->insert();
-    header("Location: ../index.php");
-    exit;
-  }
+    if ($flag == 0) {
+        $paciente->insert();
+        header("Location: ../index.php");
+        exit;
+    }
 
 }
 
@@ -41,7 +45,7 @@ include_once"header.php";
           Cadastro de Paciente
         </div>
         <div class="card-body">
-        <?php if($flag == 1){ ?>
+        <?php if ($flag == 1) { ?>
           <div class="alert alert-danger form-group" role="alert">
             <b>O CPF informado não é válido</b>
           </div>
@@ -65,18 +69,18 @@ include_once"header.php";
             <div class="form-group">
               <label>Plano Dentário</label><br>
               <select id="select-paciente" name="plano_dentario">
-                <?php 
-                $planoDentario = new PlanoDentario();
-                $stmt = $planoDentario->viewAll();
+                <?php
+                $planoDentario = new \ClinicaOdontologica\Models\PlanoDentario();
+            $stmt = $planoDentario->viewAll();
 
-                while($row = $stmt->fetch(PDO::FETCH_OBJ)){ ?>
+            while ($row = $stmt->fetch(PDO::FETCH_OBJ)) { ?>
                 <option value= <?= $row->id; ?>> <?= $row->nome; ?> </option>
                 <?php } ?>
               </select>
             </div>
             <button class="btn btn-primary btn-block" type="submit" name="botao">Cadastrar</button>
           </form>
-        <?php } elseif($flag == 2){ ?>
+        <?php } elseif ($flag == 2) { ?>
           <div class="alert alert-danger form-group" role="alert">
             <b>O CPF informado já foi cadastrado</b>
           </div>
@@ -100,18 +104,18 @@ include_once"header.php";
             <div class="form-group">
               <label>Plano Dentário</label><br>
               <select id="select-paciente" name="plano_dentario">
-                <?php 
-                $planoDentario = new PlanoDentario();
-                $stmt = $planoDentario->viewAll();
+                <?php
+            $planoDentario = new \ClinicaOdontologica\Models\PlanoDentario();
+            $stmt = $planoDentario->viewAll();
 
-                while($row = $stmt->fetch(PDO::FETCH_OBJ)){ ?>
+            while ($row = $stmt->fetch(PDO::FETCH_OBJ)) { ?>
                 <option value= <?= $row->id; ?>> <?= $row->nome; ?> </option>
                 <?php } ?>
               </select>
             </div>
             <button class="btn btn-primary btn-block" type="submit" name="botao">Cadastrar</button>
           </form>
-        <?php }else{ ?>
+        <?php } else { ?>
           <form action="cadastrar-paciente.php" name="cadastrarPaciente" method="post">
             <div class="form-group">
                 <label>Primeiro nome</label>
@@ -132,12 +136,12 @@ include_once"header.php";
             <div class="form-group">
               <label>Plano Dentário</label><br>
               <select id="select-paciente" name="plano_dentario">
-                <?php 
-                $planoDentario = new PlanoDentario();
-                $stmt = $planoDentario->viewAll();
+                <?php
+            $planoDentario = new \ClinicaOdontologica\Models\PlanoDentario();
+            $stmt = $planoDentario->viewAll();
 
-                while($row = $stmt->fetch(PDO::FETCH_OBJ)){ ?>
-                <?php $selected = ($row->nome=="Não")? "selected='selected'" : ""; ?>
+            while ($row = $stmt->fetch(PDO::FETCH_OBJ)) { ?>
+                <?php $selected = ($row->nome == "Não") ? "selected='selected'" : ""; ?>
                 <option value= <?= $row->id; ?> <?= $selected ?>> <?= $row->nome; ?> </option>
                 <?php } ?>
               </select>

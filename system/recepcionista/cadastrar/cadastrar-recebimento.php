@@ -2,58 +2,67 @@
 require_once __DIR__ . '/../../../app/bootstrap.php';
 verificaFuncionarioLogadoCadastro();
 verificarRecepcionistaLogadoCadastro();
-$p = new Paciente();
-$r = new Recepcionista();
-$rec = new Recebimento();
+$p = new \ClinicaOdontologica\Models\Paciente();
+$r = new \ClinicaOdontologica\Models\Recepcionista();
+$rec = new \ClinicaOdontologica\Models\Recebimento();
 
 $flag = 0;
 
-if(!isset($_POST['valor']))$valor = "";
-if(!isset($_POST['data']))$data = "";
-if(!isset($_POST['nome_paciente']))$nome_paciente = "";
-if(!isset($_POST['cpf_paciente']))$cpf_paciente = "";
-if(!isset($_POST['modo_pagamento']))$modo_pagamento = "";
+if (!has_input('valor')) {
+    $valor = "";
+}
+if (!has_input('data')) {
+    $data = "";
+}
+if (!has_input('nome_paciente')) {
+    $nome_paciente = "";
+}
+if (!has_input('cpf_paciente')) {
+    $cpf_paciente = "";
+}
+if (!has_input('modo_pagamento')) {
+    $modo_pagamento = "";
+}
 
-if(isset($_POST['botao'])){ 
+if (has_input('botao')) {
 
-  $paciente = new Paciente();
-  $recepcionista = new Recepcionista();
-  $recebimento = new Recebimento();
+    $paciente = new \ClinicaOdontologica\Models\Paciente();
+    $recepcionista = new \ClinicaOdontologica\Models\Recepcionista();
+    $recebimento = new \ClinicaOdontologica\Models\Recebimento();
 
-  $valor = $_POST['valor'];
-  $data = $_POST['data'];
-  $nome_paciente = $_POST['nome_paciente'];
-  $cpf_paciente = $_POST['cpf_paciente'];
-  $modo_pagamento = $_POST['modo_pagamento'];
+    $valor = (request()->getParsedBody()['valor'] ?? request()->getQueryParams()['valor'] ?? null);
+    $data = (request()->getParsedBody()['data'] ?? request()->getQueryParams()['data'] ?? null);
+    $nome_paciente = (request()->getParsedBody()['nome_paciente'] ?? request()->getQueryParams()['nome_paciente'] ?? null);
+    $cpf_paciente = (request()->getParsedBody()['cpf_paciente'] ?? request()->getQueryParams()['cpf_paciente'] ?? null);
+    $modo_pagamento = (request()->getParsedBody()['modo_pagamento'] ?? request()->getQueryParams()['modo_pagamento'] ?? null);
 
-  $id_recepcionista = $_SESSION['funcionario'];
+    $id_recepcionista = $_SESSION['funcionario'];
 
-  $paciente->setNome($nome_paciente);
-  $paciente->setCpf($cpf_paciente);
-    
-    
-  if($paciente->semNomeCpf()){
-    $recebimento->setValor($valor);
-    $recebimento->setData($data);
-    $recebimento->setRecepcionistaId($id_recepcionista);
-    $recebimento->setModoPagamento($modo_pagamento);
-    $recebimento->insert();
-    header("Location: ../recebimentos.php");
-    exit;
+    $paciente->setNome($nome_paciente);
+    $paciente->setCpf($cpf_paciente);
 
-  }elseif(($id_paciente = $paciente->existeNomeCpf())){
-    $recebimento->setPacienteId($id_paciente);
-    $recebimento->setValor($valor);
-    $recebimento->setData($data);
-    $recebimento->setRecepcionistaId($id_recepcionista);
-    $recebimento->setModoPagamento($modo_pagamento);
-    $recebimento->insert();
-    header("Location: ../recebimentos.php");
-    exit;
-  }
-  else{
-    $flag = 1;
-  }
+
+    if ($paciente->semNomeCpf()) {
+        $recebimento->setValor($valor);
+        $recebimento->setData($data);
+        $recebimento->setRecepcionistaId($id_recepcionista);
+        $recebimento->setModoPagamento($modo_pagamento);
+        $recebimento->insert();
+        header("Location: ../recebimentos.php");
+        exit;
+
+    } elseif (($id_paciente = $paciente->existeNomeCpf())) {
+        $recebimento->setPacienteId($id_paciente);
+        $recebimento->setValor($valor);
+        $recebimento->setData($data);
+        $recebimento->setRecepcionistaId($id_recepcionista);
+        $recebimento->setModoPagamento($modo_pagamento);
+        $recebimento->insert();
+        header("Location: ../recebimentos.php");
+        exit;
+    } else {
+        $flag = 1;
+    }
 }
 
 include_once"header.php";
@@ -69,7 +78,7 @@ include_once"header.php";
             </div>
         </div>
         <div class="card-body">
-        <?php if($flag == 1){ ?>
+        <?php if ($flag == 1) { ?>
           <div class="alert alert-danger form-group" role="alert">
             <b>O nome e o CPF informado não estão cadastrados ou não coincidem</b>
           </div>

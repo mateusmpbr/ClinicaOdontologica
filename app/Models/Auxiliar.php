@@ -1,75 +1,85 @@
 <?php
-namespace App\Models;
 
-class Auxiliar extends Funcionario {
+namespace ClinicaOdontologica\Models;
+
+class Auxiliar extends Funcionario
+{
     private $funcionario_id;
 
-    public function __construct(){
+    public function __construct()
+    {
         $database = new \Database();
         $dbSet = $database->dbSet();
         $this->conn = $dbSet;
     }
 
-    public function getFuncionarioId(){
+    public function getFuncionarioId()
+    {
         return $this->funcionario_id;
     }
 
-    public function setFuncionarioId($funcionario_id){
+    public function setFuncionarioId($funcionario_id)
+    {
         $this->funcionario_id = $funcionario_id;
     }
 
-    public function insert(){
-        try{
+    public function insert()
+    {
+        try {
             $stmt = $this->conn->prepare("INSERT INTO auxiliar(funcionario_id) VALUES(:funcionario_id)");
             $stmt->bindParam(":funcionario_id", $this->funcionario_id);
             $stmt->execute();
             return $this->conn->lastInsertId();
-        }catch(\PDOException $e){
+        } catch (\PDOException $e) {
             echo $e->getMessage();
             return 0;
         }
     }
 
-    public function delete(){
-        try{
+    public function delete()
+    {
+        try {
             $stmt = $this->conn->prepare("DELETE FROM auxiliar WHERE funcionario_id = :funcionario_id");
             $stmt->bindParam(":funcionario_id", $this->funcionario_id);
             $stmt->execute();
             return 1;
-        }catch(\PDOException $e){
+        } catch (\PDOException $e) {
             echo $e->getMessage();
             return 0;
         }
     }
 
-    public function viewAll(){
+    public function viewAll()
+    {
         $stmt = $this->conn->prepare("SELECT * FROM auxiliar JOIN funcionario ON auxiliar.funcionario_id = funcionario.id");
         $stmt->execute();
         return $stmt;
     }
 
-    public function viewAuxiliar(){
-        try{
+    public function viewAuxiliar()
+    {
+        try {
             $stmt = $this->conn->prepare("SELECT * FROM auxiliar WHERE funcionario_id = :funcionario_id");
             $stmt->bindParam(":funcionario_id", $this->funcionario_id);
             $stmt->execute();
             $resultado = $stmt->fetch(\PDO::FETCH_OBJ);
-            if(!empty($resultado)){
+            if (!empty($resultado)) {
                 return $resultado;
-            }else{
+            } else {
                 return null;
             }
-        }catch(\PDOException $e){
+        } catch (\PDOException $e) {
             echo $e->getMessage();
             return null;
         }
     }
 
-    public function existeNomeCpf($nome, $cpf){
-        try{
-            if(empty($cpf)){
+    public function existeNomeCpf($nome, $cpf)
+    {
+        try {
+            if (empty($cpf)) {
                 $stmt = $this->conn->prepare("SELECT * FROM auxiliar, funcionario WHERE nome = :nome AND funcionario.id = auxiliar.funcionario_id");
-            }else{
+            } else {
                 $stmt = $this->conn->prepare("SELECT * FROM auxiliar, funcionario WHERE nome = :nome AND cpf = :cpf AND funcionario.id = auxiliar.funcionario_id");
                 $stmt->bindParam(":cpf", $cpf);
             }
@@ -77,10 +87,10 @@ class Auxiliar extends Funcionario {
             $stmt->execute();
             $result = $stmt->fetch(\PDO::FETCH_OBJ);
 
-            if(!empty($result)){
+            if (!empty($result)) {
                 return $result->funcionario_id;
             }
-        }catch(\PDOException $e){
+        } catch (\PDOException $e) {
             echo $e->getMessage();
             return null;
         }

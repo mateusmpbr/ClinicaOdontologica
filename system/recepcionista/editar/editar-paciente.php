@@ -2,51 +2,51 @@
 require_once __DIR__ . '/../../../app/bootstrap.php';
 verificaFuncionarioLogadoCadastro();
 verificarRecepcionistaLogadoCadastro();
- 
+
 
 $flag = 0;
 
-if(isset($_POST['botao'])){ 
+if (has_input('botao')) {
 
-  $id = $_POST['id'];
-  $nome = $_POST['nome'];
-  $sobrenome = $_POST['sobrenome'];
-  $nascimento = $_POST['nascimento'];
-  $cpf = $_POST['cpf'];
-  $plano_dentario = $_POST['plano_dentario'];
+    $id = (request()->getParsedBody()['id'] ?? request()->getQueryParams()['id'] ?? null);
+    $nome = (request()->getParsedBody()['nome'] ?? request()->getQueryParams()['nome'] ?? null);
+    $sobrenome = (request()->getParsedBody()['sobrenome'] ?? request()->getQueryParams()['sobrenome'] ?? null);
+    $nascimento = (request()->getParsedBody()['nascimento'] ?? request()->getQueryParams()['nascimento'] ?? null);
+    $cpf = (request()->getParsedBody()['cpf'] ?? request()->getQueryParams()['cpf'] ?? null);
+    $plano_dentario = (request()->getParsedBody()['plano_dentario'] ?? request()->getQueryParams()['plano_dentario'] ?? null);
 
-  $paciente = new Paciente();
+    $paciente = new \ClinicaOdontologica\Models\Paciente();
 
-  $paciente->setId($id);
-  $paciente->setCPF($cpf);
-  $paciente->setNome($nome);
-  $paciente->setSobrenome($sobrenome);
-  $paciente->setNascimento($nascimento);
-  $paciente->setPlanoDentarioId($plano_dentario);
-  if(!$paciente->validaCPF($cpf)){
-    $flag = 1;
+    $paciente->setId($id);
+    $paciente->setCPF($cpf);
+    $paciente->setNome($nome);
+    $paciente->setSobrenome($sobrenome);
+    $paciente->setNascimento($nascimento);
+    $paciente->setPlanoDentarioId($plano_dentario);
+    if (!$paciente->validaCPF($cpf)) {
+        $flag = 1;
+        $resultado = $paciente->viewPaciente();
+    }
+
+    if ($paciente->existeCpf()) {
+        $flag = 2;
+        $resultado = $paciente->viewPaciente();
+    }
+
+    if ($flag == 0) {
+        $p = $paciente->edit();
+        header("Location: ../index.php");
+        exit;
+    }
+
+} else {
+
+    $id = (request()->getParsedBody()['id'] ?? request()->getQueryParams()['id'] ?? null);
+    $paciente = new \ClinicaOdontologica\Models\Paciente();
+    $paciente->setId($id);
     $resultado = $paciente->viewPaciente();
-  }
 
-  if($paciente->existeCpf()){
-    $flag = 2;
-    $resultado = $paciente->viewPaciente();
-  }
-
-  if($flag == 0){
-    $p = $paciente->edit();
-    header("Location: ../index.php");
-    exit;
-  }
-
-}else{
-
-  $id = $_GET['id'];
-  $paciente = new Paciente();
-  $paciente->setId($id);
-  $resultado = $paciente->viewPaciente();
-
-} 
+}
 
 include_once"header.php";
 ?>
@@ -58,11 +58,11 @@ include_once"header.php";
           Atualização de Paciente
         </div>
         <div class="card-body">
-        <?php if($flag == 1){ ?>
+        <?php if ($flag == 1) { ?>
           <div class="alert alert-danger form-group" role="alert">
             <b>O CPF informado não é válido</b>
           </div>
-        <?php }elseif($flag == 2){ ?>
+        <?php } elseif ($flag == 2) { ?>
           <div class="alert alert-danger form-group" role="alert">
             <b>O CPF informado já foi cadastrado</b>
           </div>
@@ -87,12 +87,12 @@ include_once"header.php";
             <div class="form-group">
               <label>Plano Dentário</label><br>
               <select id="select-paciente" name="plano_dentario">
-                <?php 
-                $planoDentario = new PlanoDentario();
-                $stmt = $planoDentario->viewAll();
+                <?php
+                $planoDentario = new \ClinicaOdontologica\Models\PlanoDentario();
+$stmt = $planoDentario->viewAll();
 
-                while($row = $stmt->fetch(PDO::FETCH_OBJ)){ 
-                $selected = ($row->id == $resultado->plano_dentario_id)? "selected='selected'" : ""; ?>
+while ($row = $stmt->fetch(PDO::FETCH_OBJ)) {
+    $selected = ($row->id == $resultado->plano_dentario_id) ? "selected='selected'" : ""; ?>
                 <option value= "<?= $row->id; ?>" <?=$selected?>><?=$row->nome?></option>
                 <?php } ?>
               </select>

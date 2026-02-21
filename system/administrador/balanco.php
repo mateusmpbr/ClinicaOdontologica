@@ -1,8 +1,8 @@
-<?php 
+<?php
 include_once'header.php';
 include_once'../../app/Models/classBalanco.php';
 
-$b = new Balanco();
+$b = new \ClinicaOdontologica\Models\Balanco();
 
 ?>
       <div id="content-wrapper">
@@ -35,11 +35,11 @@ $b = new Balanco();
                   </tfoot>
                   <tbody>
                       <tr align="center">
-                        <?php 
-                          $despesas = number_format($b->valorDespesas(),2);
-                          $recebimentos = number_format($b->valorRecebimentos(),2);
-                          $saldo = number_format($b->mostraSaldo(),2);
-                         ?>
+                        <?php
+                          $despesas = number_format($b->valorDespesas(), 2);
+$recebimentos = number_format($b->valorRecebimentos(), 2);
+$saldo = number_format($b->mostraSaldo(), 2);
+?>
                         <td> <?= $despesas ?> </td>
                         <td> <?= $recebimentos ?> </td>
                         <td> <?= $saldo ?> </td>

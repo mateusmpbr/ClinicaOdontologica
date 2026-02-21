@@ -1,5 +1,5 @@
 <?php include_once'header.php';
- 
+
 ?>
   <body class="bg-dark">
     <div id="wrapper">
@@ -33,13 +33,13 @@
                     </tr>
                   </tfoot>
                   <tbody>
-                      <?php 
+                      <?php
 
-                      $d = new Dentista();
+                      $d = new \ClinicaOdontologica\Models\Dentista();
 
-                      $stmt = $d->viewAll();
+$stmt = $d->viewAll();
 
-                      while($row = $stmt->fetch(PDO::FETCH_OBJ)){ ?>
+while ($row = $stmt->fetch(PDO::FETCH_OBJ)) { ?>
                       <tr align="center">
                         <td> <?= $row->nome; ?> </td>
                         <td> <?= $row->cro; ?></td>

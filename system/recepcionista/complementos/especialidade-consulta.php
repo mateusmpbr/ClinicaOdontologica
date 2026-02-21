@@ -1,5 +1,5 @@
 <?php include_once'header.php';
- 
+
 ?>
   <body class="bg-dark">
     <div id="wrapper">
@@ -29,18 +29,18 @@
                     </tr>
                   </tfoot>
                   <tbody>
-                      <?php 
+                      <?php
 
                       $dhe = new Dentista_has_Especialidade();
 
-                      $stmt = $dhe->viewAll();
+$stmt = $dhe->viewAll();
 
-                      while($row = $stmt->fetch(PDO::FETCH_OBJ)){ ?>
+while ($row = $stmt->fetch(PDO::FETCH_OBJ)) { ?>
                       <tr align="center">
                         <?php
-                          $dhe->setDentistaId($row->dentista_id);
-                          $dentista_nome = $dhe->nomeDentista();
-                        ?>
+    $dhe->setDentistaId($row->dentista_id);
+    $dentista_nome = $dhe->nomeDentista();
+    ?>
                         <td> <?= $dentista_nome; ?> </td>
                         <td> <?= $row->especialidade_nome; ?> </td>
                       </tr>

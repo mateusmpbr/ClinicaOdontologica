@@ -1,13 +1,13 @@
 <?php include_once'header.php' ?>
 <?php
 
-if(isset($_POST["botao-remover"])){
+if (has_input('botao-remover')) {
 
-  $nome = $_POST["nome"];
+    $nome = (request()->getParsedBody()['nome'] ?? request()->getQueryParams()['nome'] ?? null);
 
-  $e = new Especialidade();
-  $e->setNome($nome);
-  $e->delete();
+    $e = new \ClinicaOdontologica\Models\Especialidade();
+    $e->setNome($nome);
+    $e->delete();
 }
 
 ?>
@@ -44,11 +44,11 @@ if(isset($_POST["botao-remover"])){
                     </tr>
                   </tfoot>
                   <tbody>
-                      <?php 
-                      $e = new Especialidade();
-                      $stmt = $e->viewAll();
+                      <?php
+                      $e = new \ClinicaOdontologica\Models\Especialidade();
+$stmt = $e->viewAll();
 
-                      while($row = $stmt->fetch(PDO::FETCH_OBJ)){ ?>
+while ($row = $stmt->fetch(PDO::FETCH_OBJ)) { ?>
                       <tr align="center">
                         <td> <?= $row->nome; ?> </td>
                         <td><a href="editar/editar-especialidade?nome=<?=$row->nome?>" class="btn btn-primary">Alterar</a></td>
@@ -68,7 +68,7 @@ if(isset($_POST["botao-remover"])){
 
       $stmt = $e->viewAll();
 
-      while($row = $stmt->fetch(PDO::FETCH_OBJ)){ ?>
+while ($row = $stmt->fetch(PDO::FETCH_OBJ)) { ?>
       <div class="modal fade" id="removeModal<?=$row->nome?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
           <div class="modal-content">

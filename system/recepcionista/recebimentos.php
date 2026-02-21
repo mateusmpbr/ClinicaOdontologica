@@ -1,13 +1,13 @@
 <?php include_once'header.php' ?>
 <?php
-$r = new Recebimento();
+$r = new \ClinicaOdontologica\Models\Recebimento();
 
-if(isset($_POST['botao-remover'])){
+if (has_input('botao-remover')) {
 
-$id = $_POST['id'];
+    $id = (request()->getParsedBody()['id'] ?? request()->getQueryParams()['id'] ?? null);
 
-$r->setId($id);
-$r->delete();
+    $r->setId($id);
+    $r->delete();
 
 }
 ?>
@@ -52,23 +52,23 @@ $r->delete();
                     </tr>
                   </tfoot>
                   <tbody>
-                      <?php 
+                      <?php
 
                       $stmt = $r->viewAll();
 
-                      while($row = $stmt->fetch(PDO::FETCH_OBJ)){ ?>
+while ($row = $stmt->fetch(PDO::FETCH_OBJ)) { ?>
                       <tr align="center">
                         <td> <?= $row->valor; ?> </td>
                         <td> <?= $row->data; ?> </td>
                         <td> <?= $row->modo_pagamento ?> </td>
                         <?php
-                            $r->setId($row->id);
-                            $nome_recepcionista = $r->nomeRecepcionista();
-                        ?>
+      $r->setId($row->id);
+    $nome_recepcionista = $r->nomeRecepcionista();
+    ?>
                         <td> <?= $nome_recepcionista; ?> </td>
                         <?php
-                            $nome_paciente = $r->nomePaciente();
-                        ?>
+        $nome_paciente = $r->nomePaciente();
+    ?>
                         <td> <?=$nome_paciente; ?> </td>
                         <td><a href="editar/editar-recebimento.php?id=<?=$row->id?>" class="btn btn-primary">Alterar</a></td>
                         <?php $id = $row->id ?>
@@ -84,10 +84,10 @@ $r->delete();
         <!-- /.container-fluid -->
       </div>
       <!-- /.content-wrapper -->
-      <?php 
+      <?php
       $stmt = $r->viewAll();
 
-      while($row = $stmt->fetch(PDO::FETCH_OBJ)){ ?>
+while ($row = $stmt->fetch(PDO::FETCH_OBJ)) { ?>
       <div class="modal fade" id="removeModal<?=$row->id?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
           <div class="modal-content">

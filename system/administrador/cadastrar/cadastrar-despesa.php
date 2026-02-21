@@ -1,33 +1,33 @@
 <?php include_once "header.php" ?>
-<?php 
+<?php
 
 $flag = 0;
 
-if(isset($_POST['botao'])){ 
-    
+if (has_input('botao')) {
 
-    $b = new Balanco();
-    $d = new Despesa();
 
-    $nome = $_POST['nome'];
-    $data = $_POST['data'];
-    $valor = $_POST['valor'];
-    $tipo = $_POST['tipo'];
-    $situacao = $_POST['situacao'];
+    $b = new \ClinicaOdontologica\Models\Balanco();
+    $d = new \ClinicaOdontologica\Models\Despesa();
+
+    $nome = (request()->getParsedBody()['nome'] ?? request()->getQueryParams()['nome'] ?? null);
+    $data = (request()->getParsedBody()['data'] ?? request()->getQueryParams()['data'] ?? null);
+    $valor = (request()->getParsedBody()['valor'] ?? request()->getQueryParams()['valor'] ?? null);
+    $tipo = (request()->getParsedBody()['tipo'] ?? request()->getQueryParams()['tipo'] ?? null);
+    $situacao = (request()->getParsedBody()['situacao'] ?? request()->getQueryParams()['situacao'] ?? null);
     $administrador_id = $_SESSION['funcionario'];
 
-    if($situacao == "Pago" && $b->mostraSaldo()-$valor < 0){
+    if ($situacao == "Pago" && $b->mostraSaldo() - $valor < 0) {
         $flag = 1;
-    }else{
-    $d->setNome($nome);
-    $d->setData($data);
-    $d->setValor($valor);
-    $d->setTipo($tipo);
-    $d->setSituacao($situacao);
-    $d->setAdministradorId($administrador_id);
-    $d->insert();
+    } else {
+        $d->setNome($nome);
+        $d->setData($data);
+        $d->setValor($valor);
+        $d->setTipo($tipo);
+        $d->setSituacao($situacao);
+        $d->setAdministradorId($administrador_id);
+        $d->insert();
 
-    header("Location: ../despesas.php");
+        header("Location: ../despesas.php");
     }
 }
 ?>
@@ -39,7 +39,7 @@ if(isset($_POST['botao'])){
           Cadastro de Despesa
         </div>
         <div class="card-body">
-        <?php if($flag == 1){ ?>
+        <?php if ($flag == 1) { ?>
           <div class="alert alert-danger form-group" role="alert">
             <b>Não há saldo suficiente</b>
           </div>

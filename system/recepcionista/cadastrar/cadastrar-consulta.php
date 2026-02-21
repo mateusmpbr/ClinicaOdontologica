@@ -7,76 +7,78 @@ verificaFuncionarioLogadoCadastro();
 verificarRecepcionistaLogadoCadastro();
 
 $dcp = new Dentista_consulta_Paciente();
+$dcp = new \ClinicaOdontologica\Models\DentistaConsultaPaciente();
+$p = new \ClinicaOdontologica\Models\Paciente();
+$d = new \ClinicaOdontologica\Models\Dentista();
+$pd = new \ClinicaOdontologica\Models\PlanoDentario();
 
 $flag = 0;
 
-if(isset($_POST['botao'])){ 
-    
-  $nome_dentista = $_POST['nome_dentista'];
-  $cro_dentista = $_POST['cro_dentista'];
-  $nome_paciente = $_POST['nome_paciente'];
-  $cpf_paciente = $_POST['cpf_paciente'];
-  $valor = $_POST['valor'];
-  $data = $_POST['data'];
-  $horario = $_POST['horario'];
-  $situacao = $_POST['situacao'];
-  $operacao = $_POST['operacao'];
+if (has_input('botao')) {
 
-  $p->setNome($nome_paciente);
-  $p->setCpf($cpf_paciente);
+    $nome_dentista = (request()->getParsedBody()['nome_dentista'] ?? request()->getQueryParams()['nome_dentista'] ?? null);
+    $cro_dentista = (request()->getParsedBody()['cro_dentista'] ?? request()->getQueryParams()['cro_dentista'] ?? null);
+    $nome_paciente = (request()->getParsedBody()['nome_paciente'] ?? request()->getQueryParams()['nome_paciente'] ?? null);
+    $cpf_paciente = (request()->getParsedBody()['cpf_paciente'] ?? request()->getQueryParams()['cpf_paciente'] ?? null);
+    $valor = (request()->getParsedBody()['valor'] ?? request()->getQueryParams()['valor'] ?? null);
+    $data = (request()->getParsedBody()['data'] ?? request()->getQueryParams()['data'] ?? null);
+    $horario = (request()->getParsedBody()['horario'] ?? request()->getQueryParams()['horario'] ?? null);
+    $situacao = (request()->getParsedBody()['situacao'] ?? request()->getQueryParams()['situacao'] ?? null);
+    $operacao = (request()->getParsedBody()['operacao'] ?? request()->getQueryParams()['operacao'] ?? null);
 
-  if(!($id_dentista = $d->existeNomeCro($nome_dentista, $cro_dentista))){
-    $flag = 1;
-  } 
+    $p->setNome($nome_paciente);
+    $p->setCpf($cpf_paciente);
 
-  if(!($id_paciente = $p->existeNomeCpf())){
-    $flag += 2;
-  }
-
-  $dcp->setDentistaId($id_dentista);
-  $dcp->setData($data);
-  $dcp->setHorario($horario);
-
-  if(!$dcp->horarioValidoCadastro()){
-    $flag = 4;
-  }
-
-  if($flag == 0){
-    $p->setId($id_paciente);
-    $paciente = $p->viewPaciente();
-        
-    $plano_dentario_id = $paciente->plano_dentario_id; 
-    $pd->setId($plano_dentario_id);
-    $planoDentario = $pd->viewPlanoDentario();
-    $valor_final = $valor - $valor*($planoDentario->desconto/100);
+    if (!($id_dentista = $d->existeNomeCro($nome_dentista, $cro_dentista))) {
+        $flag = 1;
+        $dcp = new \ClinicaOdontologica\Models\DentistaConsultaPaciente();
+        $flag += 2;
+    }
 
     $dcp->setDentistaId($id_dentista);
-    $dcp->setPacienteId($id_paciente);
-    $dcp->setValor($valor_final);
     $dcp->setData($data);
     $dcp->setHorario($horario);
-    $dcp->setSituacao($situacao);
-    $dcp->setOperacao($operacao);
-    $id = $dcp->insert();
 
-    if($situacao == "Pago"){
-      header("Location: cadastrar-recebimentos-consultas.php?id=$id");  
-      exit;
-    }else{
-      header("Location: ../consultas.php");
-      exit;
+    if (!$dcp->horarioValidoCadastro()) {
+        $flag = 4;
     }
-  }
-}else{
-$nome_dentista = "";
-$cro_dentista = "";
-$nome_paciente = "";
-$cpf_paciente = "";
-$valor = "";
-$data = "";
-$horario = "";
-$situacao = "";
-$operacao = "";
+
+    if ($flag == 0) {
+        $p->setId($id_paciente);
+        $paciente = $p->viewPaciente();
+
+        $plano_dentario_id = $paciente->plano_dentario_id;
+        $pd->setId($plano_dentario_id);
+        $planoDentario = $pd->viewPlanoDentario();
+        $valor_final = $valor - $valor * ($planoDentario->desconto / 100);
+
+        $dcp->setDentistaId($id_dentista);
+        $dcp->setPacienteId($id_paciente);
+        $dcp->setValor($valor_final);
+        $dcp->setData($data);
+        $dcp->setHorario($horario);
+        $dcp->setSituacao($situacao);
+        $dcp->setOperacao($operacao);
+        $id = $dcp->insert();
+
+        if ($situacao == "Pago") {
+            header("Location: cadastrar-recebimentos-consultas.php?id=$id");
+            exit;
+        } else {
+            header("Location: ../consultas.php");
+            exit;
+        }
+    }
+} else {
+    $nome_dentista = "";
+    $cro_dentista = "";
+    $nome_paciente = "";
+    $cpf_paciente = "";
+    $valor = "";
+    $data = "";
+    $horario = "";
+    $situacao = "";
+    $operacao = "";
 
 }
 
@@ -93,20 +95,20 @@ include_once"header.php";
           </div>
         </div>
         <div class="card-body">
-        <?php 
-        if($flag == 1){ ?>
+        <?php
+        if ($flag == 1) { ?>
           <div class="alert alert-danger form-group" role="alert">
             <b>O nome e o CRO do dentista não estão cadastrados ou não coincidem</b>
           </div>
-        <?php } elseif($flag == 2){ ?>
+        <?php } elseif ($flag == 2) { ?>
           <div class="alert alert-danger form-group" role="alert">
             <b>O nome e o CPF do paciente não estão cadastrados ou não coincidem</b>
           </div>
-        <?php } elseif($flag == 3){ ?>
+        <?php } elseif ($flag == 3) { ?>
           <div class="alert alert-danger form-group" role="alert">
             <b>Os dados informados não estão cadastrados ou não coincidem</b>
           </div>
-        <?php } elseif($flag == 4){ ?>
+        <?php } elseif ($flag == 4) { ?>
           <div class="alert alert-danger form-group" role="alert">
             <b>Já há uma pessoa agendada</b>
           </div>

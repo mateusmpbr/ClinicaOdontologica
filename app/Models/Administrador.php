@@ -1,108 +1,123 @@
 <?php
-namespace App\Models;
 
-class Administrador extends Funcionario {
+namespace ClinicaOdontologica\Models;
+
+class Administrador extends Funcionario
+{
     private $funcionario_id;
     private $nome_usuario;
     private $senha;
 
-    public function __construct(){
+    public function __construct()
+    {
         $database = new \Database();
         $dbSet = $database->dbSet();
         $this->conn = $dbSet;
     }
 
-    public function getFuncionarioId(){
+    public function getFuncionarioId()
+    {
         return $this->funcionario_id;
     }
 
-    public function getNomeUsuario(){
+    public function getNomeUsuario()
+    {
         return $this->nome_usuario;
     }
 
-    public function getSenha(){
+    public function getSenha()
+    {
         return $this->senha;
     }
 
-    public function setFuncionarioId($funcionario_id){
+    public function setFuncionarioId($funcionario_id)
+    {
         $this->funcionario_id = $funcionario_id;
     }
 
-    public function setNomeUsuario($nome_usuario){
-        if(strlen($nome_usuario) <= 255){
+    public function setNomeUsuario($nome_usuario)
+    {
+        if (strlen($nome_usuario) <= 255) {
             $this->nome_usuario = $nome_usuario;
             return 1;
         }
         return 0;
     }
 
-    public function setSenha($senha){
+    public function setSenha($senha)
+    {
         $this->senha = sha1($senha);
     }
 
-    public function insert(){
-        try{
+    public function insert()
+    {
+        try {
             $stmt = $this->conn->prepare("INSERT INTO administrador(funcionario_id, nome_usuario, senha) VALUES(:funcionario_id, :nome_usuario, :senha)");
             $stmt->bindParam(":funcionario_id", $this->funcionario_id);
             $stmt->bindParam(":nome_usuario", $this->nome_usuario);
             $stmt->bindParam(":senha", $this->senha);
             $stmt->execute();
             return $this->conn->lastInsertId();
-        }catch(\PDOException $e){
+        } catch (\PDOException $e) {
             echo $e->getMessage();
             return 0;
         }
     }
 
-    public function edit(){
-        try{
+    public function edit()
+    {
+        try {
             $stmt = $this->conn->prepare("UPDATE administrador SET nome_usuario = :nome_usuario, senha = :senha WHERE funcionario_id = :funcionario_id");
             $stmt->bindParam(":funcionario_id", $this->funcionario_id);
             $stmt->bindParam(":nome_usuario", $this->nome_usuario);
             $stmt->bindParam(":senha", $this->senha);
             $stmt->execute();
             return 1;
-        }catch(\PDOException $e){
+        } catch (\PDOException $e) {
             echo $e->getMessage();
             return 0;
         }
     }
 
-    public function delete(){
-        try{
+    public function delete()
+    {
+        try {
             $stmt = $this->conn->prepare("DELETE FROM administrador WHERE funcionario_id = :funcionario_id");
             $stmt->bindParam(":funcionario_id", $this->funcionario_id);
             $stmt->execute();
             return 1;
-        }catch(\PDOException $e){
+        } catch (\PDOException $e) {
             echo $e->getMessage();
             return 0;
         }
     }
 
-    public function existe(){
-        try{
+    public function existe()
+    {
+        try {
             $stmt = $this->conn->prepare("SELECT * FROM administrador WHERE nome_usuario = :nome_usuario AND senha = :senha");
             $stmt->bindParam(":nome_usuario", $this->nome_usuario);
             $stmt->bindParam(":senha", $this->senha);
             $stmt->execute();
             $result = $stmt->fetch(\PDO::FETCH_OBJ);
-            if(!empty($result)){
+            if (!empty($result)) {
                 return $result->funcionario_id;
             }
-        }catch(\PDOException $e){
+        } catch (\PDOException $e) {
             echo $e->getMessage();
             return null;
         }
     }
 
-    public function viewAll(){
+    public function viewAll()
+    {
         $stmt = $this->conn->prepare("SELECT * FROM administrador JOIN funcionario ON administrador.funcionario_id = funcionario.id ");
         $stmt->execute();
         return $stmt;
     }
 
-    public function viewAdministrador(){
+    public function viewAdministrador()
+    {
         $stmt = $this->conn->prepare("SELECT * FROM administrador WHERE funcionario_id = :funcionario_id");
         $stmt->bindParam(":funcionario_id", $this->funcionario_id);
         $stmt->execute();

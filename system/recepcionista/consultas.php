@@ -1,13 +1,13 @@
 <?php include_once'header.php' ?>
 <?php
-$dcp = new Dentista_consulta_Paciente();
+$dcp = new \ClinicaOdontologica\Models\DentistaConsultaPaciente();
 
-if(isset($_POST['botao-remover'])){
+if (has_input('botao-remover')) {
 
-$id = $_POST['id'];
+    $id = (request()->getParsedBody()['id'] ?? request()->getQueryParams()['id'] ?? null);
 
-$dcp->setId($id);
-$dcp->delete();
+    $dcp->setId($id);
+    $dcp->delete();
 
 }
 
@@ -57,21 +57,21 @@ $dcp->delete();
                     </tr>
                   </tfoot>
                   <tbody>
-                      <?php 
+                      <?php
 
                       $stmt = $dcp->viewAll();
 
-                      while($row = $stmt->fetch(PDO::FETCH_OBJ)){ ?>
+while ($row = $stmt->fetch(PDO::FETCH_OBJ)) { ?>
                       <tr align="center">
                         <td> <?= $row->operacao; ?> </td>
                         <?php
-                          $dcp->setId($row->id);
-                          $nome_paciente = $dcp->nomePaciente();
-                        ?>
+    $dcp->setId($row->id);
+    $nome_paciente = $dcp->nomePaciente();
+    ?>
                         <td> <?= $nome_paciente; ?> </td>
                         <?php
-                          $nome_dentista = $dcp->nomeDentista();
-                        ?>
+      $nome_dentista = $dcp->nomeDentista();
+    ?>
                         <td> <?= $nome_dentista; ?> </td>
                         <td> <?= $row->data ?> </td>
                         <td> <?= $row->horario; ?> </td>
@@ -93,7 +93,7 @@ $dcp->delete();
       <?php
       $stmt = $dcp->viewAll();
 
-      while($row = $stmt->fetch(PDO::FETCH_OBJ)){ ?>
+while ($row = $stmt->fetch(PDO::FETCH_OBJ)) { ?>
       <div class="modal fade" id="removeModal<?=$row->id?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
           <div class="modal-content">

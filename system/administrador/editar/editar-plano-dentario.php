@@ -1,38 +1,38 @@
 <?php include_once"header.php" ?>
-<?php 
+<?php
 
 $flag = 0;
 
- 
-$p = new PlanoDentario();
 
-if(isset($_POST['botao'])){ 
-  
-  $id = $_POST['id'];
-  $nome = $_POST['nome'];
-  $desconto = $_POST['desconto'];
-  
-  if($p->existe($nome, $id)){
-    $flag = 1;
-  }
+$p = new \ClinicaOdontologica\Models\PlanoDentario();
 
-  if($flag == 0){
+if (has_input('botao')) {
+
+    $id = (request()->getParsedBody()['id'] ?? request()->getQueryParams()['id'] ?? null);
+    $nome = (request()->getParsedBody()['nome'] ?? request()->getQueryParams()['nome'] ?? null);
+    $desconto = (request()->getParsedBody()['desconto'] ?? request()->getQueryParams()['desconto'] ?? null);
+
+    if ($p->existe($nome, $id)) {
+        $flag = 1;
+    }
+
+    if ($flag == 0) {
+        $p->setId($id);
+        $p->setNome($nome);
+        $p->setDesconto($desconto);
+        $p->edit();
+        header("Location: ../planos-dentarios.php");
+    }
+
+} else {
+
+    $id = (request()->getParsedBody()['id'] ?? request()->getQueryParams()['id'] ?? null);
     $p->setId($id);
-    $p->setNome($nome);
-    $p->setDesconto($desconto);
-    $p->edit();
-    header("Location: ../planos-dentarios.php");
-  }
+    $pd = $p->viewPlanoDentario();
+    $nome = $pd->nome;
+    $desconto = $pd->desconto;
 
-}else{
-
-  $id = $_GET['id'];
-  $p->setId($id);
-  $pd = $p->viewPlanoDentario();
-  $nome = $pd->nome;
-  $desconto = $pd->desconto;
-
-} 
+}
 ?>
 <body class="bg-dark">
 
@@ -42,7 +42,7 @@ if(isset($_POST['botao'])){
        Atualização de Plano Dentário
       </div>
       <div class="card-body">
-        <?php if($flag == 1){ ?>
+        <?php if ($flag == 1) { ?>
           <div class="alert alert-danger form-group" role="alert">
             <b>Esse plano dentário já está cadastrado</b>
           </div>

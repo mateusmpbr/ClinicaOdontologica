@@ -1,24 +1,24 @@
 <?php include_once"header.php" ?>
-<?php 
+<?php
 
 $flag = 0;
 
-if(isset($_POST['botao'])){ 
-  $nome = $_POST['nome'];
-  $e = new Especialidade();
-  $e->setNome($nome);
-
-  if($e->viewEspecialidade()){
-    $flag = 1;
-  }else{
+if (has_input('botao')) {
+    $nome = (request()->getParsedBody()['nome'] ?? request()->getQueryParams()['nome'] ?? null);
+    $e = new \ClinicaOdontologica\Models\Especialidade();
     $e->setNome($nome);
-    $e->insert();
 
-    header("Location: ../especialidades.php");
-  }
+    if ($e->viewEspecialidade()) {
+        $flag = 1;
+    } else {
+        $e->setNome($nome);
+        $e->insert();
 
-}else{ 
-  $nome = "";
+        header("Location: ../especialidades.php");
+    }
+
+} else {
+    $nome = "";
 }
 ?>
 <body class="bg-dark">
@@ -29,7 +29,7 @@ if(isset($_POST['botao'])){
         Cadastro de Especialidade
       </div>
       <div class="card-body">
-        <?php if($flag == 1){ ?>
+        <?php if ($flag == 1) { ?>
           <div class="alert alert-danger form-group" role="alert">
             <b>Especialidade já cadastrada</b>
           </div>

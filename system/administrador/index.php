@@ -1,13 +1,13 @@
 <?php include_once'header.php' ?>
 <?php
 
-if(isset($_POST["botao-remover"])){
+if (has_input('botao-remover')) {
 
-  $id = $_POST["id"];
+    $id = (request()->getParsedBody()['id'] ?? request()->getQueryParams()['id'] ?? null);
 
-  $f = new Funcionario();
-  $f->setId($id);
-  $f->delete();
+    $f = new \ClinicaOdontologica\Models\Funcionario();
+    $f->setId($id);
+    $f->delete();
 
 }
 ?>
@@ -40,11 +40,11 @@ if(isset($_POST["botao-remover"])){
             <div class="card-body">
               <div class="table-responsive">
                 <?php
-                $flag = 0; 
-                if(isset($_POST["btn"])){
-                  $cargo = $_POST["cargo"];
-                  if($cargo == "Administrador"){ 
-                  ?>
+                $flag = 0;
+if (has_input('btn')) {
+    $cargo = (request()->getParsedBody()['cargo'] ?? request()->getQueryParams()['cargo'] ?? null);
+    if ($cargo == "Administrador") {
+        ?>
                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                       <thead>
                         <tr align="center">
@@ -73,17 +73,17 @@ if(isset($_POST["botao-remover"])){
                         </tr>
                       </tfoot>
                       <tbody>
-                          <?php 
-                          $a = new Administrador();
+                          <?php
+                $a = new \ClinicaOdontologica\Models\Administrador();
 
-                          $stmt = $a->viewAll();
+        $stmt = $a->viewAll();
 
-                          while($row = $stmt->fetch(PDO::FETCH_OBJ)){ ?>
+        while ($row = $stmt->fetch(PDO::FETCH_OBJ)) { ?>
                           <tr align="center">
                             <td> <?= $row->nome; ?> </td>
                             <td> <?= $row->sobrenome; ?> </td>
                             <td> <?= $row->nascimento; ?> </td>
-                            <td> <?= empty($row->cpf)? "" : $row->cpf; ?> </td>
+                            <td> <?= empty($row->cpf) ? "" : $row->cpf; ?> </td>
                             <td> <?= $row->salario; ?> </td>
                             <td> <?= $row->cargo; ?> </td>
                             <td> <?= $row->nome_usuario; ?></td>
@@ -94,9 +94,9 @@ if(isset($_POST["botao-remover"])){
                           <?php } ?>
                       </tbody>
                     </table>
-                <?php 
-                  } elseif($cargo == "Recepcionista"){ 
-                ?>
+                <?php
+    } elseif ($cargo == "Recepcionista") {
+        ?>
                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                       <thead>
                         <tr align="center">
@@ -125,17 +125,17 @@ if(isset($_POST["botao-remover"])){
                         </tr>
                       </tfoot>
                       <tbody>
-                          <?php 
-                          $r = new Recepcionista();
+                          <?php
+                  $r = new \ClinicaOdontologica\Models\Recepcionista();
 
-                          $stmt = $r->viewAll();
+        $stmt = $r->viewAll();
 
-                          while($row = $stmt->fetch(PDO::FETCH_OBJ)){ ?>
+        while ($row = $stmt->fetch(PDO::FETCH_OBJ)) { ?>
                           <tr align="center">
                             <td> <?= $row->nome; ?> </td>
                             <td> <?= $row->sobrenome; ?> </td>
                             <td> <?= $row->nascimento; ?> </td>
-                            <td> <?= empty($row->cpf)? "" : $row->cpf; ?> </td>
+                            <td> <?= empty($row->cpf) ? "" : $row->cpf; ?> </td>
                             <td> <?= $row->salario; ?> </td>
                             <td> <?= $row->cargo; ?> </td>
                             <td> <?= $row->nome_usuario; ?></td>
@@ -146,9 +146,9 @@ if(isset($_POST["botao-remover"])){
                           <?php } ?>
                       </tbody>
                     </table>
-                <?php 
-                  } elseif($cargo == "Dentista"){ 
-                ?>
+                <?php
+    } elseif ($cargo == "Dentista") {
+        ?>
                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                       <thead>
                         <tr align="center">
@@ -177,17 +177,17 @@ if(isset($_POST["botao-remover"])){
                         </tr>
                       </tfoot>
                       <tbody>
-                          <?php 
-                          $d = new Dentista();
+                          <?php
+                  $d = new \ClinicaOdontologica\Models\Dentista();
 
-                          $stmt = $d->viewAll();
+        $stmt = $d->viewAll();
 
-                          while($row = $stmt->fetch(PDO::FETCH_OBJ)){ ?>
+        while ($row = $stmt->fetch(PDO::FETCH_OBJ)) { ?>
                           <tr align="center">
                             <td> <?= $row->nome; ?> </td>
                             <td> <?= $row->sobrenome; ?> </td>
                             <td> <?= $row->nascimento; ?> </td>
-                            <td> <?= empty($row->cpf)? "" : $row->cpf; ?> </td>
+                            <td> <?= empty($row->cpf) ? "" : $row->cpf; ?> </td>
                             <td> <?= $row->salario; ?> </td>
                             <td> <?= $row->cargo; ?> </td>
                             <td> <?= $row->cro; ?></td>
@@ -198,9 +198,9 @@ if(isset($_POST["botao-remover"])){
                           <?php } ?>
                       </tbody>
                     </table>
-                <?php 
-                  } elseif($cargo = "Auxiliar"){ 
-                ?>
+                <?php
+    } elseif ($cargo = "Auxiliar") {
+        ?>
                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                       <thead>
                         <tr align="center">
@@ -227,17 +227,17 @@ if(isset($_POST["botao-remover"])){
                         </tr>
                       </tfoot>
                       <tbody>
-                          <?php 
-                          $a = new Auxiliar();
+                          <?php
+                  $a = new \ClinicaOdontologica\Models\Auxiliar();
 
-                          $stmt = $a->viewAll();
+        $stmt = $a->viewAll();
 
-                          while($row = $stmt->fetch(PDO::FETCH_OBJ)){ ?>
+        while ($row = $stmt->fetch(PDO::FETCH_OBJ)) { ?>
                           <tr align="center">
                             <td> <?= $row->nome; ?> </td>
                             <td> <?= $row->sobrenome; ?> </td>
                             <td> <?= $row->nascimento; ?> </td>
-                            <td> <?= empty($row->cpf)? "" : $row->cpf; ?> </td>
+                            <td> <?= empty($row->cpf) ? "" : $row->cpf; ?> </td>
                             <td> <?= $row->salario; ?> </td>
                             <td> <?= $row->cargo; ?> </td>
                             <td><a href="editar/editar-funcionario.php?id=<?=$row->funcionario_id?>" class="btn btn-primary">Alterar</a></td>
@@ -247,10 +247,10 @@ if(isset($_POST["botao-remover"])){
                           <?php } ?>
                       </tbody>
                     </table>
-                <?php 
-                  }
-                }else{
-                ?>
+                <?php
+    }
+} else {
+    ?>
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                   <thead>
                     <tr align="center">
@@ -277,17 +277,17 @@ if(isset($_POST["botao-remover"])){
                     </tr>
                   </tfoot>
                   <tbody>
-                      <?php 
-                      $f = new Funcionario();
+                          <?php
+              $f = new \ClinicaOdontologica\Models\Funcionario();
 
-                      $stmt = $f->viewAll();
+    $stmt = $f->viewAll();
 
-                      while($row = $stmt->fetch(PDO::FETCH_OBJ)){ ?>
+    while ($row = $stmt->fetch(PDO::FETCH_OBJ)) { ?>
                       <tr align="center">
                         <td> <?= $row->nome; ?> </td>
                         <td> <?= $row->sobrenome; ?> </td>
                         <td> <?= $row->nascimento; ?> </td>
-                        <td> <?= empty($row->cpf)? "" : $row->cpf; ?> </td>
+                        <td> <?= empty($row->cpf) ? "" : $row->cpf; ?> </td>
                         <td> <?= $row->salario; ?> </td>
                         <td> <?= $row->cargo; ?> </td>
                         <td><a href="editar/editar-funcionario.php?id=<?=$row->id?>" class="btn btn-primary">Alterar</a></td>
@@ -306,10 +306,10 @@ if(isset($_POST["botao-remover"])){
       </div>
       <!-- /.content-wrapper -->
       <?php
-      $f = new Funcionario();
-      $stmt = $f->viewAll();
+      $f = new \ClinicaOdontologica\Models\Funcionario();
+$stmt = $f->viewAll();
 
-      while($row = $stmt->fetch(PDO::FETCH_OBJ)){ ?>
+while ($row = $stmt->fetch(PDO::FETCH_OBJ)) { ?>
       <div class="modal fade" id="removeModal<?=$row->id?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
           <div class="modal-content">

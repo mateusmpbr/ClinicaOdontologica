@@ -4,24 +4,24 @@
 
 $flag = 0;
 
-if(isset($_POST['botao'])){ 
-  
-  
-  $nome = $_POST['nome'];
-  $nome_atual = $_POST['nome_atual'];
+if (has_input('botao')) {
 
-  $e = new Especialidade();
-  $e->setNome($nome_atual);
 
-  if(!$e->nomeValido($nome)){
-    $flag = 1;
-  }else{
-    $e->edit($nome);
+    $nome = (request()->getParsedBody()['nome'] ?? request()->getQueryParams()['nome'] ?? null);
+    $nome_atual = (request()->getParsedBody()['nome_atual'] ?? request()->getQueryParams()['nome_atual'] ?? null);
 
-    header("Location: ../especialidades.php");
-  }
-}else{
-  $nome = $_GET['nome'];
+    $e = new \ClinicaOdontologica\Models\Especialidade();
+    $e->setNome($nome_atual);
+
+    if (!$e->nomeValido($nome)) {
+        $flag = 1;
+    } else {
+        $e->edit($nome);
+
+        header("Location: ../especialidades.php");
+    }
+} else {
+    $nome = (request()->getParsedBody()['nome'] ?? request()->getQueryParams()['nome'] ?? null);
 } ?>
 <body class="bg-dark">
 
@@ -31,7 +31,7 @@ if(isset($_POST['botao'])){
         Atualização de Especialidade
       </div>
       <div class="card-body">
-        <?php if($flag == 1){ ?>
+        <?php if ($flag == 1) { ?>
           <div class="alert alert-danger form-group" role="alert">
             <b>Especialidade já cadastrada</b>
           </div>

@@ -3,34 +3,34 @@
 
 $flag = 0;
 
-    
 
-    $d = new Dentista();
-    $a = new Auxiliar();
-    $f = new Funcionario();
-    $aad = new Auxiliar_auxilia_Dentista();
 
-if(isset($_POST['botao'])){ 
+$d = new \ClinicaOdontologica\Models\Dentista();
+$a = new \ClinicaOdontologica\Models\Auxiliar();
+$f = new \ClinicaOdontologica\Models\Funcionario();
+$aad = new \ClinicaOdontologica\Models\AuxiliarAuxiliaDentista();
 
-    $dentista_id_atual = $_POST['dentista_id_atual'];
-    $auxiliar_id_atual = $_POST['auxiliar_id_atual'];
-    $nome_dentista = $_POST['nome_dentista'];
-    $cro_dentista = $_POST['cro_dentista'];
-    $nome_auxiliar = $_POST['nome_auxiliar'];
-    $cpf_auxiliar = $_POST['cpf_auxiliar'];
+if (has_input('botao')) {
+
+    $dentista_id_atual = (request()->getParsedBody()['dentista_id_atual'] ?? request()->getQueryParams()['dentista_id_atual'] ?? null);
+    $auxiliar_id_atual = (request()->getParsedBody()['auxiliar_id_atual'] ?? request()->getQueryParams()['auxiliar_id_atual'] ?? null);
+    $nome_dentista = (request()->getParsedBody()['nome_dentista'] ?? request()->getQueryParams()['nome_dentista'] ?? null);
+    $cro_dentista = (request()->getParsedBody()['cro_dentista'] ?? request()->getQueryParams()['cro_dentista'] ?? null);
+    $nome_auxiliar = (request()->getParsedBody()['nome_auxiliar'] ?? request()->getQueryParams()['nome_auxiliar'] ?? null);
+    $cpf_auxiliar = (request()->getParsedBody()['cpf_auxiliar'] ?? request()->getQueryParams()['cpf_auxiliar'] ?? null);
 
     $auxiliar_id_novo = $a->existeNomeCpf($nome_auxiliar, $cpf_auxiliar);
     $dentista_id_novo = $d->existeNomeCro($nome_dentista, $cro_dentista);
 
-    if(empty($dentista_id_novo)){
+    if (empty($dentista_id_novo)) {
         $flag = 1;
     }
 
-    if(empty($auxiliar_id_novo)){
+    if (empty($auxiliar_id_novo)) {
         $flag += 2;
     }
 
-    if($flag == 0){
+    if ($flag == 0) {
         $aad->setDentistaId($dentista_id_atual);
         $aad->setAuxiliarId($auxiliar_id_atual);
         $aad->edit($dentista_id_novo, $auxiliar_id_novo);
@@ -40,9 +40,9 @@ if(isset($_POST['botao'])){
     $dentista_id = $dentista_id_novo;
     $auxiliar_id = $auxiliar_id_novo;
 
-}else{
-    $dentista_id = $_GET['dentista_id'];
-    $auxiliar_id = $_GET['auxiliar_id'];
+} else {
+    $dentista_id = (request()->getParsedBody()['dentista_id'] ?? request()->getQueryParams()['dentista_id'] ?? null);
+    $auxiliar_id = (request()->getParsedBody()['auxiliar_id'] ?? request()->getQueryParams()['auxiliar_id'] ?? null);
 
     $aad->setDentistaId($dentista_id);
     $aad->setAuxiliarId($auxiliar_id);
@@ -73,15 +73,15 @@ if(isset($_POST['botao'])){
             </div>
         </div>
         <div class="card-body">
-        <?php if($flag == 1){ ?>
+        <?php if ($flag == 1) { ?>
           <div class="alert alert-danger form-group" role="alert">
             <b>O nome e o CRO do dentista não estão cadastrados ou não coincidem</b>
           </div>
-        <?php } elseif($flag == 2){ ?>
+        <?php } elseif ($flag == 2) { ?>
           <div class="alert alert-danger form-group" role="alert">
             <b>O nome e o CPF do auxiliar não estão cadastrados ou não coincidem</b>
           </div>
-        <?php } elseif($flag == 3){ ?>
+        <?php } elseif ($flag == 3) { ?>
           <div class="alert alert-danger form-group" role="alert">
             <b>Os dados informados não estão cadastrados ou não coincidem</b>
           </div>

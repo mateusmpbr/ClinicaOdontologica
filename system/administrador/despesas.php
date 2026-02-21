@@ -1,13 +1,13 @@
 <?php include_once'header.php' ?>
 <?php
-$d = new Despesa();
+$d = new \ClinicaOdontologica\Models\Despesa();
 
-if(isset($_POST['botao-remover'])){
+if (has_input('botao-remover')) {
 
-$id = $_POST['id'];
+    $id = (request()->getParsedBody()['id'] ?? request()->getQueryParams()['id'] ?? null);
 
-$d->setId($id);
-$d->delete();
+    $d->setId($id);
+    $d->delete();
 
 }
 ?>
@@ -54,11 +54,11 @@ $d->delete();
                     </tr>
                   </tfoot>
                   <tbody>
-                      <?php 
+                      <?php
 
                       $stmt = $d->viewAll();
 
-                      while($row = $stmt->fetch(PDO::FETCH_OBJ)){ ?>
+while ($row = $stmt->fetch(PDO::FETCH_OBJ)) { ?>
                       <tr align="center">
                         <td> <?= $row->nome; ?> </td>
                         <td> <?= $row->data; ?> </td>
@@ -66,9 +66,9 @@ $d->delete();
                         <td> <?= $row->tipo; ?> </td>
                         <td> <?= $row->situacao; ?> </td>
                         <?php
-                          $d->setId($row->id);
-                          $administrador = $d->nomeAdministrador();
-                        ?>
+    $d->setId($row->id);
+    $administrador = $d->nomeAdministrador();
+    ?>
                         <td> <?=  $administrador; ?> </td>
                         <td><a href="editar/editar-despesa.php?id=<?=$row->id?>" class="btn btn-primary">Alterar</a></td>
                         <td><a href="#" class="btn btn-danger" data-toggle="modal" data-target="#removeModal<?=$row->id?>">Remover</a></td>
@@ -87,7 +87,7 @@ $d->delete();
 
       $stmt = $d->viewAll();
 
-      while($row = $stmt->fetch(PDO::FETCH_OBJ)){ ?>
+while ($row = $stmt->fetch(PDO::FETCH_OBJ)) { ?>
       <div class="modal fade" id="removeModal<?=$row->id?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
           <div class="modal-content">

@@ -3,30 +3,30 @@
 
 $flag = 0;
 
- 
 
-$paciente = new Paciente();
-$recepcionista = new Recepcionista();
-$recebimento = new Recebimento();
-$dcp = new Dentista_consulta_Paciente();
 
-if(isset($_POST['botao'])){ 
+$paciente = new \ClinicaOdontologica\Models\Paciente();
+$recepcionista = new \ClinicaOdontologica\Models\Recepcionista();
+$recebimento = new \ClinicaOdontologica\Models\Recebimento();
+$dcp = new \ClinicaOdontologica\Models\DentistaConsultaPaciente();
 
-    $id = $_POST['id'];
-    $valor = $_POST['valor'];
-    $data = $_POST['data'];
-    $nome_paciente = $_POST['nome_paciente'];
-    $cpf_paciente = $_POST['cpf_paciente'];
-    $modo_pagamento = $_POST['modo_pagamento'];
+if (has_input('botao')) {
+
+    $id = (request()->getParsedBody()['id'] ?? request()->getQueryParams()['id'] ?? null);
+    $valor = (request()->getParsedBody()['valor'] ?? request()->getQueryParams()['valor'] ?? null);
+    $data = (request()->getParsedBody()['data'] ?? request()->getQueryParams()['data'] ?? null);
+    $nome_paciente = (request()->getParsedBody()['nome_paciente'] ?? request()->getQueryParams()['nome_paciente'] ?? null);
+    $cpf_paciente = (request()->getParsedBody()['cpf_paciente'] ?? request()->getQueryParams()['cpf_paciente'] ?? null);
+    $modo_pagamento = (request()->getParsedBody()['modo_pagamento'] ?? request()->getQueryParams()['modo_pagamento'] ?? null);
 
     $id_recepcionista = $_SESSION['funcionario'];
 
     $paciente->setNome($nome_paciente);
     $paciente->setCpf($cpf_paciente);
-    
+
     $recebimento->setId($id);
 
-    if($paciente->semNomeCpf()){
+    if ($paciente->semNomeCpf()) {
         $recebimento->setValor($valor);
         $recebimento->setData($data);
         $recebimento->setRecepcionistaId($id_recepcionista);
@@ -34,7 +34,7 @@ if(isset($_POST['botao'])){
         $recebimento->edit();
         header("Location: ../recebimentos.php");
 
-    }elseif(($id_paciente = $paciente->existeNomeCpf())){
+    } elseif (($id_paciente = $paciente->existeNomeCpf())) {
         $recebimento->setPacienteId($id_paciente);
         $recebimento->setValor($valor);
         $recebimento->setData($data);
@@ -42,13 +42,12 @@ if(isset($_POST['botao'])){
         $recebimento->setModoPagamento($modo_pagamento);
         var_dump($recebimento->edit());
         header("Location: ../recebimentos.php");
-    }
-    else{
+    } else {
         $flag = 1;
     }
-}else{
-    
-    $id = $_GET['id'];
+} else {
+
+    $id = (request()->getParsedBody()['id'] ?? request()->getQueryParams()['id'] ?? null);
     $dcp->setId($id);
     $consulta = $dcp->viewConsulta();
     $valor = $consulta->valor;
@@ -74,7 +73,7 @@ if(isset($_POST['botao'])){
             </div>
         </div>
         <div class="card-body">
-        <?php if($flag == 1){ ?>
+        <?php if ($flag == 1) { ?>
           <div class="alert alert-danger form-group" role="alert">
             <b>O nome e o CPF informado não estão cadastrados ou não coincidem</b>
           </div>

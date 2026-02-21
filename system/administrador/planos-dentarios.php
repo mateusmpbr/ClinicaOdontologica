@@ -1,13 +1,13 @@
 <?php include_once'header.php' ?>
 <?php
-$p = new PlanoDentario();
+$p = new \ClinicaOdontologica\Models\PlanoDentario();
 
-if(isset($_POST['botao-remover'])){
+if (has_input('botao-remover')) {
 
-$id = $_POST['id'];
+    $id = (request()->getParsedBody()['id'] ?? request()->getQueryParams()['id'] ?? null);
 
-$p->setId($id);
-$p->delete();
+    $p->setId($id);
+    $p->delete();
 
 }
 
@@ -47,11 +47,11 @@ $p->delete();
                     </tr>
                   </tfoot>
                   <tbody>
-                      <?php 
+                      <?php
 
                       $stmt = $p->viewAll();
 
-                      while($row = $stmt->fetch(PDO::FETCH_OBJ)){ ?>
+while ($row = $stmt->fetch(PDO::FETCH_OBJ)) { ?>
                       <tr align="center">
                         <td> <?= $row->nome; ?> </td>
                         <td> <?= $row->desconto."%"; ?> </td>
@@ -72,7 +72,7 @@ $p->delete();
 
       $stmt = $p->viewAll();
 
-      while($row = $stmt->fetch(PDO::FETCH_OBJ)){ ?>
+while ($row = $stmt->fetch(PDO::FETCH_OBJ)) { ?>
       <div class="modal fade" id="removeModal<?=$row->id?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
           <div class="modal-content">

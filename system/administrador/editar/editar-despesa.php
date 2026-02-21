@@ -1,26 +1,26 @@
 <?php include_once "header.php" ?>
-<?php 
-    
+<?php
 
-    $b = new Balanco();
-    $d = new Despesa();
 
-    $flag = 0;
+$b = new \ClinicaOdontologica\Models\Balanco();
+$d = new \ClinicaOdontologica\Models\Despesa();
 
-    if(isset($_POST['botao'])){ 
+$flag = 0;
 
-    $id = $_POST['id'];
-    $nome = $_POST['nome'];
-    $data = $_POST['data'];
-    $novo_valor = $_POST['novo_valor'];
-    $valor_antigo = $_POST['valor_antigo'];
-    $tipo = $_POST['tipo'];
-    $situacao = $_POST['situacao'];
+if (has_input('botao')) {
+
+    $id = (request()->getParsedBody()['id'] ?? request()->getQueryParams()['id'] ?? null);
+    $nome = (request()->getParsedBody()['nome'] ?? request()->getQueryParams()['nome'] ?? null);
+    $data = (request()->getParsedBody()['data'] ?? request()->getQueryParams()['data'] ?? null);
+    $novo_valor = (request()->getParsedBody()['novo_valor'] ?? request()->getQueryParams()['novo_valor'] ?? null);
+    $valor_antigo = (request()->getParsedBody()['valor_antigo'] ?? request()->getQueryParams()['valor_antigo'] ?? null);
+    $tipo = (request()->getParsedBody()['tipo'] ?? request()->getQueryParams()['tipo'] ?? null);
+    $situacao = (request()->getParsedBody()['situacao'] ?? request()->getQueryParams()['situacao'] ?? null);
     $administrador_id = $_SESSION['funcionario'];
 
-    if($situacao == "Pago" && ($b->mostraSaldo() + $valor_antigo - $novo_valor) < 0){
+    if ($situacao == "Pago" && ($b->mostraSaldo() + $valor_antigo - $novo_valor) < 0) {
         $flag = 1;
-    }else{
+    } else {
         $d->setId($id);
         $d->setNome($nome);
         $d->setData($data);
@@ -34,9 +34,9 @@
 
     $valor = $novo_valor;
 
-}else{
-    $id = $_GET['id'];
-    $d = new Despesa();
+} else {
+    $id = (request()->getParsedBody()['id'] ?? request()->getQueryParams()['id'] ?? null);
+    $d = new \ClinicaOdontologica\Models\Despesa();
     $d->setId($id);
     $despesa = $d->viewDespesa();
 
@@ -45,7 +45,7 @@
     $valor = $despesa->valor;
     $tipo = $despesa->tipo;
     $situacao = $despesa->situacao;
-} 
+}
 ?>
   <body class="bg-dark">
 
@@ -55,7 +55,7 @@
           Atualização de Despesa
         </div>
         <div class="card-body">
-        <?php if($flag == 1){ ?>
+        <?php if ($flag == 1) { ?>
           <div class="alert alert-danger form-group" role="alert">
             <b>Não há saldo suficiente</b>
           </div>
@@ -76,10 +76,10 @@
             <div class="form-group">
                 <label>Tipo</label><br>
                 <select name="tipo">
-                    <?php 
-                    $dg = ($tipo == "Despesa Geral")? "selected='selected'" : "";
-                    $dcf = ($tipo == "Despesa Com Funcionário")? "selected='selected'" : "";
-                    ?> 
+                    <?php
+                    $dg = ($tipo == "Despesa Geral") ? "selected='selected'" : "";
+$dcf = ($tipo == "Despesa Com Funcionário") ? "selected='selected'" : "";
+?> 
                     <option value="Despesa geral" <?=$dg?>>Despesa Geral</option>
                     <option value="Despesa com Funcionário" <?=$dcf?>>Despesa com Funcionário</option>
                 </select>
@@ -87,10 +87,10 @@
             <div class="form-group">
                 <label>Situação</label><br>
                 <select name="situacao">
-                    <?php 
-                    $pago = ($situacao == "Pago")? "selected='selected'" : "";
-                    $nao_pago = ($situacao == "Não Pago")? "selected='selected'" : "";
-                    ?> 
+                    <?php
+$pago = ($situacao == "Pago") ? "selected='selected'" : "";
+$nao_pago = ($situacao == "Não Pago") ? "selected='selected'" : "";
+?> 
                     <option value="Pago" <?=$pago?>>Pago</option>
                     <option value="Não Pago" <?=$nao_pago?>>Não Pago</option>
                 </select>

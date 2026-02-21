@@ -1,15 +1,15 @@
 <?php include_once'header.php' ?>
 <?php
-$aad = new Auxiliar_auxilia_Dentista();
+$aad = new \ClinicaOdontologica\Models\AuxiliarAuxiliaDentista();
 
-if(isset($_POST['botao-remover'])){
+if (has_input('botao-remover')) {
 
-  $dentista_id = $_POST['dentista_id'];
-  $auxiliar_id= $_POST['auxiliar_id'];
+    $dentista_id = (request()->getParsedBody()['dentista_id'] ?? request()->getQueryParams()['dentista_id'] ?? null);
+    $auxiliar_id = (request()->getParsedBody()['auxiliar_id'] ?? request()->getQueryParams()['auxiliar_id'] ?? null);
 
-  $aad->setDentistaId($dentista_id);
-  $aad->setAuxiliarId($auxiliar_id);
-  $aad->delete();
+    $aad->setDentistaId($dentista_id);
+    $aad->setAuxiliarId($auxiliar_id);
+    $aad->delete();
 }
 
 ?>
@@ -48,19 +48,19 @@ if(isset($_POST['botao-remover'])){
                     </tr>
                   </tfoot>
                   <tbody>
-                      <?php 
+                      <?php
 
                       $stmt = $aad->viewAll();
 
-                      while($row = $stmt->fetch(PDO::FETCH_OBJ)){ ?>
+while ($row = $stmt->fetch(PDO::FETCH_OBJ)) { ?>
                       <tr align="center">
                         <?php
-                          $dentista_nome = $aad->nomeDentista($row->dentista_id, $row->auxiliar_id);
-                        ?>
+    $dentista_nome = $aad->nomeDentista($row->dentista_id, $row->auxiliar_id);
+    ?>
                         <td> <?= $dentista_nome; ?> </td>
                         <?php
-                          $auxiliar_nome = $aad->nomeAuxiliar($row->dentista_id, $row->auxiliar_id);
-                        ?>
+      $auxiliar_nome = $aad->nomeAuxiliar($row->dentista_id, $row->auxiliar_id);
+    ?>
                         <td> <?= $auxiliar_nome; ?> </td>
                         <td><a href="editar/editar-auxilio.php?dentista_id=<?=$row->dentista_id?>&auxiliar_id=<?=$row->auxiliar_id?>" class="btn btn-primary">Alterar</a></td>
                         <td><a href="#" class="btn btn-danger" data-toggle="modal" data-target="#removeModal<?=$row->dentista_id?>-<?=$row->auxiliar_id?>">Remover</a></td>
@@ -75,11 +75,11 @@ if(isset($_POST['botao-remover'])){
         <!-- /.container-fluid -->
       </div>
       <!-- /.content-wrapper -->
-<?php 
+<?php
 
       $stmt = $aad->viewAll();
 
-      while($row = $stmt->fetch(PDO::FETCH_OBJ)){ ?>
+while ($row = $stmt->fetch(PDO::FETCH_OBJ)) { ?>
       <div class="modal fade" id="removeModal<?=$row->dentista_id?>-<?=$row->auxiliar_id?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
           <div class="modal-content">

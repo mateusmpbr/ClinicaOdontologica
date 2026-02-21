@@ -26,14 +26,14 @@
                     </tr>
                   </tfoot>
                   <tbody>
-                      <?php 
-                      
+                      <?php
 
-                      $p = new PlanoDentario();
 
-                      $stmt = $p->viewAll();
+                      $p = new \ClinicaOdontologica\Models\PlanoDentario();
 
-                      while($row = $stmt->fetch(PDO::FETCH_OBJ)){ ?>
+$stmt = $p->viewAll();
+
+while ($row = $stmt->fetch(PDO::FETCH_OBJ)) { ?>
                       <tr align="center">
                         <td> <?= $row->nome; ?> </td>
                         <td> <?= $row->desconto."%"; ?> </td>

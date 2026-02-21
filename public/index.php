@@ -1,46 +1,59 @@
-<?php 
+<?php
 $flag = 0;
-  
-  session_start();
 
-if(isset($_SESSION)){
+session_start();
+
+if (isset($_SESSION)) {
   session_unset();
   session_destroy();
 }
 
-if(isset($_POST['login'])){
-
-  session_start();
-
-  $nome_usuario = $_POST["nome_usuario"];
-  $senha = $_POST["senha"];
-  $tipo  = $_POST["tipo"]; 
-
-  if($tipo == "recepcionista"){
-    require_once __DIR__ . '/../app/bootstrap.php';
-    $recepcionista = new Recepcionista();
-    $recepcionista->setNomeUsuario($nome_usuario);
-    $recepcionista->setSenha($senha);
-    $funcionario_id = $recepcionista->existe();
-    if(!is_null($funcionario_id)){
-      $_SESSION["funcionario"] = $funcionario_id;
-      header("Location: system/recepcionista/index.php");
-    }else{
-      $flag = 1;
-    }
-  }elseif($tipo == "administrador") {
-    require_once __DIR__ . '/../app/bootstrap.php';
-    $administrador = new Administrador();
-    $administrador->setNomeUsuario($nome_usuario);
-    $administrador->setSenha($senha);
-    $funcionario_id = $administrador->existe();
-    if(!is_null($funcionario_id)){
-      $_SESSION["funcionario"] = $funcionario_id;
-      header("Location: system/administrador/index.php");
-    }else{
-      $flag = 1;
-    }
+// Fallback helpers if app bootstrap hasn't been loaded yet
+if (!function_exists('has_input')) {
+  function input(string $key, $default = null)
+  {
+    return $_REQUEST[$key] ?? $default;
   }
+
+  function has_input(string $key): bool
+  {
+    return array_key_exists($key, $_REQUEST);
+  }
+}
+
+if (has_input('login')) {
+
+    session_start();
+
+    $nome_usuario = input('nome_usuario');
+    $senha = input('senha');
+    $tipo  = input('tipo');
+
+    if ($tipo == "recepcionista") {
+        require_once __DIR__ . '/../app/bootstrap.php';
+        $recepcionista = new \ClinicaOdontologica\Models\Recepcionista();
+        $recepcionista->setNomeUsuario($nome_usuario);
+        $recepcionista->setSenha($senha);
+        $funcionario_id = $recepcionista->existe();
+        if (!is_null($funcionario_id)) {
+            $_SESSION["funcionario"] = $funcionario_id;
+            header("Location: system/recepcionista/index.php");
+        } else {
+            $flag = 1;
+        }
+    } elseif ($tipo == "administrador") {
+        require_once __DIR__ . '/../app/bootstrap.php';
+        $administrador = new \ClinicaOdontologica\Models\Administrador();
+        $administrador->setNomeUsuario($nome_usuario);
+        $administrador->setSenha($senha);
+        $funcionario_id = $administrador->existe();
+        if (!is_null($funcionario_id)) {
+            $_SESSION["funcionario"] = $funcionario_id;
+            header("Location: system/administrador/index.php");
+        } else {
+            $flag = 1;
+        }
+    }
 }
 ?>
 <!DOCTYPE html>
@@ -73,14 +86,14 @@ if(isset($_POST['login'])){
       <div class="card card-login mx-auto mt-5">
         <div class="card-header">Login - Clínica Odontológica</div>
         <div class="card-body">
-        <?php 
-          if($flag == 1){ ?>
+        <?php
+          if ($flag == 1) { ?>
             <div class="alert alert-danger form-group" role="alert">
               <b>Nome de usuário e senha não correspondentes</b>
             </div>
         <?php
           }
-        ?>
+?>
           <form action="index.php" method="post">
             <div class="form-group">
                 <input type="text" class="form-control" placeholder="Nome de usuário" required="required" autofocus="autofocus" name="nome_usuario">

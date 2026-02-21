@@ -1,8 +1,9 @@
 <?php
-namespace App\Models;
 
-class Paciente{
+namespace ClinicaOdontologica\Models;
 
+class Paciente
+{
     private $id;
     private $nome;
     private $sobrenome;
@@ -10,79 +11,93 @@ class Paciente{
     private $cpf;
     private $plano_dentario_id;
 
-    public function __construct(){
+    public function __construct()
+    {
         $database = new \Database();
         $dbSet = $database->dbSet();
         $this->conn = $dbSet;
     }
 
-    public function getId(){
+    public function getId()
+    {
         return $this->id;
     }
 
-    public function getPlanoDentarioId(){
+    public function getPlanoDentarioId()
+    {
         return $this->plano_dentario_id;
     }
 
-    public function getNome(){
+    public function getNome()
+    {
         return $this->nome;
     }
 
-    public function getSobrenome(){
+    public function getSobrenome()
+    {
         return $this->sobrenome;
     }
 
-    public function getNascimento(){
+    public function getNascimento()
+    {
         return $this->nascimento;
     }
 
-    public function getCpf(){
+    public function getCpf()
+    {
         return $this->cpf;
     }
 
-    public function setId($id){
+    public function setId($id)
+    {
         $this->id = $id;
     }
 
-    public function setPlanoDentarioId($plano_dentario_id){
+    public function setPlanoDentarioId($plano_dentario_id)
+    {
         $this->plano_dentario_id = $plano_dentario_id;
     }
 
-    public function setNome($nome){
-        if(strlen($nome) <= 45) {
+    public function setNome($nome)
+    {
+        if (strlen($nome) <= 45) {
             $this->nome = $nome;
             return 1;
         }
         return 0;
     }
 
-    public function setSobrenome($sobrenome){
-        if(strlen($sobrenome) <= 90) {
+    public function setSobrenome($sobrenome)
+    {
+        if (strlen($sobrenome) <= 90) {
             $this->sobrenome = $sobrenome;
             return 1;
         }
         return 0;
     }
 
-    public function setNascimento($nascimento){
+    public function setNascimento($nascimento)
+    {
         $this->nascimento = $nascimento;
     }
 
-    public function setCpf($cpf){
-        if(!empty($cpf)){
+    public function setCpf($cpf)
+    {
+        if (!empty($cpf)) {
             $this->cpf = $cpf;
         }
     }
 
-    public function validaCPF($cpf) {
-        if(empty($cpf)) {
+    public function validaCPF($cpf)
+    {
+        if (empty($cpf)) {
             return true;
         }
         $cpf = preg_replace("/[^0-9]/", "", $cpf);
         $cpf = str_pad($cpf, 11, '0', STR_PAD_LEFT);
         if (strlen($cpf) != 11) {
             return false;
-        } else if ($cpf == '00000000000' ||
+        } elseif ($cpf == '00000000000' ||
             $cpf == '11111111111' ||
             $cpf == '22222222222' ||
             $cpf == '33333333333' ||
@@ -107,8 +122,9 @@ class Paciente{
         }
     }
 
-    public function insert(){
-        try{
+    public function insert()
+    {
+        try {
             $stmt = $this->conn->prepare("INSERT INTO paciente(nome, sobrenome, nascimento, cpf, plano_dentario_id) VALUES(:nome, :sobrenome, :nascimento, :cpf, :plano_dentario_id)");
             $stmt->bindParam(":nome", $this->nome);
             $stmt->bindParam(":sobrenome", $this->sobrenome);
@@ -117,14 +133,15 @@ class Paciente{
             $stmt->bindParam(":plano_dentario_id", $this->plano_dentario_id);
             $stmt->execute();
             return $this->conn->lastInsertId();
-        }catch(\PDOException $e){
+        } catch (\PDOException $e) {
             echo $e->getMessage();
             return 0;
         }
     }
 
-    public function edit(){
-        try{
+    public function edit()
+    {
+        try {
             $stmt = $this->conn->prepare("UPDATE paciente SET nome = :nome, sobrenome = :sobrenome, nascimento = :nascimento, cpf = :cpf, plano_dentario_id = :plano_dentario_id WHERE id = :id");
             $stmt->bindParam(":nome", $this->nome);
             $stmt->bindParam(":sobrenome", $this->sobrenome);
@@ -134,17 +151,18 @@ class Paciente{
             $stmt->bindParam(":id", $this->id);
             $stmt->execute();
             return 1;
-        }catch(\PDOException $e){
+        } catch (\PDOException $e) {
             echo $e->getMessage();
             return 0;
         }
     }
 
-    public function editNomeCpf(){
-        try{
-            if(empty($this->cpf)){
+    public function editNomeCpf()
+    {
+        try {
+            if (empty($this->cpf)) {
                 $stmt = $this->conn->prepare("UPDATE paciente SET nome = :nome WHERE id = :id");
-            }else{
+            } else {
                 $stmt = $this->conn->prepare("UPDATE paciente SET nome = :nome, cpf = :cpf WHERE id = :id");
                 $stmt->bindParam(":cpf", $this->cpf);
             }
@@ -152,71 +170,76 @@ class Paciente{
             $stmt->bindParam(":id", $this->id);
             $stmt->execute();
             return 1;
-        }catch(\PDOException $e){
+        } catch (\PDOException $e) {
             echo $e->getMessage();
             return 0;
         }
     }
 
-    public function cpfObrigatorio(){
-        try{
+    public function cpfObrigatorio()
+    {
+        try {
             $stmt = $this->conn->prepare("SELECT * FROM paciente WHERE nome = :nome");
             $stmt->bindParam(":nome", $this->nome);
             $stmt->execute();
             $result = $stmt->fetch(\PDO::FETCH_OBJ);
-            if(!is_null($result->cpf)){
+            if (!is_null($result->cpf)) {
                 return true;
             }
-        }catch(\PDOException $e){
+        } catch (\PDOException $e) {
             echo $e->getMessage();
             return false;
         }
     }
 
-    public function delete(){
-        try{
+    public function delete()
+    {
+        try {
             $stmt = $this->conn->prepare("DELETE FROM paciente WHERE id = :id");
             $stmt->bindParam(":id", $this->id);
             $stmt->execute();
             return 1;
-        }catch(\PDOException $e){
+        } catch (\PDOException $e) {
             echo $e->getMessage();
             return 0;
         }
     }
 
-    public function viewAll(){
+    public function viewAll()
+    {
         $stmt = $this->conn->prepare("SELECT * FROM paciente");
         $stmt->execute();
         return $stmt;
     }
 
-    public function viewPaciente(){
-        try{
+    public function viewPaciente()
+    {
+        try {
             $stmt = $this->conn->prepare("SELECT * FROM paciente WHERE id = :id");
             $stmt->bindParam(":id", $this->id);
             $stmt->execute();
             $resultado = $stmt->fetch(\PDO::FETCH_OBJ);
             return $resultado;
-        }catch(\PDOException $e){
+        } catch (\PDOException $e) {
             echo $e->getMessage();
             return null;
         }
     }
 
-    public function existeNomeCpf(){
-        try{
-            if(!$this->cpfObrigatorio()){
-                if(empty($this->cpf)){
+    public function existeNomeCpf()
+    {
+        try {
+            if (!$this->cpfObrigatorio()) {
+                if (empty($this->cpf)) {
                     $stmt = $this->conn->prepare("SELECT * FROM paciente WHERE nome = :nome");
-                }else{
+                } else {
                     $stmt = $this->conn->prepare("SELECT * FROM paciente WHERE nome = :nome AND cpf = :cpf");
                     $stmt->bindParam(":cpf", $this->cpf);
                 }
-            }else{
-                if(empty($this->cpf)){
+            } else {
+                if (empty($this->cpf)) {
                     return null;
-                }else{
+                } else {
                     $stmt = $this->conn->prepare("SELECT * FROM paciente WHERE nome = :nome AND cpf = :cpf");
                     $stmt->bindParam(":cpf", $this->cpf);
                 }
@@ -224,50 +247,54 @@ class Paciente{
             $stmt->bindParam(":nome", $this->nome);
             $stmt->execute();
             $result = $stmt->fetch(\PDO::FETCH_OBJ);
-            if(!empty($result)){
+            if (!empty($result)) {
                 return $result->id;
             }
-        }catch(\PDOException $e){
+        } catch (\PDOException $e) {
             echo $e->getMessage();
             return null;
         }
     }
 
-    public function semNomeCpf(){
-        if(empty($this->cpf) && empty($this->nome))
+    public function semNomeCpf()
+    {
+        if (empty($this->cpf) && empty($this->nome)) {
             return true;
+        }
     }
 
-    public function existeCpf(){
-        try{
-            if(empty($this->cpf)){
+    public function existeCpf()
+    {
+        try {
+            if (empty($this->cpf)) {
                 return false;
-            }else{
+            } else {
                 $stmt = $this->conn->prepare("SELECT * FROM paciente WHERE cpf = :cpf AND id != :id");
                 $stmt->bindParam(":id", $this->id);
                 $stmt->bindParam(":cpf", $this->cpf);
                 $stmt->execute();
                 $result = $stmt->fetch(\PDO::FETCH_OBJ);
-                if(empty($result)){
+                if (empty($result)) {
                     return false;
-                }else{
+                } else {
                     return true;
                 }
             }
-        }catch(\PDOException $e){
+        } catch (\PDOException $e) {
             echo $e->getMessage();
             return 0;
         }
     }
 
-    public function nomePlanoDentario(){
+    public function nomePlanoDentario()
+    {
         $stmt = $this->conn->prepare("SELECT plano_dentario.nome FROM plano_dentario, paciente WHERE plano_dentario.id = paciente.plano_dentario_id AND paciente.id = :id");
         $stmt->bindParam(":id", $this->id);
         $stmt->execute();
         $result = $stmt->fetch(\PDO::FETCH_OBJ);
-        if(empty($result)){
+        if (empty($result)) {
             return "";
-        }else{
+        } else {
             return $result->nome;
         }
     }

@@ -3,69 +3,70 @@
 
 $flag = 0;
 
-$dcp = new Dentista_consulta_Paciente();
+$dcp = new \ClinicaOdontologica\Models\DentistaConsultaPaciente();
 
-$p = new Paciente();
-$d = new Dentista();
-$f = new Funcionario();
-$dcp = new Dentista_consulta_Paciente();
+$p = new \ClinicaOdontologica\Models\Paciente();
+$d = new \ClinicaOdontologica\Models\Dentista();
+$f = new \ClinicaOdontologica\Models\Funcionario();
 
-if(isset($_POST['botao'])){ 
+if (has_input('botao')) {
 
-    $id = $_POST['id'];
-    $paciente_id = $_POST['paciente_id'];
-    $dentista_id = $_POST['dentista_id'];
-    $nome_dentista = $_POST['nome_dentista'];
-    $cro_dentista = $_POST['cro_dentista'];
-    $nome_paciente = $_POST['nome_paciente'];
-    $cpf_paciente = $_POST['cpf_paciente'];
-    $valor = $_POST['valor'];
-    $data = $_POST['data'];
-    $horario = $_POST['horario'];
-    $situacao = $_POST['situacao'];
-    $situacao_antiga = $_POST['situacao_antiga'];
-    $operacao = $_POST['operacao'];
+    $id = (request()->getParsedBody()['id'] ?? request()->getQueryParams()['id'] ?? null);
+    $paciente_id = (request()->getParsedBody()['paciente_id'] ?? request()->getQueryParams()['paciente_id'] ?? null);
+    $dentista_id = (request()->getParsedBody()['dentista_id'] ?? request()->getQueryParams()['dentista_id'] ?? null);
+    $nome_dentista = (request()->getParsedBody()['nome_dentista'] ?? request()->getQueryParams()['nome_dentista'] ?? null);
+    $cro_dentista = (request()->getParsedBody()['cro_dentista'] ?? request()->getQueryParams()['cro_dentista'] ?? null);
+    $nome_paciente = (request()->getParsedBody()['nome_paciente'] ?? request()->getQueryParams()['nome_paciente'] ?? null);
+    $cpf_paciente = (request()->getParsedBody()['cpf_paciente'] ?? request()->getQueryParams()['cpf_paciente'] ?? null);
+    $valor = (request()->getParsedBody()['valor'] ?? request()->getQueryParams()['valor'] ?? null);
+    $data = (request()->getParsedBody()['data'] ?? request()->getQueryParams()['data'] ?? null);
+    $horario = (request()->getParsedBody()['horario'] ?? request()->getQueryParams()['horario'] ?? null);
+    $situacao = (request()->getParsedBody()['situacao'] ?? request()->getQueryParams()['situacao'] ?? null);
+    $situacao_antiga = (request()->getParsedBody()['situacao_antiga'] ?? request()->getQueryParams()['situacao_antiga'] ?? null);
+    $operacao = (request()->getParsedBody()['operacao'] ?? request()->getQueryParams()['operacao'] ?? null);
 
-    if(!$p->validaCPF($cpf_paciente)) $flag = 1;
+    if (!$p->validaCPF($cpf_paciente)) {
+        $flag = 1;
+    }
 
     $dcp->setId($id);
     $dcp->setDentistaId($dentista_id);
     $dcp->setData($data);
     $dcp->setHorario($horario);
 
-    if(!$dcp->horarioValido()){
+    if (!$dcp->horarioValido()) {
         $flag = 2;
     }
 
-    if(!$d->existeNomeCro($nome_dentista, $cro_dentista)){
+    if (!$d->existeNomeCro($nome_dentista, $cro_dentista)) {
         $flag = 3;
     }
 
     $p->setNome($nome_paciente);
     $p->setCpf($cpf_paciente);
 
-    if(!$p->existeNomeCpf()){
+    if (!$p->existeNomeCpf()) {
         $flag = 4;
     }
 
-    if($flag == 0){
+    if ($flag == 0) {
         $dcp->setPacienteId($paciente_id);
         $dcp->setValor($valor);
         $dcp->setSituacao($situacao);
         $dcp->setOperacao($operacao);
         $id = $dcp->edit();
-        if($situacao_antiga == "Pago"){
-            header("Location: editar-recebimentos-consultas.php?id=$id"); 
-        }else{
-            if($situacao == "Pago"){
-                header("Location: ../cadastrar/cadastrar-recebimentos-consultas.php?id=$id"); 
-            }else{
+        if ($situacao_antiga == "Pago") {
+            header("Location: editar-recebimentos-consultas.php?id=$id");
+        } else {
+            if ($situacao == "Pago") {
+                header("Location: ../cadastrar/cadastrar-recebimentos-consultas.php?id=$id");
+            } else {
                 header("Location: ../consultas.php");
             }
         }
     }
-}else{
-    $id = $_GET['id'];
+} else {
+    $id = (request()->getParsedBody()['id'] ?? request()->getQueryParams()['id'] ?? null);
 
     $dcp->setId($id);
     $consulta = $dcp->viewConsulta();
@@ -103,19 +104,19 @@ if(isset($_POST['botao'])){
           </div>
         </div>
         <div class="card-body">
-        <?php if($flag == 1){ ?>
+        <?php if ($flag == 1) { ?>
           <div class="alert alert-danger form-group" role="alert">
             <b>O CPF informado não é válido</b>
           </div>
-        <?php } elseif($flag == 2){ ?>
+        <?php } elseif ($flag == 2) { ?>
           <div class="alert alert-danger form-group" role="alert">
             <b>Já há uma pessoa agendada</b>
           </div>
-        <?php } elseif($flag == 3){ ?>
+        <?php } elseif ($flag == 3) { ?>
           <div class="alert alert-danger form-group" role="alert">
             <b>Não há esse dentista cadastrado</b>
           </div>
-        <?php } elseif($flag == 4){ ?>
+        <?php } elseif ($flag == 4) { ?>
           <div class="alert alert-danger form-group" role="alert">
             <b>Não há esse paciente cadastrado</b>
           </div>
@@ -156,10 +157,10 @@ if(isset($_POST['botao'])){
             <div class="form-group">
                 <label>Situação</label><br>
                 <select name="situacao">
-                    <?php 
-                        $pago = ($situacao == "Pago")? "selected='selected'" : "";
-                        $nao_pago = ($situacao == "Não Pago")? "selected='selected'" : "";
-                    ?>
+                    <?php
+                        $pago = ($situacao == "Pago") ? "selected='selected'" : "";
+$nao_pago = ($situacao == "Não Pago") ? "selected='selected'" : "";
+?>
                     <option value="Pago" <?=$pago?>>Pago</option>
                     <option value="Não Pago" <?=$nao_pago?>>Não Pago</option>
                 </select>

@@ -3,33 +3,37 @@
 
 $flag = 0;
 
-if(!isset($_POST['nome_dentista']))$nome_dentista = "";
-if(!isset($_POST['cro_dentista']))$cro_dentista = "";
+if (!has_input('nome_dentista')) {
+    $nome_dentista = "";
+}
+if (!has_input('cro_dentista')) {
+    $cro_dentista = "";
+}
 
-if(isset($_POST['botao'])){ 
-    
+if (has_input('botao')) {
 
-    $d = new Dentista();
-    $e = new Especialidade();
-    $dhe = new Dentista_has_Especialidade();
 
-    $nome_dentista = $_POST['nome_dentista'];
-    $cro_dentista = $_POST['cro_dentista'];
-    $especialidade = $_POST['especialidade'];
+    $d = new \ClinicaOdontologica\Models\Dentista();
+    $e = new \ClinicaOdontologica\Models\Especialidade();
+    $dhe = new \ClinicaOdontologica\Models\DentistaHasEspecialidade();
 
-    if(!($id_dentista = $d->existeNomeCro($nome_dentista, $cro_dentista))){
+    $nome_dentista = (request()->getParsedBody()['nome_dentista'] ?? request()->getQueryParams()['nome_dentista'] ?? null);
+    $cro_dentista = (request()->getParsedBody()['cro_dentista'] ?? request()->getQueryParams()['cro_dentista'] ?? null);
+    $especialidade = (request()->getParsedBody()['especialidade'] ?? request()->getQueryParams()['especialidade'] ?? null);
+
+    if (!($id_dentista = $d->existeNomeCro($nome_dentista, $cro_dentista))) {
         $flag = 1;
     }
 
-    if($flag == 0){
+    if ($flag == 0) {
         $dhe->setDentistaId($id_dentista);
         $dhe->setEspecialidadeNome($especialidade);
-        if($dhe->viewDentistaHasEspecialidade()){
+        if ($dhe->viewDentistaHasEspecialidade()) {
             $flag = 2;
         }
     }
 
-    if($flag == 0){
+    if ($flag == 0) {
         $dhe->insert();
         header("Location: ../especialidades-dentistas.php");
     }
@@ -46,11 +50,11 @@ if(isset($_POST['botao'])){
             </div>
         </div>
         <div class="card-body">
-        <?php if($flag == 1){ ?>
+        <?php if ($flag == 1) { ?>
           <div class="alert alert-danger form-group" role="alert">
             <b>O nome e o CRO informados não estão cadastrados ou não coincidem</b>
           </div>
-        <?php }elseif($flag == 2){ ?>
+        <?php } elseif ($flag == 2) { ?>
           <div class="alert alert-danger form-group" role="alert">
             <b>Combinação de dentista e especialidade já cadastrada</b>
           </div>
@@ -67,12 +71,12 @@ if(isset($_POST['botao'])){
             <div class="form-group">
                 <label>Especialidade</label><br>
                 <select name="especialidade">
-                <?php 
-                
-                $e = new Especialidade();
-                $stmt = $e->viewAll();
+                <?php
 
-                while($row = $stmt->fetch(PDO::FETCH_OBJ)){ ?>
+                $e = new \ClinicaOdontologica\Models\Especialidade();
+$stmt = $e->viewAll();
+
+while ($row = $stmt->fetch(PDO::FETCH_OBJ)) { ?>
                 <option value= <?= $row->nome; ?>> <?= $row->nome; ?> </option>
                 <?php } ?>
                 </select>

@@ -1,118 +1,120 @@
 <?php include_once"header.php" ?>
-<?php 
+<?php
 
 $flag = 0;
 
-if(isset($_POST['botao'])){ 
-  
+if (has_input('botao')) {
 
-  $id = $_POST['id'];
-  $nome = $_POST['nome'];
-  $sobrenome = $_POST['sobrenome'];
-  $nascimento = $_POST['nascimento'];
-  $cpf = $_POST['cpf'];
-  $salario = $_POST['salario'];
-  $cargo = $_POST['cargo'];
 
-  $funcionario = new Funcionario();
+    $id = (request()->getParsedBody()['id'] ?? request()->getQueryParams()['id'] ?? null);
+    $nome = (request()->getParsedBody()['nome'] ?? request()->getQueryParams()['nome'] ?? null);
+    $sobrenome = (request()->getParsedBody()['sobrenome'] ?? request()->getQueryParams()['sobrenome'] ?? null);
+    $nascimento = (request()->getParsedBody()['nascimento'] ?? request()->getQueryParams()['nascimento'] ?? null);
+    $cpf = (request()->getParsedBody()['cpf'] ?? request()->getQueryParams()['cpf'] ?? null);
+    $salario = (request()->getParsedBody()['salario'] ?? request()->getQueryParams()['salario'] ?? null);
+    $cargo = (request()->getParsedBody()['cargo'] ?? request()->getQueryParams()['cargo'] ?? null);
 
-  $funcionario->setCpf($cpf);
-  if(!$funcionario->validaCPF($cpf)) $flag = 1;
+    $funcionario = new \ClinicaOdontologica\Models\Funcionario();
 
-  if($flag == 0){
-      $flag = 2;
-
-    if($cargo == "Recepcionista"){
-
-      
-      $recepcionista = new Recepcionista();
-      $recepcionista->setFuncionarioId($id);
-      $resultado = $recepcionista->viewRecepcionista();
-
-    }elseif($cargo == "Administrador"){
-
-      
-      $administrador = new Administrador();
-      $administrador->setFuncionarioId($id);
-      $resultado = $administrador->viewAdministrador();
-
-    }elseif($cargo == "Dentista"){
-
-      
-      $dentista = new Dentista();
-      $dentista->setFuncionarioId($id);
-      $resultado = $dentista->viewDentista();
+    $funcionario->setCpf($cpf);
+    if (!$funcionario->validaCPF($cpf)) {
+        $flag = 1;
     }
-  }
-}elseif(isset($_POST['botao-detalhe'])){
-  
 
-  $id = $_POST['id'];
-  $nome = $_POST['nome'];
-  $sobrenome = $_POST['sobrenome'];
-  $nascimento = $_POST['nascimento'];
-  $cpf = $_POST['cpf'];
-  $salario = $_POST['salario'];
-  $cargo = $_POST['cargo'];
+    if ($flag == 0) {
+        $flag = 2;
 
-  $funcionario = new Funcionario();
+        if ($cargo == "Recepcionista") {
 
-  $funcionario->setId($id);
-  $funcionario->setCpf($cpf);
-  $funcionario->setNome($nome);
-  $funcionario->setSobrenome($sobrenome);
-  $funcionario->setNascimento($nascimento);
-  $funcionario->setSalario($salario);
-  $funcionario->setCargo($cargo);
-  $v = $funcionario->edit();
 
-  if($cargo == "Auxiliar"){
-    
-    
-    $auxiliar = new Auxiliar();
-    $auxiliar->setFuncionarioId($id);
-    $estado = $auxiliar->edit();
+            $recepcionista = new \ClinicaOdontologica\Models\Recepcionista();
+            $recepcionista->setFuncionarioId($id);
+            $resultado = $recepcionista->viewRecepcionista();
 
-  }elseif($cargo == "Recepcionista"){
+        } elseif ($cargo == "Administrador") {
 
-    $nome_usuario = $_POST["nome_usuario"];
-    $senha = $_POST["senha"];
-    
-    $recepcionista = new Recepcionista();
-    $recepcionista->setFuncionarioId($id);
-    $recepcionista->setNomeUsuario($nome_usuario);
-    $recepcionista->setSenha($senha);
-    $estado = $recepcionista->edit();
 
-  }elseif($cargo == "Administrador"){
+            $administrador = new \ClinicaOdontologica\Models\Administrador();
+            $administrador->setFuncionarioId($id);
+            $resultado = $administrador->viewAdministrador();
 
-    $nome_usuario = $_POST["nome_usuario"];
-    $senha = $_POST["senha"];
-    
-    $administrador = new Administrador();
-    $administrador->setFuncionarioId($id);
-    $administrador->setSenha($senha);
-    $administrador->setNomeUsuario($nome_usuario);
-    $estado = $administrador->edit();
+        } elseif ($cargo == "Dentista") {
 
-  }elseif($cargo == "Dentista"){
-    $cro = $_POST["cro"];
-    
-    $dentista = new Dentista();
-    $dentista->setFuncionarioId($id);
-    $dentista->setCro($cro);
-    $estado = $dentista->edit();
-  }  
-  header("Location: ../index.php");
 
- }else{ 
-  
+            $dentista = new \ClinicaOdontologica\Models\Dentista();
+            $dentista->setFuncionarioId($id);
+            $resultado = $dentista->viewDentista();
+        }
+    }
+} elseif (has_input('botao-detalhe')) {
 
-    $id = $_GET['id'];
-    $funcionario = new Funcionario();
+
+    $id = (request()->getParsedBody()['id'] ?? request()->getQueryParams()['id'] ?? null);
+    $nome = (request()->getParsedBody()['nome'] ?? request()->getQueryParams()['nome'] ?? null);
+    $sobrenome = (request()->getParsedBody()['sobrenome'] ?? request()->getQueryParams()['sobrenome'] ?? null);
+    $nascimento = (request()->getParsedBody()['nascimento'] ?? request()->getQueryParams()['nascimento'] ?? null);
+    $cpf = (request()->getParsedBody()['cpf'] ?? request()->getQueryParams()['cpf'] ?? null);
+    $salario = (request()->getParsedBody()['salario'] ?? request()->getQueryParams()['salario'] ?? null);
+    $cargo = (request()->getParsedBody()['cargo'] ?? request()->getQueryParams()['cargo'] ?? null);
+
+    $funcionario = new \ClinicaOdontologica\Models\Funcionario();
+
+    $funcionario->setId($id);
+    $funcionario->setCpf($cpf);
+    $funcionario->setNome($nome);
+    $funcionario->setSobrenome($sobrenome);
+    $funcionario->setNascimento($nascimento);
+    $funcionario->setSalario($salario);
+    $funcionario->setCargo($cargo);
+    $v = $funcionario->edit();
+
+    if ($cargo == "Auxiliar") {
+
+
+        $auxiliar = new \ClinicaOdontologica\Models\Auxiliar();
+        $auxiliar->setFuncionarioId($id);
+        $estado = $auxiliar->edit();
+
+    } elseif ($cargo == "Recepcionista") {
+
+        $nome_usuario = (request()->getParsedBody()['nome_usuario'] ?? request()->getQueryParams()['nome_usuario'] ?? null);
+        $senha = (request()->getParsedBody()['senha'] ?? request()->getQueryParams()['senha'] ?? null);
+
+        $recepcionista = new \ClinicaOdontologica\Models\Recepcionista();
+        $recepcionista->setFuncionarioId($id);
+        $recepcionista->setNomeUsuario($nome_usuario);
+        $recepcionista->setSenha($senha);
+        $estado = $recepcionista->edit();
+
+    } elseif ($cargo == "Administrador") {
+
+        $nome_usuario = (request()->getParsedBody()['nome_usuario'] ?? request()->getQueryParams()['nome_usuario'] ?? null);
+        $senha = (request()->getParsedBody()['senha'] ?? request()->getQueryParams()['senha'] ?? null);
+
+        $administrador = new \ClinicaOdontologica\Models\Administrador();
+        $administrador->setFuncionarioId($id);
+        $administrador->setSenha($senha);
+        $administrador->setNomeUsuario($nome_usuario);
+        $estado = $administrador->edit();
+
+    } elseif ($cargo == "Dentista") {
+        $cro = (request()->getParsedBody()['cro'] ?? request()->getQueryParams()['cro'] ?? null);
+
+        $dentista = new \ClinicaOdontologica\Models\Dentista();
+        $dentista->setFuncionarioId($id);
+        $dentista->setCro($cro);
+        $estado = $dentista->edit();
+    }
+    header("Location: ../index.php");
+
+} else {
+
+
+    $id = (request()->getParsedBody()['id'] ?? request()->getQueryParams()['id'] ?? null);
+    $funcionario = new \ClinicaOdontologica\Models\Funcionario();
     $funcionario->setId($id);
     $resultado = $funcionario->viewFuncionario();
-    $cargo = $resultado->cargo; 
+    $cargo = $resultado->cargo;
 }
 ?>
   <body class="bg-dark">
@@ -123,7 +125,7 @@ if(isset($_POST['botao'])){
           Atualização de Funcionário
         </div>
         <div class="card-body">
-        <?php if($flag == 0){ ?>
+        <?php if ($flag == 0) { ?>
           <form action="editar-funcionario.php" method="post">
             <div class="form-group">
                 <label>Primeiro nome</label>
@@ -149,8 +151,7 @@ if(isset($_POST['botao'])){
             <input type="hidden" name="cargo" value=<?=$cargo?>>
             <button class="btn btn-primary btn-block" type="submit" name="botao">Avançar</button>
           </form>
-        <?php }
-        elseif($flag == 1){ ?>
+        <?php } elseif ($flag == 1) { ?>
           <div class="alert alert-danger form-group" role="alert">
             <b>O CPF informado não é válido</b>
           </div>
@@ -179,8 +180,7 @@ if(isset($_POST['botao'])){
             <input type="hidden" name="cargo" value=<?=$cargo?>>
             <button class="btn btn-primary btn-block" type="submit" name="botao">Avançar</button>
           </form>
-       <?php }
-       elseif($flag == 2){ ?>
+       <?php } elseif ($flag == 2) { ?>
           <form action="editar-funcionario.php" method="post">
     <?php  if ($cargo == "Recepcionista" || $cargo == "Administrador") { ?>
             <div class="form-group">
