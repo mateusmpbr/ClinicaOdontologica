@@ -1,6 +1,5 @@
 <?php include_once'header.php' ?>
 <?php
-include_once '../../app/Models/classDespesa.php';
 $d = new Despesa();
 
 if(isset($_POST['botao-remover'])){

@@ -1,6 +1,5 @@
 <?php include_once'header.php' ?>
 <?php
-include_once '../../app/Models/classPaciente.php';
 
 if(isset($_POST['botao-remover'])){
   $id = $_POST['id'];

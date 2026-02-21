@@ -3,10 +3,7 @@
 
 $flag = 0;
 
-include_once __DIR__ . '/../../../app/Models/classPaciente.php';
-include_once __DIR__ . '/../../../app/Models/classRecepcionista.php';
-include_once __DIR__ . '/../../../app/Models/classRecebimento.php';
-include_once __DIR__ . '/../../../app/Models/classDentistaConsultaPaciente.php';
+ 
 
 $paciente = new Paciente();
 $recepcionista = new Recepcionista();

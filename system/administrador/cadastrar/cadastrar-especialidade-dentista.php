@@ -7,9 +7,7 @@ if(!isset($_POST['nome_dentista']))$nome_dentista = "";
 if(!isset($_POST['cro_dentista']))$cro_dentista = "";
 
 if(isset($_POST['botao'])){ 
-    include_once __DIR__ . '/../../../app/Models/classDentista.php';
-    include_once __DIR__ . '/../../../app/Models/classEspecialidade.php';
-    include_once __DIR__ . '/../../../app/Models/classDentistaHasEspecialidade.php';
+    
 
     $d = new Dentista();
     $e = new Especialidade();
@@ -70,7 +68,7 @@ if(isset($_POST['botao'])){
                 <label>Especialidade</label><br>
                 <select name="especialidade">
                 <?php 
-                include_once __DIR__ . '/../../../app/Models/classEspecialidade.php';
+                
                 $e = new Especialidade();
                 $stmt = $e->viewAll();
 

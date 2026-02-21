@@ -3,9 +3,7 @@
 
 $flag = 0;
 
-include_once __DIR__ . '/../../../app/Models/classDentistaConsultaPaciente.php';
-include_once __DIR__ . '/../../../app/Models/classPaciente.php';
-include_once __DIR__ . '/../../../app/Models/classDentista.php';
+$dcp = new Dentista_consulta_Paciente();
 
 $p = new Paciente();
 $d = new Dentista();

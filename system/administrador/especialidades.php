@@ -1,12 +1,10 @@
 <?php include_once'header.php' ?>
 <?php
-include_once '../../app/Models/classEspecialidade.php';
 
 if(isset($_POST["botao-remover"])){
 
   $nome = $_POST["nome"];
 
-  include_once "../../app/Models/classEspecialidade.php";
   $e = new Especialidade();
   $e->setNome($nome);
   $e->delete();

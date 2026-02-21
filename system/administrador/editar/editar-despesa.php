@@ -1,7 +1,6 @@
 <?php include_once "header.php" ?>
 <?php 
-    include_once __DIR__ . '/../../../app/Models/classDespesa.php';
-    include_once __DIR__ . '/../../../app/Models/classBalanco.php';
+    
 
     $b = new Balanco();
     $d = new Despesa();

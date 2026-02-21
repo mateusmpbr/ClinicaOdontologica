@@ -1,0 +1,16 @@
+{
+  "name": "clinica/odontologica",
+  "description": "Clinica Odontologica project - composer autoload",
+  "autoload": {
+    "psr-4": {
+      "App\\Models\\": "app/Models/",
+      "App\\Helpers\\": "app/Helpers/"
+    },
+    "classmap": [
+      "app/Models/",
+      "app/Helpers/",
+      "config/"
+    ]
+  },
+  "require": {}
+}

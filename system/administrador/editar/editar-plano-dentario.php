@@ -3,7 +3,7 @@
 
 $flag = 0;
 
-include_once __DIR__ . '/../../../app/Models/classPlanoDentario.php';
+ 
 $p = new PlanoDentario();
 
 if(isset($_POST['botao'])){ 

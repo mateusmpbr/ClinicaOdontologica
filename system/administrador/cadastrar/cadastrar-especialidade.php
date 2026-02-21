@@ -4,8 +4,6 @@
 $flag = 0;
 
 if(isset($_POST['botao'])){ 
-  include_once __DIR__ . '/../../../app/Models/classEspecialidade.php';
-  
   $nome = $_POST['nome'];
   $e = new Especialidade();
   $e->setNome($nome);

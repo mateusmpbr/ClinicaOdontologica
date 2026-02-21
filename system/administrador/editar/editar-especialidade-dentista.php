@@ -1,9 +1,7 @@
 <?php include_once"header.php" ?>
 <?php
 
-include_once __DIR__ . '/../../../app/Models/classDentista.php';
-include_once __DIR__ . '/../../../app/Models/classEspecialidade.php';
-include_once __DIR__ . '/../../../app/Models/classDentistaHasEspecialidade.php';
+ 
 
 $f = new funcionario();
 $d = new Dentista();
@@ -83,7 +81,6 @@ if(isset($_POST['botao'])){
                 <label>Especialidade</label><br>
                 <select name="nova_especialidade">
                 <?php 
-                include_once __DIR__ . '/../../../app/Models/classEspecialidade.php';
                 $e = new Especialidade();
                 $stmt = $e->viewAll();
 

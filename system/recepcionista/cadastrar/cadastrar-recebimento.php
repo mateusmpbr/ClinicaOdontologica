@@ -1,10 +1,10 @@
 <?php
-include_once __DIR__ . '/../../../app/Helpers/funcoesAuxiliares.php';
+require_once __DIR__ . '/../../../app/bootstrap.php';
 verificaFuncionarioLogadoCadastro();
 verificarRecepcionistaLogadoCadastro();
-include_once __DIR__ . '/../../../app/Models/classPaciente.php';
-include_once __DIR__ . '/../../../app/Models/classRecepcionista.php';
-include_once __DIR__ . '/../../../app/Models/classRecebimento.php';
+$p = new Paciente();
+$r = new Recepcionista();
+$rec = new Recebimento();
 
 $flag = 0;
 

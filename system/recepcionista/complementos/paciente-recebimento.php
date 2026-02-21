@@ -1,5 +1,5 @@
 <?php include_once'header.php';
-include_once __DIR__ . '/../../../app/Models/classPaciente.php';
+ 
 ?>
   <body class="bg-dark">
     <div id="wrapper">

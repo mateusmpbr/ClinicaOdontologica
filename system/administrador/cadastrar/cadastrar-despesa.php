@@ -4,8 +4,7 @@
 $flag = 0;
 
 if(isset($_POST['botao'])){ 
-    include_once __DIR__ . '/../../../app/Models/classDespesa.php';
-    include_once __DIR__ . '/../../../app/Models/classBalanco.php';
+    
 
     $b = new Balanco();
     $d = new Despesa();

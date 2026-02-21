@@ -3,9 +3,7 @@
 
 $flag = 0;
 
-    include_once __DIR__ . '/../../../app/Models/classDentista.php';
-    include_once __DIR__ . '/../../../app/Models/classAuxiliar.php';
-    include_once __DIR__ . '/../../../app/Models/classAuxiliarAuxiliaDentista.php';
+    
 
     $d = new Dentista();
     $a = new Auxiliar();

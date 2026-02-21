@@ -1,5 +1,5 @@
 <?php
-include_once __DIR__ . '/../../../app/Helpers/funcoesAuxiliares.php';
+require_once __DIR__ . '/../../../app/bootstrap.php';
 verificaFuncionarioLogadoCadastro();
 verificarAdministradorLogadoCadastro();
 ?>

@@ -1,8 +1,8 @@
-<?php 
-include_once __DIR__ . '/../../../app/Helpers/funcoesAuxiliares.php';
+<?php
+require_once __DIR__ . '/../../../app/bootstrap.php';
 verificaFuncionarioLogadoCadastro();
 verificarRecepcionistaLogadoCadastro();
-include_once __DIR__ . '/../../../app/Models/classPaciente.php';
+ 
 
 $flag = 0;
 
@@ -88,7 +88,6 @@ include_once"header.php";
               <label>Plano Dentário</label><br>
               <select id="select-paciente" name="plano_dentario">
                 <?php 
-                include_once __DIR__ . '/../../../app/Models/classPlanoDentario.php';
                 $planoDentario = new PlanoDentario();
                 $stmt = $planoDentario->viewAll();
 
