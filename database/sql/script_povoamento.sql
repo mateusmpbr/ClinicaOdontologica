@@ -1,3 +1,5 @@
+SET NAMES 'utf8mb4' COLLATE 'utf8mb4_unicode_ci';
+
 INSERT INTO clinica_odontologica.funcionario (id,nome,sobrenome,nascimento,cpf,salario,cargo) VALUES
 (1,'João','Antônio','1994-10-02','11856810607',4700.00,'Dentista');
 INSERT INTO clinica_odontologica.funcionario (id,nome,sobrenome,nascimento,cpf,salario,cargo) VALUES
@@ -137,7 +139,6 @@ INSERT INTO clinica_odontologica.dentista_consulta_paciente (id,paciente_id,dent
 (11,4,2,'2018-02-12','16:00:00',1500.0,'Pago','Implante');
 INSERT into clinica_odontologica.dentista_consulta_paciente (id,paciente_id,dentista_id,data,horario,valor,situacao,operacao) VALUES
 (12,4,3,'2018-03-20','14:00:00',60.0,'Pago','Checkup');
-
 
 
 INSERT INTO clinica_odontologica.recebimento (id,valor,data,modo_pagamento,recepcionista_id,paciente_id) VALUES

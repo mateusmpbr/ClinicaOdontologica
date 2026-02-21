@@ -133,5 +133,3 @@ class Recepcionista extends Funcionario{
 	}
 
 }
-
-?> 

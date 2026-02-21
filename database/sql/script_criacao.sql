@@ -15,7 +15,7 @@ DROP SCHEMA IF EXISTS `clinica_odontologica` ;
 -- -----------------------------------------------------
 -- Schema clinica_odontologica
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `clinica_odontologica` DEFAULT CHARACTER SET utf8 ;
+CREATE SCHEMA IF NOT EXISTS `clinica_odontologica` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 USE `clinica_odontologica` ;
 
 -- -----------------------------------------------------
@@ -34,7 +34,9 @@ CREATE TABLE IF NOT EXISTS `clinica_odontologica`.`funcionario` (
   PRIMARY KEY (`id`),
   UNIQUE INDEX `id_UNIQUE` (`id` ASC),
   UNIQUE INDEX `cpf_UNIQUE` (`cpf` ASC))
-ENGINE = InnoDB;
+ENGINE = InnoDB
+DEFAULT CHARACTER SET utf8mb4
+COLLATE utf8mb4_unicode_ci;
 
 
 -- -----------------------------------------------------
@@ -54,7 +56,8 @@ CREATE TABLE IF NOT EXISTS `clinica_odontologica`.`dentista` (
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8;
+DEFAULT CHARACTER SET utf8mb4
+COLLATE utf8mb4_unicode_ci;
 
 
 -- -----------------------------------------------------
@@ -71,7 +74,9 @@ CREATE TABLE IF NOT EXISTS `clinica_odontologica`.`auxiliar` (
     REFERENCES `clinica_odontologica`.`funcionario` (`id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
-ENGINE = InnoDB;
+ENGINE = InnoDB
+DEFAULT CHARACTER SET utf8mb4
+COLLATE utf8mb4_unicode_ci;
 
 
 -- -----------------------------------------------------
@@ -96,7 +101,8 @@ CREATE TABLE IF NOT EXISTS `clinica_odontologica`.`auxiliar_auxilia_dentista` (
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8;
+DEFAULT CHARACTER SET utf8mb4
+COLLATE utf8mb4_unicode_ci;
 
 
 -- -----------------------------------------------------
@@ -116,7 +122,9 @@ CREATE TABLE IF NOT EXISTS `clinica_odontologica`.`recepcionista` (
     REFERENCES `clinica_odontologica`.`funcionario` (`id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
-ENGINE = InnoDB;
+ENGINE = InnoDB
+DEFAULT CHARACTER SET utf8mb4
+COLLATE utf8mb4_unicode_ci;
 
 
 -- -----------------------------------------------------
@@ -136,7 +144,9 @@ CREATE TABLE IF NOT EXISTS `clinica_odontologica`.`administrador` (
     REFERENCES `clinica_odontologica`.`funcionario` (`id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
-ENGINE = InnoDB;
+ENGINE = InnoDB
+DEFAULT CHARACTER SET utf8mb4
+COLLATE utf8mb4_unicode_ci;
 
 
 -- -----------------------------------------------------
@@ -150,7 +160,7 @@ CREATE TABLE IF NOT EXISTS `clinica_odontologica`.`despesa` (
   `data` DATE NOT NULL,
   `valor` FLOAT UNSIGNED NOT NULL,
   `tipo` VARCHAR(45) NOT NULL,
-  `situacao` ENUM('Pago', 'Não Pago') NOT NULL,
+  `situacao` VARCHAR(45) NOT NULL,
   `administrador_id` INT UNSIGNED,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `id_UNIQUE` (`id` ASC),
@@ -160,7 +170,9 @@ CREATE TABLE IF NOT EXISTS `clinica_odontologica`.`despesa` (
     REFERENCES `clinica_odontologica`.`administrador` (`funcionario_id`)
     ON DELETE SET NULL
     ON UPDATE CASCADE)
-ENGINE = InnoDB;
+ENGINE = InnoDB
+DEFAULT CHARACTER SET utf8mb4
+COLLATE utf8mb4_unicode_ci;
 
 
 -- -----------------------------------------------------
@@ -175,7 +187,9 @@ CREATE TABLE IF NOT EXISTS `clinica_odontologica`.`plano_dentario` (
   PRIMARY KEY (`id`),
   UNIQUE INDEX `id_UNIQUE` (`id` ASC),
   UNIQUE INDEX `nome_UNIQUE` (`nome` ASC))
-ENGINE = InnoDB;
+ENGINE = InnoDB
+DEFAULT CHARACTER SET utf8mb4
+COLLATE utf8mb4_unicode_ci;
 
 
 -- -----------------------------------------------------
@@ -198,7 +212,9 @@ CREATE TABLE IF NOT EXISTS `clinica_odontologica`.`paciente` (
     REFERENCES `clinica_odontologica`.`plano_dentario` (`id`)
     ON DELETE SET NULL
     ON UPDATE CASCADE)
-ENGINE = InnoDB;
+ENGINE = InnoDB
+DEFAULT CHARACTER SET utf8mb4
+COLLATE utf8mb4_unicode_ci;
 
 
 -- -----------------------------------------------------
@@ -225,7 +241,9 @@ CREATE TABLE IF NOT EXISTS `clinica_odontologica`.`recebimento` (
     REFERENCES `clinica_odontologica`.`paciente` (`id`)
     ON DELETE SET NULL
     ON UPDATE CASCADE)
-ENGINE = InnoDB;
+ENGINE = InnoDB
+DEFAULT CHARACTER SET utf8mb4
+COLLATE utf8mb4_unicode_ci;
 
 
 -- -----------------------------------------------------
@@ -240,7 +258,7 @@ CREATE TABLE IF NOT EXISTS `clinica_odontologica`.`dentista_consulta_paciente` (
   `data` DATE NOT NULL,
   `horario` TIME NOT NULL,
   `valor` FLOAT NOT NULL,
-  `situacao` ENUM('Pago', 'Não Pago') NOT NULL,
+  `situacao` ENUM('Pago', 'Nao Pago') NOT NULL,
   INDEX `fk_dentista_has_paciente_paciente1_idx` (`paciente_id` ASC),
   INDEX `fk_dentista_consulta_paciente_dentista1_idx` (`dentista_id` ASC),
   PRIMARY KEY (`id`),
@@ -256,7 +274,8 @@ CREATE TABLE IF NOT EXISTS `clinica_odontologica`.`dentista_consulta_paciente` (
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8;
+DEFAULT CHARACTER SET utf8mb4
+COLLATE utf8mb4_unicode_ci;
 
 
 -- -----------------------------------------------------
@@ -268,7 +287,9 @@ CREATE TABLE IF NOT EXISTS `clinica_odontologica`.`especialidade` (
   `nome` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`nome`),
   UNIQUE INDEX `nome_especialidade_UNIQUE` (`nome` ASC))
-ENGINE = InnoDB;
+ENGINE = InnoDB
+DEFAULT CHARACTER SET utf8mb4
+COLLATE utf8mb4_unicode_ci;
 
 
 -- -----------------------------------------------------
@@ -293,7 +314,8 @@ CREATE TABLE IF NOT EXISTS `clinica_odontologica`.`dentista_has_especialidade` (
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8;
+DEFAULT CHARACTER SET utf8mb4
+COLLATE utf8mb4_unicode_ci;
 
 
 SET SQL_MODE=@OLD_SQL_MODE;
