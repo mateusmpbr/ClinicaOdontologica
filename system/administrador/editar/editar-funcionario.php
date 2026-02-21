@@ -4,7 +4,7 @@
 $flag = 0;
 
 if(isset($_POST['botao'])){ 
-  include_once "../../../php/classFuncionario.php";
+  include_once __DIR__ . '/../../../app/Models/classFuncionario.php';
 
   $id = $_POST['id'];
   $nome = $_POST['nome'];
@@ -24,28 +24,28 @@ if(isset($_POST['botao'])){
 
     if($cargo == "Recepcionista"){
 
-      include_once "../../../php/classRecepcionista.php";
+      include_once __DIR__ . '/../../../app/Models/classRecepcionista.php';
       $recepcionista = new Recepcionista();
       $recepcionista->setFuncionarioId($id);
       $resultado = $recepcionista->viewRecepcionista();
 
     }elseif($cargo == "Administrador"){
 
-      include_once "../../../php/classAdministrador.php";
+      include_once __DIR__ . '/../../../app/Models/classAdministrador.php';
       $administrador = new Administrador();
       $administrador->setFuncionarioId($id);
       $resultado = $administrador->viewAdministrador();
 
     }elseif($cargo == "Dentista"){
 
-      include_once "../../../php/classDentista.php";
+      include_once __DIR__ . '/../../../app/Models/classDentista.php';
       $dentista = new Dentista();
       $dentista->setFuncionarioId($id);
       $resultado = $dentista->viewDentista();
     }
   }
 }elseif(isset($_POST['botao-detalhe'])){
-  include_once "../../../php/classFuncionario.php";
+  include_once __DIR__ . '/../../../app/Models/classFuncionario.php';
 
   $id = $_POST['id'];
   $nome = $_POST['nome'];
@@ -68,7 +68,7 @@ if(isset($_POST['botao'])){
 
   if($cargo == "Auxiliar"){
     
-    include_once "../../../php/classAuxiliar.php";
+    include_once __DIR__ . '/../../../app/Models/classAuxiliar.php';
     $auxiliar = new Auxiliar();
     $auxiliar->setFuncionarioId($id);
     $estado = $auxiliar->edit();
@@ -77,7 +77,7 @@ if(isset($_POST['botao'])){
 
     $nome_usuario = $_POST["nome_usuario"];
     $senha = $_POST["senha"];
-    include_once "../../../php/classRecepcionista.php";
+    include_once __DIR__ . '/../../../app/Models/classRecepcionista.php';
     $recepcionista = new Recepcionista();
     $recepcionista->setFuncionarioId($id);
     $recepcionista->setNomeUsuario($nome_usuario);
@@ -88,7 +88,7 @@ if(isset($_POST['botao'])){
 
     $nome_usuario = $_POST["nome_usuario"];
     $senha = $_POST["senha"];
-    include_once "../../../php/classAdministrador.php";
+    include_once __DIR__ . '/../../../app/Models/classAdministrador.php';
     $administrador = new Administrador();
     $administrador->setFuncionarioId($id);
     $administrador->setSenha($senha);
@@ -97,7 +97,7 @@ if(isset($_POST['botao'])){
 
   }elseif($cargo == "Dentista"){
     $cro = $_POST["cro"];
-    include_once "../../../php/classDentista.php";
+    include_once __DIR__ . '/../../../app/Models/classDentista.php';
     $dentista = new Dentista();
     $dentista->setFuncionarioId($id);
     $dentista->setCro($cro);
@@ -106,7 +106,7 @@ if(isset($_POST['botao'])){
   header("Location: ../index.php");
 
  }else{ 
-    include_once "../../../php/classFuncionario.php";
+    include_once __DIR__ . '/../../../app/Models/classFuncionario.php';
 
     $id = $_GET['id'];
     $funcionario = new Funcionario();

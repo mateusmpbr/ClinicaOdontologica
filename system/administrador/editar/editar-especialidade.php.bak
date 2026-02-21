@@ -5,7 +5,7 @@
 $flag = 0;
 
 if(isset($_POST['botao'])){ 
-  include_once __DIR__ . '/../../../app/Models/classEspecialidade.php';
+  include_once "../../../php/classEspecialidade.php";
   
   $nome = $_POST['nome'];
   $nome_atual = $_POST['nome_atual'];

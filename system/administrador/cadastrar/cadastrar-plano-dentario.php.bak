@@ -1,48 +1,57 @@
 <?php include_once"header.php" ?>
-
-<?php
+<?php 
 
 $flag = 0;
 
 if(isset($_POST['botao'])){ 
-  include_once __DIR__ . '/../../../app/Models/classEspecialidade.php';
+  include_once "../../../php/classPlanoDentario.php";
   
   $nome = $_POST['nome'];
-  $nome_atual = $_POST['nome_atual'];
+  $desconto = $_POST['desconto'];
 
-  $e = new Especialidade();
-  $e->setNome($nome_atual);
-
-  if(!$e->nomeValido($nome)){
+  $p = new PlanoDentario();
+  
+  if($p->existeNome($nome)){
     $flag = 1;
-  }else{
-    $e->edit($nome);
-
-    header("Location: ../especialidades.php");
   }
+
+  if($flag == 0){
+    $p->setNome($nome);
+    $p->setDesconto($desconto);
+    $p->insert();
+    header("Location: ../planos-dentarios.php");
+  }
+
 }else{
-  $nome = $_GET['nome'];
-} ?>
+
+$nome = "";
+$desconto = "";
+
+} 
+?>
 <body class="bg-dark">
 
   <div class="container">
     <div class="card card-register mx-auto mt-5">
       <div class="card-header">
-        Atualização de Especialidade
+        Cadastro de Plano Dentário
       </div>
       <div class="card-body">
         <?php if($flag == 1){ ?>
           <div class="alert alert-danger form-group" role="alert">
-            <b>Especialidade já cadastrada</b>
+            <b>Esse plano dentário já está cadastrado</b>
           </div>
         <?php } ?>
-        <form action="editar-especialidade.php" method="post">
+        <form action="cadastrar-plano-dentario.php" method="post">
           <div class="form-group">
               <label>Nome</label>
               <input type="text" class="form-control" required="required" autofocus="autofocus" name="nome" value="<?=$nome?>">
-              <input type="hidden" name="nome_atual" value="<?=$nome?>">
           </div>
-          <button class="btn btn-primary btn-block" type="submit" name="botao">Atualizar</button>
+          <div class="form-group">
+              <label>Desconto em %</label>
+              <input type="number" class="form-control" required="required" name="desconto" value="<?=$desconto?>">
+          </div>
+          <button class="btn btn-primary btn-block" type="submit" name="botao">Cadastrar</button>
         </form>
       </div>
     </div>
@@ -54,7 +63,6 @@ if(isset($_POST['botao'])){
 
   <!-- Core plugin JavaScript-->
   <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
-
 </body>
 </html>
 

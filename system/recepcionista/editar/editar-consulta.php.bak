@@ -3,9 +3,9 @@
 
 $flag = 0;
 
-include_once __DIR__ . '/../../../app/Models/classDentistaConsultaPaciente.php';
-include_once __DIR__ . '/../../../app/Models/classPaciente.php';
-include_once __DIR__ . '/../../../app/Models/classDentista.php';
+include_once "../../../php/classDentistaConsultaPaciente.php";
+include_once "../../../php/classPaciente.php";
+include_once "../../../php/classDentista.php";
 
 $p = new Paciente();
 $d = new Dentista();

@@ -1,5 +1,5 @@
 <?php include_once'header.php';
-include_once __DIR__ . '/../../../app/Models/classDentista.php';
+include_once '../../../php/classPaciente.php';
 ?>
   <body class="bg-dark">
     <div id="wrapper">
@@ -11,11 +11,7 @@ include_once __DIR__ . '/../../../app/Models/classDentista.php';
 
             <div class="card-header">
               <i class="fas fa-table"></i>
-              Dentistas
-            <div class="float-right">
-              <a href="especialidade-consulta.php" target="_blank" class="btn">Buscar especialidades</a>
-            </div>
-            </div>
+              Pacientes</div>
 
             <div class="card-body">
               <div class="table-responsive">
@@ -23,26 +19,38 @@ include_once __DIR__ . '/../../../app/Models/classDentista.php';
                   <thead>
                     <tr align="center">
                       <th>Nome</th>
-                      <th>CRO</th>
+                      <th>Sobrenome</th>
+                      <th>Data de nascimento</th>
+                      <th>CPF</th>
+                      <th>Plano Dentário</th>
                     </tr>
                   </thead>
                   <tfoot>
                     <tr align="center">
                       <th>Nome</th>
-                      <th>CRO</th>
+                      <th>Sobrenome</th>
+                      <th>Data de nascimento</th>
+                      <th>CPF</th>
+                      <th>Plano Dentário</th>
                     </tr>
                   </tfoot>
                   <tbody>
                       <?php 
 
-                      $d = new Dentista();
-
-                      $stmt = $d->viewAll();
+                      $p = new Paciente();
+                      $stmt = $p->viewAll();
 
                       while($row = $stmt->fetch(PDO::FETCH_OBJ)){ ?>
                       <tr align="center">
                         <td> <?= $row->nome; ?> </td>
-                        <td> <?= $row->cro; ?></td>
+                        <td> <?= $row->sobrenome; ?> </td>
+                        <td> <?= $row->nascimento; ?> </td>
+                        <td> <?= empty($row->cpf)? "" : $row->cpf; ?> </td>
+                        <?php
+                          $p->setId($row->id);
+                          $plano_dentario = $p->nomePlanoDentario();
+                        ?>
+                        <td> <?= $plano_dentario; ?> </td>
                       </tr>
                       <?php } ?>
                   </tbody>
@@ -74,7 +82,6 @@ include_once __DIR__ . '/../../../app/Models/classDentista.php';
     <!-- Demo scripts for this page-->
     <script src="/js/demo/datatables-demo.js"></script>
     <script src="/js/demo/chart-area-demo.js"></script>
-
   </body>
 
 </html>

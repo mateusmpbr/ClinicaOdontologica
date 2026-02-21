@@ -9,9 +9,9 @@ if(!isset($_POST['nome_auxiliar']))$nome_auxiliar = "";
 if(!isset($_POST['cpf_auxiliar']))$cpf_auxiliar = "";
 
 if(isset($_POST['botao'])){ 
-    include_once "../../../php/classDentista.php";
-    include_once "../../../php/classAuxiliar.php";
-    include_once "../../../php/classAuxiliarAuxiliaDentista.php";
+    include_once __DIR__ . '/../../../app/Models/classDentista.php';
+    include_once __DIR__ . '/../../../app/Models/classAuxiliar.php';
+    include_once __DIR__ . '/../../../app/Models/classAuxiliarAuxiliaDentista.php';
 
     $d = new Dentista();
     $a = new Auxiliar();

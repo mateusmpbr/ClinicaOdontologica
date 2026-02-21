@@ -1,34 +1,34 @@
 <?php include_once"header.php" ?>
-
-<?php
+<?php 
 
 $flag = 0;
 
 if(isset($_POST['botao'])){ 
-  include_once __DIR__ . '/../../../app/Models/classEspecialidade.php';
+  include_once "../../../php/classEspecialidade.php";
   
   $nome = $_POST['nome'];
-  $nome_atual = $_POST['nome_atual'];
-
   $e = new Especialidade();
-  $e->setNome($nome_atual);
+  $e->setNome($nome);
 
-  if(!$e->nomeValido($nome)){
+  if($e->viewEspecialidade()){
     $flag = 1;
   }else{
-    $e->edit($nome);
+    $e->setNome($nome);
+    $e->insert();
 
     header("Location: ../especialidades.php");
   }
-}else{
-  $nome = $_GET['nome'];
-} ?>
+
+}else{ 
+  $nome = "";
+}
+?>
 <body class="bg-dark">
 
   <div class="container">
     <div class="card card-register mx-auto mt-5">
       <div class="card-header">
-        Atualização de Especialidade
+        Cadastro de Especialidade
       </div>
       <div class="card-body">
         <?php if($flag == 1){ ?>
@@ -36,13 +36,12 @@ if(isset($_POST['botao'])){
             <b>Especialidade já cadastrada</b>
           </div>
         <?php } ?>
-        <form action="editar-especialidade.php" method="post">
+        <form action="cadastrar-especialidade.php" method="post">
           <div class="form-group">
               <label>Nome</label>
               <input type="text" class="form-control" required="required" autofocus="autofocus" name="nome" value="<?=$nome?>">
-              <input type="hidden" name="nome_atual" value="<?=$nome?>">
           </div>
-          <button class="btn btn-primary btn-block" type="submit" name="botao">Atualizar</button>
+          <button class="btn btn-primary btn-block" type="submit" name="botao">Cadastrar</button>
         </form>
       </div>
     </div>
@@ -54,7 +53,6 @@ if(isset($_POST['botao'])){
 
   <!-- Core plugin JavaScript-->
   <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
-
 </body>
 </html>
 

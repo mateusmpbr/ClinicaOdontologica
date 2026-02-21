@@ -4,7 +4,7 @@
 $flag = 0;
 
 if(isset($_POST['botao'])){ 
-  include_once "../../../php/classPlanoDentario.php";
+  include_once __DIR__ . '/../../../app/Models/classPlanoDentario.php';
   
   $nome = $_POST['nome'];
   $desconto = $_POST['desconto'];

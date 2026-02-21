@@ -4,7 +4,7 @@
 $flag = 0;
 
 if(isset($_POST['botao'])){ 
-  include_once __DIR__ . '/../../../app/Models/classFuncionario.php';
+  include_once "../../../php/classFuncionario.php";
 
   $nome = $_POST['nome'];
   $sobrenome = $_POST['sobrenome'];
@@ -23,7 +23,7 @@ if(isset($_POST['botao'])){
   }
 } 
 elseif(isset($_POST['botao-detalhe'])){
-  include_once __DIR__ . '/../../../app/Models/classFuncionario.php';
+  include_once "../../../php/classFuncionario.php";
 
   $nome = $_POST['nome'];
   $sobrenome = $_POST['sobrenome'];
@@ -44,7 +44,7 @@ elseif(isset($_POST['botao-detalhe'])){
 
   if($cargo == "Auxiliar"){
     
-    include_once __DIR__ . '/../../../app/Models/classAuxiliar.php';
+    include_once "../../../php/classAuxiliar.php";
     $auxiliar = new Auxiliar();
     $auxiliar->setFuncionarioId($lastid);
     $estado = $auxiliar->insert();
@@ -53,7 +53,7 @@ elseif(isset($_POST['botao-detalhe'])){
 
     $nome_usuario = $_POST["nome_usuario"];
     $senha = $_POST["senha"];
-    include_once __DIR__ . '/../../../app/Models/classRecepcionista.php';
+    include_once "../../../php/classRecepcionista.php";
     $recepcionista = new Recepcionista();
     $recepcionista->setFuncionarioId($lastid);
     $recepcionista->setNomeUsuario($nome_usuario);
@@ -64,7 +64,7 @@ elseif(isset($_POST['botao-detalhe'])){
 
     $nome_usuario = $_POST["nome_usuario"];
     $senha = $_POST["senha"];
-    include_once __DIR__ . '/../../../app/Models/classAdministrador.php';
+    include_once "../../../php/classAdministrador.php";
     $administrador = new Administrador();
     $administrador->setFuncionarioId($lastid);
     $administrador->setSenha($senha);
@@ -73,7 +73,7 @@ elseif(isset($_POST['botao-detalhe'])){
 
   }elseif($cargo == "Dentista"){
     $cro = $_POST["cro"];
-    include_once __DIR__ . '/../../../app/Models/classDentista.php';
+    include_once "../../../php/classDentista.php";
     $dentista = new Dentista();
     $dentista->setFuncionarioId($lastid);
     $dentista->setCro($cro);
