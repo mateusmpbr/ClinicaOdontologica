@@ -1,0 +1,37 @@
+version: "3.8"
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:80"
+    volumes:
+      - ./:/var/www/html:cached
+    environment:
+      - DB_HOST=db
+      - DB_DATABASE=clinica_odontologica
+      - DB_USER=clinica
+      - DB_PASSWORD=secret
+    depends_on:
+      - db
+    restart: unless-stopped
+
+  db:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: clinica_odontologica
+      MYSQL_USER: clinica
+      MYSQL_PASSWORD: secret
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./database/sql:/docker-entrypoint-initdb.d:ro
+    restart: unless-stopped
+
+volumes:
+  db_data:
+    driver: local

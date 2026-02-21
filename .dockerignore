@@ -1,0 +1,12 @@
+.git
+vendor
+node_modules
+.env
+Dockerfile
+docker-compose.yml
+*.log
+.idea
+.vscode
+tmp
+/.sass-cache
+/.cache
