@@ -21,7 +21,7 @@ if (has_input('botao-remover')) {
           <div class="card mb-3">
 
             <div>
-              <button class="btn btn-primary btn-block" onclick="window.location.href='cadastrar/cadastrar-auxilio.php'" name="cadastrar-recebimento">Cadastrar Auxílio</button>
+              <button class="btn btn-primary btn-block" onclick="window.location.href='cadastrar-auxilio.php'" name="cadastrar-recebimento">Cadastrar Auxílio</button>
             </div>
 
             <div class="card-header">
@@ -62,7 +62,7 @@ while ($row = $stmt->fetch(PDO::FETCH_OBJ)) { ?>
       $auxiliar_nome = $aad->nomeAuxiliar($row->dentista_id, $row->auxiliar_id);
     ?>
                         <td> <?= $auxiliar_nome; ?> </td>
-                        <td><a href="editar/editar-auxilio.php?dentista_id=<?=$row->dentista_id?>&auxiliar_id=<?=$row->auxiliar_id?>" class="btn btn-primary">Alterar</a></td>
+                        <td><a href="editar-auxilio.php?dentista_id=<?=$row->dentista_id?>&auxiliar_id=<?=$row->auxiliar_id?>" class="btn btn-primary">Alterar</a></td>
                         <td><a href="#" class="btn btn-danger" data-toggle="modal" data-target="#removeModal<?=$row->dentista_id?>-<?=$row->auxiliar_id?>">Remover</a></td>
                       </tr>
                       <?php } ?>

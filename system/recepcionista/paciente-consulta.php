@@ -11,8 +11,7 @@
 
             <div class="card-header">
               <i class="fas fa-table"></i>
-              Auxiliares
-            </div>
+              Pacientes</div>
 
             <div class="card-body">
               <div class="table-responsive">
@@ -20,26 +19,38 @@
                   <thead>
                     <tr align="center">
                       <th>Nome</th>
+                      <th>Sobrenome</th>
+                      <th>Data de nascimento</th>
                       <th>CPF</th>
+                      <th>Plano Dentário</th>
                     </tr>
                   </thead>
                   <tfoot>
                     <tr align="center">
                       <th>Nome</th>
+                      <th>Sobrenome</th>
+                      <th>Data de nascimento</th>
                       <th>CPF</th>
+                      <th>Plano Dentário</th>
                     </tr>
                   </tfoot>
                   <tbody>
                       <?php
 
-                      $a = new \ClinicaOdontologica\Models\Auxiliar();
-
-$stmt = $a->viewAll();
+                      $p = new \ClinicaOdontologica\Models\Paciente();
+$stmt = $p->viewAll();
 
 while ($row = $stmt->fetch(PDO::FETCH_OBJ)) { ?>
                       <tr align="center">
                         <td> <?= $row->nome; ?> </td>
-                        <td> <?= $row->cpf; ?></td>
+                        <td> <?= $row->sobrenome; ?> </td>
+                        <td> <?= $row->nascimento; ?> </td>
+                        <td> <?= empty($row->cpf) ? "" : $row->cpf; ?> </td>
+                        <?php
+    $p->setId($row->id);
+    $plano_dentario = $p->nomePlanoDentario();
+    ?>
+                        <td> <?= $plano_dentario; ?> </td>
                       </tr>
                       <?php } ?>
                   </tbody>
@@ -71,7 +82,6 @@ while ($row = $stmt->fetch(PDO::FETCH_OBJ)) { ?>
     <!-- Demo scripts for this page-->
     <script src="/js/datatables.js"></script>
     
-
   </body>
 
 </html>

@@ -1,6 +1,39 @@
 <?php include_once"header.php" ?>
 <?php
 
+if (!empty($_POST)) {
+    $e = new \ClinicaOdontologica\Models\Especialidade();
+    $e->setNome($_POST['nome']);
+    $e->insert();
+    header('Location: especialidades.php');
+}
+
+?>
+
+<body class="bg-dark">
+  <div class="container">
+    <div class="card card-register mx-auto mt-5">
+      <div class="card-header">Cadastro de Especialidade</div>
+      <div class="card-body">
+        <form action="cadastrar-especialidade.php" method="post">
+          <div class="form-group">
+            <label>Nome</label>
+            <input class="form-control" name="nome" required>
+          </div>
+          <button class="btn btn-primary btn-block" type="submit">Cadastrar</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="/vendor/jquery/jquery.min.js"></script>
+  <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
+</body>
+</html>
+<?php include_once"header.php" ?>
+<?php
+
 $flag = 0;
 
 if (has_input('botao')) {
@@ -14,7 +47,7 @@ if (has_input('botao')) {
         $e->setNome($nome);
         $e->insert();
 
-        header("Location: ../especialidades.php");
+        header("Location: especialidades.php");
     }
 
 } else {
@@ -53,5 +86,3 @@ if (has_input('botao')) {
   <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
 </body>
 </html>
-
-

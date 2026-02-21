@@ -11,7 +11,8 @@
 
             <div class="card-header">
               <i class="fas fa-table"></i>
-              Pacientes</div>
+              Auxiliares
+            </div>
 
             <div class="card-body">
               <div class="table-responsive">
@@ -31,13 +32,14 @@
                   <tbody>
                       <?php
 
-                      $p = new \ClinicaOdontologica\Models\Paciente();
-$stmt = $p->viewAll();
+                      $a = new \ClinicaOdontologica\Models\Auxiliar();
+
+$stmt = $a->viewAll();
 
 while ($row = $stmt->fetch(PDO::FETCH_OBJ)) { ?>
                       <tr align="center">
                         <td> <?= $row->nome; ?> </td>
-                        <td> <?= empty($row->cpf) ? "" : $row->cpf; ?> </td>
+                        <td> <?= $row->cpf; ?></td>
                       </tr>
                       <?php } ?>
                   </tbody>
@@ -69,6 +71,7 @@ while ($row = $stmt->fetch(PDO::FETCH_OBJ)) { ?>
     <!-- Demo scripts for this page-->
     <script src="/js/datatables.js"></script>
     
+
   </body>
 
 </html>

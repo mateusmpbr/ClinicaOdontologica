@@ -4,7 +4,6 @@
 $flag = 0;
 
 
-
 $d = new \ClinicaOdontologica\Models\Dentista();
 $a = new \ClinicaOdontologica\Models\Auxiliar();
 $f = new \ClinicaOdontologica\Models\Funcionario();
@@ -34,7 +33,7 @@ if (has_input('botao')) {
         $aad->setDentistaId($dentista_id_atual);
         $aad->setAuxiliarId($auxiliar_id_atual);
         $aad->edit($dentista_id_novo, $auxiliar_id_novo);
-        header("Location: ../auxilios.php");
+        header("Location: auxilios.php");
     }
 
     $dentista_id = $dentista_id_novo;
@@ -68,8 +67,8 @@ if (has_input('botao')) {
         <div class="card-header">
           Atualização de Auxílio
              <div class="float-right">
-                <a href="../complementos/auxiliar.php" target="_blank" class="btn">Buscar auxiliares</a>
-                <a href="../complementos/d-e.php" target="_blank" class="btn">Buscar dentistas</a>
+                <a href="auxiliar.php" target="_blank" class="btn">Buscar auxiliares</a>
+                <a href="d-e.php" target="_blank" class="btn">Buscar dentistas</a>
             </div>
         </div>
         <div class="card-body">
@@ -120,5 +119,3 @@ if (has_input('botao')) {
 
   </body>
 </html>
-
-

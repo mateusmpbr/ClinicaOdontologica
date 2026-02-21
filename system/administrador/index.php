@@ -19,7 +19,7 @@ if (has_input('botao-remover')) {
           <div class="card mb-3">
 
             <div>
-              <button class="btn btn-primary btn-block" onclick="window.location.href='cadastrar/cadastrar-funcionario.php'" name="cadastrar-funcionario">Cadastrar Funcionário</button>
+              <button class="btn btn-primary btn-block" onclick="window.location.href='cadastrar-funcionario.php'" name="cadastrar-funcionario">Cadastrar Funcionário</button>
             </div>
 
             <div class="card-header">
@@ -87,7 +87,7 @@ if (has_input('btn')) {
                             <td> <?= $row->salario; ?> </td>
                             <td> <?= $row->cargo; ?> </td>
                             <td> <?= $row->nome_usuario; ?></td>
-                            <td><a href="editar/editar-funcionario.php?id=<?=$row->funcionario_id?>" class="btn btn-primary">Alterar</a></td>
+                            <td><a href="editar-funcionario.php?id=<?=$row->funcionario_id?>" class="btn btn-primary">Alterar</a></td>
                             <?php $id = $row->funcionario_id; ?>
                             <td><a href="#" class="btn btn-danger" data-toggle="modal" data-target="#removeModal<?=$row->id?>">Remover</a></td>
                           </tr>
@@ -139,7 +139,7 @@ if (has_input('btn')) {
                             <td> <?= $row->salario; ?> </td>
                             <td> <?= $row->cargo; ?> </td>
                             <td> <?= $row->nome_usuario; ?></td>
-                            <td><a href="editar/editar-funcionario.php?id=<?=$row->funcionario_id?>" class="btn btn-primary">Alterar</a></td>
+                            <td><a href="editar-funcionario.php?id=<?=$row->funcionario_id?>" class="btn btn-primary">Alterar</a></td>
                             <?php $id = $row->funcionario_id; ?>
                             <td><a href="#" class="btn btn-danger" data-toggle="modal" data-target="#removeModal<?=$row->id?>">Remover</a></td>
                           </tr>
@@ -191,7 +191,7 @@ if (has_input('btn')) {
                             <td> <?= $row->salario; ?> </td>
                             <td> <?= $row->cargo; ?> </td>
                             <td> <?= $row->cro; ?></td>
-                            <td><a href="editar/editar-funcionario.php?id=<?=$row->funcionario_id?>" class="btn btn-primary">Alterar</a></td>
+                            <td><a href="editar-funcionario.php?id=<?=$row->funcionario_id?>" class="btn btn-primary">Alterar</a></td>
                             <?php $id = $row->funcionario_id; ?>
                             <td><a href="#" class="btn btn-danger" data-toggle="modal" data-target="#removeModal<?=$row->id?>">Remover</a></td>
                           </tr>
@@ -240,7 +240,7 @@ if (has_input('btn')) {
                             <td> <?= empty($row->cpf) ? "" : $row->cpf; ?> </td>
                             <td> <?= $row->salario; ?> </td>
                             <td> <?= $row->cargo; ?> </td>
-                            <td><a href="editar/editar-funcionario.php?id=<?=$row->funcionario_id?>" class="btn btn-primary">Alterar</a></td>
+                            <td><a href="editar-funcionario.php?id=<?=$row->funcionario_id?>" class="btn btn-primary">Alterar</a></td>
                             <?php $id = $row->funcionario_id; ?>
                             <td><a href="#" class="btn btn-danger" data-toggle="modal" data-target="#removeModal<?=$row->id?>">Remover</a></td>
                           </tr>
@@ -290,7 +290,7 @@ if (has_input('btn')) {
                         <td> <?= empty($row->cpf) ? "" : $row->cpf; ?> </td>
                         <td> <?= $row->salario; ?> </td>
                         <td> <?= $row->cargo; ?> </td>
-                        <td><a href="editar/editar-funcionario.php?id=<?=$row->id?>" class="btn btn-primary">Alterar</a></td>
+                        <td><a href="editar-funcionario.php?id=<?=$row->id?>" class="btn btn-primary">Alterar</a></td>
                         <?php $id = $row->id; ?>
                         <td><a href="#" class="btn btn-danger" data-toggle="modal" data-target="#removeModal<?=$row->id?>">Remover</a></td>
                       </tr>

@@ -20,7 +20,7 @@ if (has_input('botao-remover')) {
           <div class="card mb-3">
 
             <div>
-              <button class="btn btn-primary btn-block" onclick="window.location.href='cadastrar/cadastrar-plano-dentario.php'" name="plano-dentario">Cadastrar Plano Dentário</button>
+              <button class="btn btn-primary btn-block" onclick="window.location.href='cadastrar-plano-dentario.php'" name="plano-dentario">Cadastrar Plano Dentário</button>
             </div>
 
             <div class="card-header">
@@ -55,7 +55,7 @@ while ($row = $stmt->fetch(PDO::FETCH_OBJ)) { ?>
                       <tr align="center">
                         <td> <?= $row->nome; ?> </td>
                         <td> <?= $row->desconto."%"; ?> </td>
-                        <td><a href="editar/editar-plano-dentario.php?id=<?=$row->id?>" class="btn btn-primary">Alterar</a></td>
+                        <td><a href="editar-plano-dentario.php?id=<?=$row->id?>" class="btn btn-primary">Alterar</a></td>
                         <td><a href="#" class="btn btn-danger" data-toggle="modal" data-target="#removeModal<?=$row->id?>">Remover</a></td>
                       </tr>
                       <?php } ?>

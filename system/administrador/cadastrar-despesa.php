@@ -1,3 +1,41 @@
+<?php include_once"header.php" ?>
+<?php
+
+if (!empty($_POST)) {
+    $d = new \ClinicaOdontologica\Models\Despesa();
+    $d->setDescricao($_POST['descricao']);
+    $d->setValor($_POST['valor']);
+    $d->insert();
+    header('Location: despesas.php');
+}
+
+?>
+
+<body class="bg-dark">
+  <div class="container">
+    <div class="card card-register mx-auto mt-5">
+      <div class="card-header">Cadastro de Despesa</div>
+      <div class="card-body">
+        <form action="cadastrar-despesa.php" method="post">
+          <div class="form-group">
+            <label>Descrição</label>
+            <input class="form-control" name="descricao" required>
+          </div>
+          <div class="form-group">
+            <label>Valor</label>
+            <input class="form-control" name="valor" required>
+          </div>
+          <button class="btn btn-primary btn-block" type="submit">Cadastrar</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="/vendor/jquery/jquery.min.js"></script>
+  <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
+</body>
+</html>
 <?php include_once "header.php" ?>
 <?php
 
@@ -27,7 +65,7 @@ if (has_input('botao')) {
         $d->setAdministradorId($administrador_id);
         $d->insert();
 
-        header("Location: ../despesas.php");
+        header("Location: despesas.php");
     }
 }
 ?>
@@ -85,5 +123,4 @@ if (has_input('botao')) {
     <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
   </body>
 </html>
-
 

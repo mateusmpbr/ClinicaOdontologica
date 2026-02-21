@@ -105,7 +105,7 @@ if (has_input('botao')) {
         $dentista->setCro($cro);
         $estado = $dentista->edit();
     }
-    header("Location: ../index.php");
+    header("Location: index.php");
 
 } else {
 
@@ -176,8 +176,8 @@ if (has_input('botao')) {
                 <label>Salário</label>
                 <input type="number" step="0.01" class="form-control" required="required" name="salario" value="<?=$salario?>"> 
             </div>
-            <input type="hidden" name="id" value=<?=$id?>>
-            <input type="hidden" name="cargo" value=<?=$cargo?>>
+            <input type="hidden" name="id" value=<?=$id?>
+            <input type="hidden" name="cargo" value=<?=$cargo?>
             <button class="btn btn-primary btn-block" type="submit" name="botao">Avançar</button>
           </form>
        <?php } elseif ($flag == 2) { ?>
@@ -220,5 +220,3 @@ if (has_input('botao')) {
 
   </body>
 </html>
-
-

@@ -1,6 +1,52 @@
 <?php include_once"header.php" ?>
 <?php
 
+if (!empty($_POST)) {
+    $d = new \ClinicaOdontologica\Models\DentistaHasEspecialidade();
+    $d->setDentistaId($_POST['dentista_id']);
+    $d->setEspecialidadeId($_POST['especialidade_id']);
+    $d->insert();
+    header('Location: especialidades-dentistas.php');
+}
+
+?>
+
+<body class="bg-dark">
+  <div class="container">
+    <div class="card card-register mx-auto mt-5">
+      <div class="card-header">Cadastro de Especialidade do Dentista</div>
+      <div class="card-body">
+        <form action="cadastrar-especialidade-dentista.php" method="post">
+          <div class="form-group">
+            <label>Dentista</label>
+            <select name="dentista_id" class="form-control">
+              <?php foreach ((new \ClinicaOdontologica\Models\Dentista())->all() as $dentista) { ?>
+                <option value="<?=$dentista['id']?>"><?=$dentista['nome']?></option>
+              <?php } ?>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Especialidade</label>
+            <select name="especialidade_id" class="form-control">
+              <?php foreach ((new \ClinicaOdontologica\Models\Especialidade())->all() as $esp) { ?>
+                <option value="<?=$esp['id']?>"><?=$esp['nome']?></option>
+              <?php } ?>
+            </select>
+          </div>
+          <button class="btn btn-primary btn-block" type="submit">Cadastrar</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="/vendor/jquery/jquery.min.js"></script>
+  <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
+</body>
+</html>
+<?php include_once"header.php" ?>
+<?php
+
 $flag = 0;
 
 if (!has_input('nome_dentista')) {
@@ -35,7 +81,7 @@ if (has_input('botao')) {
 
     if ($flag == 0) {
         $dhe->insert();
-        header("Location: ../especialidades-dentistas.php");
+        header("Location: especialidades-dentistas.php");
     }
 
 }?>
@@ -46,7 +92,7 @@ if (has_input('botao')) {
         <div class="card-header">
           Cadastro de Especialidade para Dentista
              <div class="float-right">
-                <a href="../complementos/d-e.php" target="_blank" class="btn">Buscar dentistas</a>
+                <a href="d-e.php" target="_blank" class="btn">Buscar dentistas</a>
             </div>
         </div>
         <div class="card-body">
@@ -95,5 +141,3 @@ while ($row = $stmt->fetch(PDO::FETCH_OBJ)) { ?>
     <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
   </body>
 </html>
-
-

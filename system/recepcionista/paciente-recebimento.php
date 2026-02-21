@@ -11,11 +11,7 @@
 
             <div class="card-header">
               <i class="fas fa-table"></i>
-              Dentistas
-            <div class="float-right">
-              <a href="especialidade-consulta.php" target="_blank" class="btn">Buscar especialidades</a>
-            </div>
-            </div>
+              Pacientes</div>
 
             <div class="card-body">
               <div class="table-responsive">
@@ -23,26 +19,25 @@
                   <thead>
                     <tr align="center">
                       <th>Nome</th>
-                      <th>CRO</th>
+                      <th>CPF</th>
                     </tr>
                   </thead>
                   <tfoot>
                     <tr align="center">
                       <th>Nome</th>
-                      <th>CRO</th>
+                      <th>CPF</th>
                     </tr>
                   </tfoot>
                   <tbody>
                       <?php
 
-                      $d = new \ClinicaOdontologica\Models\Dentista();
-
-$stmt = $d->viewAll();
+                      $p = new \ClinicaOdontologica\Models\Paciente();
+$stmt = $p->viewAll();
 
 while ($row = $stmt->fetch(PDO::FETCH_OBJ)) { ?>
                       <tr align="center">
                         <td> <?= $row->nome; ?> </td>
-                        <td> <?= $row->cro; ?></td>
+                        <td> <?= empty($row->cpf) ? "" : $row->cpf; ?> </td>
                       </tr>
                       <?php } ?>
                   </tbody>
@@ -74,7 +69,6 @@ while ($row = $stmt->fetch(PDO::FETCH_OBJ)) { ?>
     <!-- Demo scripts for this page-->
     <script src="/js/datatables.js"></script>
     
-
   </body>
 
 </html>

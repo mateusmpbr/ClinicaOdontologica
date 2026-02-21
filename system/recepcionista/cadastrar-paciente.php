@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/../../../app/bootstrap.php';
+require_once __DIR__ . '/../../app/bootstrap.php';
 verificaFuncionarioLogadoCadastro();
 verificarRecepcionistaLogadoCadastro();
 
@@ -29,7 +29,7 @@ if (has_input('botao')) {
 
     if ($flag == 0) {
         $paciente->insert();
-        header("Location: ../index.php");
+        header("Location: index.php");
         exit;
     }
 
@@ -161,5 +161,3 @@ include_once"header.php";
     <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
   </body>
 </html>
-
-

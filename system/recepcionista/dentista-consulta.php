@@ -11,7 +11,11 @@
 
             <div class="card-header">
               <i class="fas fa-table"></i>
-              Pacientes</div>
+              Dentistas
+            <div class="float-right">
+              <a href="especialidade-consulta.php" target="_blank" class="btn">Buscar especialidades</a>
+            </div>
+            </div>
 
             <div class="card-body">
               <div class="table-responsive">
@@ -19,38 +23,26 @@
                   <thead>
                     <tr align="center">
                       <th>Nome</th>
-                      <th>Sobrenome</th>
-                      <th>Data de nascimento</th>
-                      <th>CPF</th>
-                      <th>Plano Dentário</th>
+                      <th>CRO</th>
                     </tr>
                   </thead>
                   <tfoot>
                     <tr align="center">
                       <th>Nome</th>
-                      <th>Sobrenome</th>
-                      <th>Data de nascimento</th>
-                      <th>CPF</th>
-                      <th>Plano Dentário</th>
+                      <th>CRO</th>
                     </tr>
                   </tfoot>
                   <tbody>
                       <?php
 
-                      $p = new \ClinicaOdontologica\Models\Paciente();
-$stmt = $p->viewAll();
+                      $d = new \ClinicaOdontologica\Models\Dentista();
+
+$stmt = $d->viewAll();
 
 while ($row = $stmt->fetch(PDO::FETCH_OBJ)) { ?>
                       <tr align="center">
                         <td> <?= $row->nome; ?> </td>
-                        <td> <?= $row->sobrenome; ?> </td>
-                        <td> <?= $row->nascimento; ?> </td>
-                        <td> <?= empty($row->cpf) ? "" : $row->cpf; ?> </td>
-                        <?php
-    $p->setId($row->id);
-    $plano_dentario = $p->nomePlanoDentario();
-    ?>
-                        <td> <?= $plano_dentario; ?> </td>
+                        <td> <?= $row->cro; ?></td>
                       </tr>
                       <?php } ?>
                   </tbody>
@@ -82,6 +74,7 @@ while ($row = $stmt->fetch(PDO::FETCH_OBJ)) { ?>
     <!-- Demo scripts for this page-->
     <script src="/js/datatables.js"></script>
     
+
   </body>
 
 </html>

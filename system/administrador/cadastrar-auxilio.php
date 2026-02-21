@@ -1,6 +1,44 @@
 <?php include_once"header.php" ?>
 <?php
 
+if (!empty($_POST)) {
+    $a = new \ClinicaOdontologica\Models\AuxiliarAuxiliaDentista();
+    $a->setDescricao($_POST['descricao']);
+    $a->setValor($_POST['valor']);
+    $a->insert();
+    header('Location: auxilios.php');
+}
+
+?>
+
+<body class="bg-dark">
+  <div class="container">
+    <div class="card card-register mx-auto mt-5">
+      <div class="card-header">Cadastro de Auxílio</div>
+      <div class="card-body">
+        <form action="cadastrar-auxilio.php" method="post">
+          <div class="form-group">
+            <label>Descrição</label>
+            <input class="form-control" name="descricao" required>
+          </div>
+          <div class="form-group">
+            <label>Valor</label>
+            <input class="form-control" name="valor" required>
+          </div>
+          <button class="btn btn-primary btn-block" type="submit">Cadastrar</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="/vendor/jquery/jquery.min.js"></script>
+  <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
+</body>
+</html>
+<?php include_once"header.php" ?>
+<?php
+
 $flag = 0;
 
 if (!has_input('nome_dentista')) {
@@ -40,7 +78,7 @@ if (has_input('botao')) {
         $aad->setDentistaId($id_dentista);
         $aad->setAuxiliarId($id_auxiliar);
         $aad->insert();
-        header("Location: ../auxilios.php");
+        header("Location: auxilios.php");
     }
 }
 ?>
@@ -51,8 +89,8 @@ if (has_input('botao')) {
         <div class="card-header">
           Cadastro de Auxílio
              <div class="float-right">
-                <a href="../complementos/auxiliar.php" target="_blank" class="btn">Buscar auxiliares</a>
-                <a href="../complementos/d-e.php" target="_blank" class="btn">Buscar dentistas</a>
+                <a href="auxiliar.php" target="_blank" class="btn">Buscar auxiliares</a>
+                <a href="d-e.php" target="_blank" class="btn">Buscar dentistas</a>
             </div>
         </div>
         <div class="card-body">

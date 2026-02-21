@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/../../../app/bootstrap.php';
+require_once __DIR__ . '/../../app/bootstrap.php';
 verificaFuncionarioLogadoCadastro();
 verificarRecepcionistaLogadoCadastro();
 
@@ -35,7 +35,7 @@ if (has_input('botao')) {
 
     if ($flag == 0) {
         $p = $paciente->edit();
-        header("Location: ../index.php");
+        header("Location: index.php");
         exit;
     }
 
@@ -113,5 +113,3 @@ while ($row = $stmt->fetch(PDO::FETCH_OBJ)) {
 
   </body>
 </html>
-
-

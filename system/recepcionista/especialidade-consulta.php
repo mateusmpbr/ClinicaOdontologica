@@ -11,38 +11,38 @@
 
             <div class="card-header">
               <i class="fas fa-table"></i>
-              Dentistas
-            <div class="float-right">
-              <a href="especialidade-consulta.php" target="_blank" class="btn">Buscar especialidades</a>
-            </div>
-            </div>
+              Pacientes</div>
 
             <div class="card-body">
               <div class="table-responsive">
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                   <thead>
                     <tr align="center">
-                      <th>Nome</th>
-                      <th>CRO</th>
+                      <th>Dentista</th>
+                      <th>Especialidade</th>
                     </tr>
                   </thead>
                   <tfoot>
                     <tr align="center">
-                      <th>Nome</th>
-                      <th>CRO</th>
+                      <th>Dentista</th>
+                      <th>Especialidade</th>
                     </tr>
                   </tfoot>
                   <tbody>
                       <?php
 
-                      $d = new \ClinicaOdontologica\Models\Dentista();
+                      $dhe = new Dentista_has_Especialidade();
 
-$stmt = $d->viewAll();
+$stmt = $dhe->viewAll();
 
 while ($row = $stmt->fetch(PDO::FETCH_OBJ)) { ?>
                       <tr align="center">
-                        <td> <?= $row->nome; ?> </td>
-                        <td> <?= $row->cro; ?></td>
+                        <?php
+    $dhe->setDentistaId($row->dentista_id);
+    $dentista_nome = $dhe->nomeDentista();
+    ?>
+                        <td> <?= $dentista_nome; ?> </td>
+                        <td> <?= $row->especialidade_nome; ?> </td>
                       </tr>
                       <?php } ?>
                   </tbody>

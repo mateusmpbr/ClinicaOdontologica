@@ -4,7 +4,6 @@
 $flag = 0;
 
 
-
 $paciente = new \ClinicaOdontologica\Models\Paciente();
 $recepcionista = new \ClinicaOdontologica\Models\Recepcionista();
 $recebimento = new \ClinicaOdontologica\Models\Recebimento();
@@ -32,7 +31,7 @@ if (has_input('botao')) {
         $recebimento->setRecepcionistaId($id_recepcionista);
         $recebimento->setModoPagamento($modo_pagamento);
         $recebimento->edit();
-        header("Location: ../recebimentos.php");
+        header("Location: recebimentos.php");
 
     } elseif (($id_paciente = $paciente->existeNomeCpf())) {
         $recebimento->setPacienteId($id_paciente);
@@ -41,7 +40,7 @@ if (has_input('botao')) {
         $recebimento->setRecepcionistaId($id_recepcionista);
         $recebimento->setModoPagamento($modo_pagamento);
         var_dump($recebimento->edit());
-        header("Location: ../recebimentos.php");
+        header("Location: recebimentos.php");
     } else {
         $flag = 1;
     }
@@ -69,7 +68,7 @@ if (has_input('botao')) {
         <div class="card-header">
           Atualização de Recebimento
             <div class="float-right">
-                <a href="../complementos/paciente-consulta.php" target="_blank" class="btn">Buscar pacientes</a>
+                <a href="paciente-consulta.php" target="_blank" class="btn">Buscar pacientes</a>
             </div>
         </div>
         <div class="card-body">
@@ -118,5 +117,3 @@ if (has_input('botao')) {
     <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
   </body>
 </html>
-
-
