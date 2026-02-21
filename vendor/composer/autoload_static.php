@@ -26,22 +26,22 @@ class ComposerStaticInitdde2f0c99cfe34f15404bdfba7f8a00a
     );
 
     public static $classMap = array (
-        'Administrador' => __DIR__ . '/../..' . '/app/Models/classAdministrador.php',
-        'Auxiliar' => __DIR__ . '/../..' . '/app/Models/classAuxiliar.php',
-        'Auxiliar_auxilia_Dentista' => __DIR__ . '/../..' . '/app/Models/classAuxiliarAuxiliaDentista.php',
-        'Balanco' => __DIR__ . '/../..' . '/app/Models/classBalanco.php',
+        'App\\Models\\Administrador' => __DIR__ . '/../..' . '/app/Models/Administrador.php',
+        'App\\Models\\Auxiliar' => __DIR__ . '/../..' . '/app/Models/Auxiliar.php',
+        'App\\Models\\AuxiliarAuxiliaDentista' => __DIR__ . '/../..' . '/app/Models/AuxiliarAuxiliaDentista.php',
+        'App\\Models\\Balanco' => __DIR__ . '/../..' . '/app/Models/Balanco.php',
+        'App\\Models\\Dentista' => __DIR__ . '/../..' . '/app/Models/Dentista.php',
+        'App\\Models\\DentistaConsultaPaciente' => __DIR__ . '/../..' . '/app/Models/DentistaConsultaPaciente.php',
+        'App\\Models\\DentistaHasEspecialidade' => __DIR__ . '/../..' . '/app/Models/DentistaHasEspecialidade.php',
+        'App\\Models\\Despesa' => __DIR__ . '/../..' . '/app/Models/Despesa.php',
+        'App\\Models\\Especialidade' => __DIR__ . '/../..' . '/app/Models/Especialidade.php',
+        'App\\Models\\Funcionario' => __DIR__ . '/../..' . '/app/Models/Funcionario.php',
+        'App\\Models\\Paciente' => __DIR__ . '/../..' . '/app/Models/Paciente.php',
+        'App\\Models\\PlanoDentario' => __DIR__ . '/../..' . '/app/Models/PlanoDentario.php',
+        'App\\Models\\Recebimento' => __DIR__ . '/../..' . '/app/Models/Recebimento.php',
+        'App\\Models\\Recepcionista' => __DIR__ . '/../..' . '/app/Models/Recepcionista.php',
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
         'Database' => __DIR__ . '/../..' . '/config/database.php',
-        'Dentista' => __DIR__ . '/../..' . '/app/Models/classDentista.php',
-        'Dentista_consulta_Paciente' => __DIR__ . '/../..' . '/app/Models/classDentistaConsultaPaciente.php',
-        'Dentista_has_Especialidade' => __DIR__ . '/../..' . '/app/Models/classDentistaHasEspecialidade.php',
-        'Despesa' => __DIR__ . '/../..' . '/app/Models/classDespesa.php',
-        'Especialidade' => __DIR__ . '/../..' . '/app/Models/classEspecialidade.php',
-        'Funcionario' => __DIR__ . '/../..' . '/app/Models/classFuncionario.php',
-        'Paciente' => __DIR__ . '/../..' . '/app/Models/classPaciente.php',
-        'PlanoDentario' => __DIR__ . '/../..' . '/app/Models/classPlanoDentario.php',
-        'Recebimento' => __DIR__ . '/../..' . '/app/Models/classRecebimento.php',
-        'Recepcionista' => __DIR__ . '/../..' . '/app/Models/classRecepcionista.php',
     );
 
     public static function getInitializer(ClassLoader $loader)

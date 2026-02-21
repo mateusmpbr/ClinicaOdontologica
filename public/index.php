@@ -17,7 +17,7 @@ if(isset($_POST['login'])){
   $tipo  = $_POST["tipo"]; 
 
   if($tipo == "recepcionista"){
-    require_once __DIR__ . '/../app/Models/classRecepcionista.php';
+    require_once __DIR__ . '/../app/bootstrap.php';
     $recepcionista = new Recepcionista();
     $recepcionista->setNomeUsuario($nome_usuario);
     $recepcionista->setSenha($senha);
@@ -29,7 +29,7 @@ if(isset($_POST['login'])){
       $flag = 1;
     }
   }elseif($tipo == "administrador") {
-    require_once __DIR__ . '/../app/Models/classAdministrador.php';
+    require_once __DIR__ . '/../app/bootstrap.php';
     $administrador = new Administrador();
     $administrador->setNomeUsuario($nome_usuario);
     $administrador->setSenha($senha);

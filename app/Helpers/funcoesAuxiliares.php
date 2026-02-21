@@ -1,10 +1,7 @@
 <?php
 
-require_once __DIR__ . '/../Models/classAdministrador.php';
-require_once __DIR__ . '/../Models/classRecepcionista.php';
-
 if (session_status() === PHP_SESSION_NONE) {
-	session_start();
+    session_start();
 }
 
 function verificaFuncionarioLogado(){
