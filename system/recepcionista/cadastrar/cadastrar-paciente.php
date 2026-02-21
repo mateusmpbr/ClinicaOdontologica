@@ -1,10 +1,12 @@
-<?php include_once"header.php" ?>
 <?php 
+include_once "../../../php/funcoesAuxiliares.php";
+verificaFuncionarioLogadoCadastro();
+verificarRecepcionistaLogadoCadastro();
+include_once "../../../php/classPaciente.php";
 
 $flag = 0;
 
 if(isset($_POST['botao'])){ 
-  include_once "../../../php/classPaciente.php";
 
   $nome = $_POST['nome'];
   $sobrenome = $_POST['sobrenome'];
@@ -25,9 +27,13 @@ if(isset($_POST['botao'])){
   if ($flag == 0) {
     $paciente->insert();
     header("Location: ../index.php");
+    exit;
   }
 
-}?>
+}
+
+include_once"header.php";
+?>
   <body class="bg-dark">
 
     <div class="container">

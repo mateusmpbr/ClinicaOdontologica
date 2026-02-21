@@ -1,5 +1,10 @@
-<?php include_once"header.php" ?>
 <?php
+include_once "../../../php/funcoesAuxiliares.php";
+verificaFuncionarioLogadoCadastro();
+verificarRecepcionistaLogadoCadastro();
+include_once "../../../php/classPaciente.php";
+include_once "../../../php/classRecepcionista.php";
+include_once "../../../php/classRecebimento.php";
 
 $flag = 0;
 
@@ -10,47 +15,49 @@ if(!isset($_POST['cpf_paciente']))$cpf_paciente = "";
 if(!isset($_POST['modo_pagamento']))$modo_pagamento = "";
 
 if(isset($_POST['botao'])){ 
-    include_once "../../../php/classPaciente.php";
-    include_once "../../../php/classRecepcionista.php";
-    include_once "../../../php/classRecebimento.php";
 
-    $paciente = new Paciente();
-    $recepcionista = new Recepcionista();
-    $recebimento = new Recebimento();
+  $paciente = new Paciente();
+  $recepcionista = new Recepcionista();
+  $recebimento = new Recebimento();
 
-    $valor = $_POST['valor'];
-    $data = $_POST['data'];
-    $nome_paciente = $_POST['nome_paciente'];
-    $cpf_paciente = $_POST['cpf_paciente'];
-    $modo_pagamento = $_POST['modo_pagamento'];
+  $valor = $_POST['valor'];
+  $data = $_POST['data'];
+  $nome_paciente = $_POST['nome_paciente'];
+  $cpf_paciente = $_POST['cpf_paciente'];
+  $modo_pagamento = $_POST['modo_pagamento'];
 
-    $id_recepcionista = $_SESSION['funcionario'];
+  $id_recepcionista = $_SESSION['funcionario'];
 
-    $paciente->setNome($nome_paciente);
-    $paciente->setCpf($cpf_paciente);
+  $paciente->setNome($nome_paciente);
+  $paciente->setCpf($cpf_paciente);
     
     
-    if($paciente->semNomeCpf()){
-        $recebimento->setValor($valor);
-        $recebimento->setData($data);
-        $recebimento->setRecepcionistaId($id_recepcionista);
-        $recebimento->setModoPagamento($modo_pagamento);
-        $recebimento->insert();
-        header("Location: ../recebimentos.php");
+  if($paciente->semNomeCpf()){
+    $recebimento->setValor($valor);
+    $recebimento->setData($data);
+    $recebimento->setRecepcionistaId($id_recepcionista);
+    $recebimento->setModoPagamento($modo_pagamento);
+    $recebimento->insert();
+    header("Location: ../recebimentos.php");
+    exit;
 
-    }elseif(($id_paciente = $paciente->existeNomeCpf())){
-        $recebimento->setPacienteId($id_paciente);
-        $recebimento->setValor($valor);
-        $recebimento->setData($data);
-        $recebimento->setRecepcionistaId($id_recepcionista);
-        $recebimento->setModoPagamento($modo_pagamento);
-        var_dump($recebimento->insert());
-        header("Location: ../recebimentos.php");
-    }
-    else{
-        $flag = 1;
-    }
-}?>
+  }elseif(($id_paciente = $paciente->existeNomeCpf())){
+    $recebimento->setPacienteId($id_paciente);
+    $recebimento->setValor($valor);
+    $recebimento->setData($data);
+    $recebimento->setRecepcionistaId($id_recepcionista);
+    $recebimento->setModoPagamento($modo_pagamento);
+    $recebimento->insert();
+    header("Location: ../recebimentos.php");
+    exit;
+  }
+  else{
+    $flag = 1;
+  }
+}
+
+include_once"header.php";
+?>
   <body class="bg-dark">
 
     <div class="container">

@@ -1,8 +1,8 @@
 <?php 
-include_once"header.php";
+include_once "../../../php/funcoesAuxiliares.php";
+verificaFuncionarioLogadoCadastro();
+verificarRecepcionistaLogadoCadastro();
 include_once "../../../php/classPaciente.php";
-?>
-<?php 
 
 $flag = 0;
 
@@ -36,6 +36,7 @@ if(isset($_POST['botao'])){
   if($flag == 0){
     $p = $paciente->edit();
     header("Location: ../index.php");
+    exit;
   }
 
 }else{
@@ -45,7 +46,10 @@ if(isset($_POST['botao'])){
   $paciente->setId($id);
   $resultado = $paciente->viewPaciente();
 
-} ?>
+} 
+
+include_once"header.php";
+?>
   <body class="bg-dark">
 
     <div class="container">

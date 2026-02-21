@@ -1,5 +1,7 @@
-<?php include_once"header.php" ?>
 <?php
+include_once "../../../php/funcoesAuxiliares.php";
+verificaFuncionarioLogadoCadastro();
+verificarRecepcionistaLogadoCadastro();
 
 include_once "../../../php/classPaciente.php";
 include_once "../../../php/classDentista.php";
@@ -15,59 +17,61 @@ $flag = 0;
 
 if(isset($_POST['botao'])){ 
     
-    $nome_dentista = $_POST['nome_dentista'];
-    $cro_dentista = $_POST['cro_dentista'];
-    $nome_paciente = $_POST['nome_paciente'];
-    $cpf_paciente = $_POST['cpf_paciente'];
-    $valor = $_POST['valor'];
-    $data = $_POST['data'];
-    $horario = $_POST['horario'];
-    $situacao = $_POST['situacao'];
-    $operacao = $_POST['operacao'];
+  $nome_dentista = $_POST['nome_dentista'];
+  $cro_dentista = $_POST['cro_dentista'];
+  $nome_paciente = $_POST['nome_paciente'];
+  $cpf_paciente = $_POST['cpf_paciente'];
+  $valor = $_POST['valor'];
+  $data = $_POST['data'];
+  $horario = $_POST['horario'];
+  $situacao = $_POST['situacao'];
+  $operacao = $_POST['operacao'];
 
-    $p->setNome($nome_paciente);
-    $p->setCpf($cpf_paciente);
+  $p->setNome($nome_paciente);
+  $p->setCpf($cpf_paciente);
 
-    if(!($id_dentista = $d->existeNomeCro($nome_dentista, $cro_dentista))){
-        $flag = 1;
-    } 
+  if(!($id_dentista = $d->existeNomeCro($nome_dentista, $cro_dentista))){
+    $flag = 1;
+  } 
 
-    if(!($id_paciente = $p->existeNomeCpf())){
-        $flag += 2;
-    }
+  if(!($id_paciente = $p->existeNomeCpf())){
+    $flag += 2;
+  }
+
+  $dcp->setDentistaId($id_dentista);
+  $dcp->setData($data);
+  $dcp->setHorario($horario);
+
+  if(!$dcp->horarioValidoCadastro()){
+    $flag = 4;
+  }
+
+  if($flag == 0){
+    $p->setId($id_paciente);
+    $paciente = $p->viewPaciente();
+        
+    $plano_dentario_id = $paciente->plano_dentario_id; 
+    $pd->setId($plano_dentario_id);
+    $planoDentario = $pd->viewPlanoDentario();
+    $valor_final = $valor - $valor*($planoDentario->desconto/100);
 
     $dcp->setDentistaId($id_dentista);
+    $dcp->setPacienteId($id_paciente);
+    $dcp->setValor($valor_final);
     $dcp->setData($data);
     $dcp->setHorario($horario);
+    $dcp->setSituacao($situacao);
+    $dcp->setOperacao($operacao);
+    $id = $dcp->insert();
 
-    if(!$dcp->horarioValidoCadastro()){
-        $flag = 4;
+    if($situacao == "Pago"){
+      header("Location: cadastrar-recebimentos-consultas.php?id=$id");  
+      exit;
+    }else{
+      header("Location: ../consultas.php");
+      exit;
     }
-
-    if($flag == 0){
-        $p->setId($id_paciente);
-        $paciente = $p->viewPaciente();
-        
-        $plano_dentario_id = $paciente->plano_dentario_id; 
-        $pd->setId($plano_dentario_id);
-        $planoDentario = $pd->viewPlanoDentario();
-        $valor_final = $valor - $valor*($planoDentario->desconto/100);
-
-        $dcp->setDentistaId($id_dentista);
-        $dcp->setPacienteId($id_paciente);
-        $dcp->setValor($valor_final);
-        $dcp->setData($data);
-        $dcp->setHorario($horario);
-        $dcp->setSituacao($situacao);
-        $dcp->setOperacao($operacao);
-        $id = $dcp->insert();
-
-        if($situacao == "Pago"){
-            header("Location: cadastrar-recebimentos-consultas.php?id=$id");  
-        }else{
-            header("Location: ../consultas.php");
-        }
-    }
+  }
 }else{
 $nome_dentista = "";
 $cro_dentista = "";
@@ -80,6 +84,8 @@ $situacao = "";
 $operacao = "";
 
 }
+
+include_once"header.php";
 ?>
   <body class="bg-dark">
     <div class="container">

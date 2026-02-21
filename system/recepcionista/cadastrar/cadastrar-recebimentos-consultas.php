@@ -1,5 +1,7 @@
-<?php include_once"header.php" ?>
 <?php
+include_once "../../../php/funcoesAuxiliares.php";
+verificaFuncionarioLogadoCadastro();
+verificarRecepcionistaLogadoCadastro();
 
 $flag = 0;
 
@@ -15,54 +17,58 @@ $dcp = new Dentista_consulta_Paciente();
 
 if(isset($_POST['botao'])){ 
 
-    $valor = $_POST['valor'];
-    $data = $_POST['data'];
-    $nome_paciente = $_POST['nome_paciente'];
-    $cpf_paciente = $_POST['cpf_paciente'];
-    $modo_pagamento = $_POST['modo_pagamento'];
+  $valor = $_POST['valor'];
+  $data = $_POST['data'];
+  $nome_paciente = $_POST['nome_paciente'];
+  $cpf_paciente = $_POST['cpf_paciente'];
+  $modo_pagamento = $_POST['modo_pagamento'];
 
-    $id_recepcionista = $_SESSION['funcionario'];
+  $id_recepcionista = $_SESSION['funcionario'];
 
-    $paciente->setNome($nome_paciente);
-    $paciente->setCpf($cpf_paciente);
+  $paciente->setNome($nome_paciente);
+  $paciente->setCpf($cpf_paciente);
     
     
-    if($paciente->semNomeCpf()){
-        $recebimento->setValor($valor);
-        $recebimento->setData($data);
-        $recebimento->setRecepcionistaId($id_recepcionista);
-        $recebimento->setModoPagamento($modo_pagamento);
-        var_dump($recebimento->insert());
-        header("Location: ../recebimentos.php");
+  if($paciente->semNomeCpf()){
+    $recebimento->setValor($valor);
+    $recebimento->setData($data);
+    $recebimento->setRecepcionistaId($id_recepcionista);
+    $recebimento->setModoPagamento($modo_pagamento);
+    $recebimento->insert();
+    header("Location: ../recebimentos.php");
+    exit;
 
-    }elseif(($id_paciente = $paciente->existeNomeCpf())){
-        $recebimento->setPacienteId($id_paciente);
-        $recebimento->setValor($valor);
-        $recebimento->setData($data);
-        $recebimento->setRecepcionistaId($id_recepcionista);
-        $recebimento->setModoPagamento($modo_pagamento);
-        var_dump($recebimento->insert());
-        header("Location: ../recebimentos.php");
-    }
-    else{
-        $flag = 1;
-    }
+  }elseif(($id_paciente = $paciente->existeNomeCpf())){
+    $recebimento->setPacienteId($id_paciente);
+    $recebimento->setValor($valor);
+    $recebimento->setData($data);
+    $recebimento->setRecepcionistaId($id_recepcionista);
+    $recebimento->setModoPagamento($modo_pagamento);
+    $recebimento->insert();
+    header("Location: ../recebimentos.php");
+    exit;
+  }
+  else{
+    $flag = 1;
+  }
 }else{
     
-    $id = $_GET['id'];
-    $dcp->setId($id);
-    $consulta = $dcp->viewConsulta();
-    $valor = $consulta->valor;
-    $data = $consulta->data;
+  $id = $_GET['id'];
+  $dcp->setId($id);
+  $consulta = $dcp->viewConsulta();
+  $valor = $consulta->valor;
+  $data = $consulta->data;
 
-    $paciente_id = $consulta->paciente_id;
-    $paciente->setId($paciente_id);
-    $p = $paciente->viewPaciente();
-    $nome_paciente = $p->nome;
-    $cpf_paciente = $p->cpf;
+  $paciente_id = $consulta->paciente_id;
+  $paciente->setId($paciente_id);
+  $p = $paciente->viewPaciente();
+  $nome_paciente = $p->nome;
+  $cpf_paciente = $p->cpf;
 
-    $modo_pagamento = "";
+  $modo_pagamento = "";
 }
+
+include_once"header.php";
 ?>
   <body class="bg-dark">
 
