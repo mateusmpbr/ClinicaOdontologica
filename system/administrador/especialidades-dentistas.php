@@ -77,30 +77,17 @@ while ($row = $stmt->fetch(PDO::FETCH_OBJ)) { ?>
 
       $stmt = $dhe->viewAll();
 
-while ($row = $stmt->fetch(PDO::FETCH_OBJ)) { ?>
-      <div class="modal fade" id="removeModal<?=$row->dentista_id?>-<?=$row->especialidade_nome?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <?php
-          $dhe->setDentistaId($row->dentista_id);
+while ($row = $stmt->fetch(PDO::FETCH_OBJ)) {
+    $dhe->setDentistaId($row->dentista_id);
     $dentista_nome = $dhe->nomeDentista();
-    ?>
-              <h5 class="modal-title" id="exampleModalLabel">Você tem certeza que deseja remover a especialidade <?=$row->especialidade_nome?> do dentista <?=$dentista_nome?> ?</h5>
-              <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">×</span>
-              </button>
-            </div>
-            <div class="modal-body">Essa ação não poderá ser desfeita</div>
-            <div class="modal-footer">
-              <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
-              <form action="especialidades-dentistas.php" method="post">
-              <input type="hidden" name="dentista_id" value="<?=$row->dentista_id?>">
-              <input type="hidden" name="especialidade_nome" value="<?=$row->especialidade_nome?>">
-              <button type="submit" class="btn btn-primary" name="botao-remover">Remover</button>
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
-<?php } include_once'footer.php' ?>
+    $modalId = "removeModal{$row->dentista_id}-{$row->especialidade_nome}";
+    $modalTitle = "Você tem certeza que deseja remover a especialidade {$row->especialidade_nome} do dentista {$dentista_nome} ?";
+    $modalBody = "Essa ação não poderá ser desfeita";
+    $formAction = "especialidades-dentistas.php";
+    $hiddenFields = ['dentista_id' => $row->dentista_id, 'especialidade_nome' => $row->especialidade_nome];
+    $confirmButtonName = 'botao-remover';
+    $confirmButtonLabel = 'Remover';
+    include __DIR__ . '/../_partials/modal-confirm.php';
+}
+include_once 'footer.php';
+?>

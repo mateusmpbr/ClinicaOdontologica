@@ -85,27 +85,17 @@ while ($row = $stmt->fetch(PDO::FETCH_OBJ)) { ?>
       </div>
       <!-- /.content-wrapper -->
       <?php
-      $stmt = $r->viewAll();
+            $stmt = $r->viewAll();
 
-while ($row = $stmt->fetch(PDO::FETCH_OBJ)) { ?>
-      <div class="modal fade" id="removeModal<?=$row->id?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Você tem certeza que deseja remover?</h5>
-              <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">×</span>
-              </button>
-            </div>
-            <div class="modal-body">Essa ação não poderá ser desfeita</div>
-            <div class="modal-footer">
-              <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
-              <form action="recebimentos.php" method="post">
-                <input type="hidden" name="id" value="<?=$row->id?>">
-                <button class="btn btn-primary" href="#" name="botao-remover">Remover</button>
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
-<?php } include_once'footer.php' ?>
+      while ($row = $stmt->fetch(PDO::FETCH_OBJ)) {
+          $modalId = "removeModal{$row->id}";
+          $modalTitle = "Você tem certeza que deseja remover?";
+          $modalBody = "Essa ação não poderá ser desfeita";
+          $formAction = "recebimentos.php";
+          $hiddenFields = ['id' => $row->id];
+          $confirmButtonName = 'botao-remover';
+          $confirmButtonLabel = 'Remover';
+          include __DIR__ . '/../_partials/modal-confirm.php';
+      }
+      include_once 'footer.php';
+      ?>
