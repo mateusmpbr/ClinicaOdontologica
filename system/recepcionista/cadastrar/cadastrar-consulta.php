@@ -1,16 +1,16 @@
 <?php
-include_once "../../../php/funcoesAuxiliares.php";
+include_once __DIR__ . '/../../../app/Helpers/funcoesAuxiliares.php';
 verificaFuncionarioLogadoCadastro();
 verificarRecepcionistaLogadoCadastro();
 
-include_once "../../../php/classPaciente.php";
-include_once "../../../php/classDentista.php";
-include_once "../../../php/classDentistaConsultaPaciente.php";
-include_once "../../../php/classPlanoDentario.php";
+include_once __DIR__ . '/../../../app/Helpers/funcoesAuxiliares.php';
+verificaFuncionarioLogadoCadastro();
+verificarRecepcionistaLogadoCadastro();
 
-$p = new Paciente();
-$pd = new PlanoDentario();
-$d = new Dentista();
+include_once __DIR__ . '/../../../app/Models/classPaciente.php';
+include_once __DIR__ . '/../../../app/Models/classDentista.php';
+include_once __DIR__ . '/../../../app/Models/classDentistaConsultaPaciente.php';
+include_once __DIR__ . '/../../../app/Models/classPlanoDentario.php';
 $dcp = new Dentista_consulta_Paciente();
 
 $flag = 0;

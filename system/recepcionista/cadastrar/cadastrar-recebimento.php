@@ -1,10 +1,10 @@
 <?php
-include_once "../../../php/funcoesAuxiliares.php";
+include_once __DIR__ . '/../../../app/Helpers/funcoesAuxiliares.php';
 verificaFuncionarioLogadoCadastro();
 verificarRecepcionistaLogadoCadastro();
-include_once "../../../php/classPaciente.php";
-include_once "../../../php/classRecepcionista.php";
-include_once "../../../php/classRecebimento.php";
+include_once __DIR__ . '/../../../app/Models/classPaciente.php';
+include_once __DIR__ . '/../../../app/Models/classRecepcionista.php';
+include_once __DIR__ . '/../../../app/Models/classRecebimento.php';
 
 $flag = 0;
 

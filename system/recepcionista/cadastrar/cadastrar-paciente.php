@@ -1,8 +1,8 @@
 <?php 
-include_once "../../../php/funcoesAuxiliares.php";
+include_once __DIR__ . '/../../../app/Helpers/funcoesAuxiliares.php';
 verificaFuncionarioLogadoCadastro();
 verificarRecepcionistaLogadoCadastro();
-include_once "../../../php/classPaciente.php";
+include_once __DIR__ . '/../../../app/Models/classPaciente.php';
 
 $flag = 0;
 
@@ -147,11 +147,11 @@ include_once"header.php";
               </select>
             </div>
             <button class="btn btn-primary btn-block" type="submit" name="botao">Cadastrar</button>
-          </form>
-        <?php } ?>
-        </div>
-      </div>
-    </div>
+          <?php 
+          include_once __DIR__ . '/../../../app/Helpers/funcoesAuxiliares.php';
+          verificaFuncionarioLogadoCadastro();
+          verificarRecepcionistaLogadoCadastro();
+          include_once __DIR__ . '/../../../app/Models/classPaciente.php';
 
     <!-- Bootstrap core JavaScript-->
     <script src="/vendor/jquery/jquery.min.js"></script>
