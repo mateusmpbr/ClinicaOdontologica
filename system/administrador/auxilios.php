@@ -1,6 +1,6 @@
 <?php include_once'header.php' ?>
 <?php
-include_once '../../php/classAuxiliarAuxiliaDentista.php';
+include_once '../../app/Models/classAuxiliarAuxiliaDentista.php';
 
 $aad = new Auxiliar_auxilia_Dentista();
 

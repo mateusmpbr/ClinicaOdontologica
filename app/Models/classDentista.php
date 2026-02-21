@@ -1,6 +1,6 @@
 <?php
 
-require_once 'classFuncionario.php';
+require_once __DIR__ . '/classFuncionario.php';
 
 class Dentista extends Funcionario{
 

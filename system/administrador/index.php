@@ -5,7 +5,7 @@ if(isset($_POST["botao-remover"])){
 
   $id = $_POST["id"];
 
-  include_once "../../php/classFuncionario.php";
+  include_once "../../app/Models/classFuncionario.php";
   $f = new Funcionario();
   $f->setId($id);
   $f->delete();
@@ -75,7 +75,7 @@ if(isset($_POST["botao-remover"])){
                       </tfoot>
                       <tbody>
                           <?php 
-                          include_once '../../php/classAdministrador.php';
+                          include_once '../../app/Models/classAdministrador.php';
 
                           $a = new Administrador();
 
@@ -129,7 +129,7 @@ if(isset($_POST["botao-remover"])){
                       </tfoot>
                       <tbody>
                           <?php 
-                          include_once '../../php/classRecepcionista.php';
+                          include_once '../../app/Models/classRecepcionista.php';
 
                           $r = new Recepcionista();
 
@@ -183,7 +183,7 @@ if(isset($_POST["botao-remover"])){
                       </tfoot>
                       <tbody>
                           <?php 
-                          include_once '../../php/classDentista.php';
+                          include_once '../../app/Models/classDentista.php';
 
                           $d = new Dentista();
 
@@ -235,7 +235,7 @@ if(isset($_POST["botao-remover"])){
                       </tfoot>
                       <tbody>
                           <?php 
-                          include_once '../../php/classAuxiliar.php';
+                          include_once '../../app/Models/classAuxiliar.php';
 
                           $a = new Auxiliar();
 
@@ -287,7 +287,7 @@ if(isset($_POST["botao-remover"])){
                   </tfoot>
                   <tbody>
                       <?php 
-                      include_once '../../php/classFuncionario.php';
+                      include_once '../../app/Models/classFuncionario.php';
 
                       $f = new Funcionario();
 

@@ -1,6 +1,6 @@
 <?php include_once'header.php' ?>
 <?php
-include_once '../../php/classDentistaHasEspecialidade.php';
+include_once '../../app/Models/classDentistaHasEspecialidade.php';
 
 if(isset($_POST['botao-remover'])){
   $dhe = new Dentista_has_Especialidade();

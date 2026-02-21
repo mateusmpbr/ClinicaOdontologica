@@ -27,7 +27,7 @@
                   </tfoot>
                   <tbody>
                       <?php 
-                      include_once '../../php/classPlanoDentario.php';
+                      include_once '../../app/Models/classPlanoDentario.php';
 
                       $p = new PlanoDentario();
 

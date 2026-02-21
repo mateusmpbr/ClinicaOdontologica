@@ -17,7 +17,7 @@ if(isset($_POST['login'])){
   $tipo  = $_POST["tipo"]; 
 
   if($tipo == "recepcionista"){
-    require_once "php/classRecepcionista.php";
+    require_once __DIR__ . '/../app/Models/classRecepcionista.php';
     $recepcionista = new Recepcionista();
     $recepcionista->setNomeUsuario($nome_usuario);
     $recepcionista->setSenha($senha);
@@ -29,7 +29,7 @@ if(isset($_POST['login'])){
       $flag = 1;
     }
   }elseif($tipo == "administrador") {
-    require_once "php/classAdministrador.php";
+    require_once __DIR__ . '/../app/Models/classAdministrador.php';
     $administrador = new Administrador();
     $administrador->setNomeUsuario($nome_usuario);
     $administrador->setSenha($senha);
@@ -57,13 +57,13 @@ if(isset($_POST['login'])){
     <title>Login</title>
 
     <!-- Bootstrap core CSS-->
-    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom fonts for this template-->
-    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
 
     <!-- Custom styles for this template-->
-    <link href="css/sb-admin.css" rel="stylesheet">
+    <link href="/css/sb-admin.css" rel="stylesheet">
 
   </head>
 
@@ -101,11 +101,11 @@ if(isset($_POST['login'])){
     </div>
 
     <!-- Bootstrap core JavaScript-->
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="/vendor/jquery/jquery.min.js"></script>
+    <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
     <!-- Core plugin JavaScript-->
-    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
 
   </body>
 

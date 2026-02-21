@@ -27,7 +27,7 @@
                   </tfoot>
                   <tbody>
                       <?php 
-                      include_once __DIR__ . '/../../php/classDentistaHasEspecialidade.php';
+                      include_once __DIR__ . '/../../app/Models/classDentistaHasEspecialidade.php';
 
                       $dhe = new Dentista_has_Especialidade();
 

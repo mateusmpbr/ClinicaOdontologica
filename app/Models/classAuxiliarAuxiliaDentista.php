@@ -1,6 +1,6 @@
 <?php
 
-require_once 'database.php';
+require_once __DIR__ . '/../../config/database.php';
 
 class Auxiliar_auxilia_Dentista{
 

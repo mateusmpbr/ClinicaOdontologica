@@ -1,6 +1,6 @@
 <?php include_once'header.php' ?>
 <?php
-include_once '../../php/classDentistaConsultaPaciente.php';
+include_once '../../app/Models/classDentistaConsultaPaciente.php';
 $dcp = new Dentista_consulta_Paciente();
 
 if(isset($_POST['botao-remover'])){

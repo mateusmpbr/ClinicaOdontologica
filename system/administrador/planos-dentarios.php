@@ -1,6 +1,6 @@
 <?php include_once'header.php' ?>
 <?php
-include_once '../../php/classPlanoDentario.php';
+include_once '../../app/Models/classPlanoDentario.php';
 $p = new PlanoDentario();
 
 if(isset($_POST['botao-remover'])){

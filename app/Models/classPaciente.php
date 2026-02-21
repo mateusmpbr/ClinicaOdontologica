@@ -1,6 +1,6 @@
 <?php
 
-require_once 'classRecepcionista.php';
+require_once __DIR__ . '/classRecepcionista.php';
 
 class Paciente{
 

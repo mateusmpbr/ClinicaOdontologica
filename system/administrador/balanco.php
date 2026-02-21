@@ -1,6 +1,6 @@
 <?php 
 include_once'header.php';
-include_once'../../php/classBalanco.php';
+include_once'../../app/Models/classBalanco.php';
 
 $b = new Balanco();
 

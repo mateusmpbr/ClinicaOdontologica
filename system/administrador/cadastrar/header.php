@@ -17,14 +17,14 @@ verificarAdministradorLogadoCadastro();
     <title>Cadastro</title>
 
     <!-- Bootstrap core CSS-->
-    <link href="../../../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href/vendor/bootstr/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom fonts for this template-->
-    <link href="../../../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href/vendor/fontawesome-fr/css/all.min.css" rel="stylesheet" type="text/css">
 
     <!-- Custom styles for this template-->
-    <link href="../../../css/sb-admin.css" rel="stylesheet">
+    <link href/css/sb-admin.css" rel="stylesheet">
 
-    <link href="../../../css/style.css" rel="stylesheet">
+    <link href/css/style.css" rel="stylesheet">
 
   </head>

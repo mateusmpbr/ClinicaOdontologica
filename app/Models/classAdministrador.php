@@ -1,7 +1,7 @@
 <?php
 	
-require_once 'classFuncionario.php';
-require_once 'classDespesa.php';
+require_once __DIR__ . '/classFuncionario.php';
+require_once __DIR__ . '/classDespesa.php';
 
 class Administrador extends Funcionario{
 	private $funcionario_id;
