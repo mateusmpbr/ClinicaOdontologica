@@ -1,6 +1,6 @@
 <ul class="sidebar navbar-nav">
   <li class="nav-item">
-    <a class="nav-link" href="index.php">
+    <a class="nav-link" href="/pages/administrador/index.php">
       <i class="fas fa-id-badge"></i>
       <span>Funcionários</span>
     </a>
@@ -11,30 +11,30 @@
       <span>Especialidades</span>
     </a>
     <div class="dropdown-menu" aria-labelledby="pagesDropdown">
-      <a class="dropdown-item" href="especialidades.php">Cadastradas</a>
-      <a class="dropdown-item" href="especialidades-dentistas.php">Por dentista</a>
+      <a class="dropdown-item" href="/pages/especialidades/especialidades-admin.php">Cadastradas</a>
+      <a class="dropdown-item" href="/pages/especialidades/especialidades-dentistas.php">Por dentista</a>
     </div>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="auxilios.php">
+    <a class="nav-link" href="/pages/auxilios/auxilios.php">
       <i class="fas fa-handshake"></i>
       <span>Auxílios</span>
     </a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="planos-dentarios.php">
+    <a class="nav-link" href="/pages/planos/planos-dentarios.php">
       <i class="fas fa-id-card"></i>
       <span>Planos Dentários</span>
     </a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="despesas.php">
+    <a class="nav-link" href="/pages/financeiro/despesas.php">
       <i class="fas fa-money-bill"></i>
       <span>Despesas</span>
     </a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="balanco.php">
+    <a class="nav-link" href="/pages/financeiro/balanco.php">
       <i class="fas fa-file-invoice-dollar"></i>
       <span>Balanço</span>
     </a>

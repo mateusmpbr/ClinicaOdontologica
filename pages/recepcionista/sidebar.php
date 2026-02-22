@@ -1,30 +1,30 @@
 <ul class="sidebar navbar-nav">
   <li class="nav-item">
-    <a class="nav-link" href="index.php">
+    <a class="nav-link" href="/pages/recepcionista/index.php">
       <i class="fas fa-users"></i>
       <span>Pacientes</span>
     </a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="planos-dentarios.php">
+    <a class="nav-link" href="/pages/planos/planos-dentarios.php">
       <i class="fas fa-id-card"></i>
       <span>Planos Dentários</span>
     </a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="consultas.php">
+    <a class="nav-link" href="/pages/consultas/consultas.php">
       <i class="fas fa-tooth"></i>
       <span>Consultas</span>
     </a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="especialidades-dentistas.php">
+    <a class="nav-link" href="/pages/especialidades/especialidades-dentistas.php">
       <i class="fas fa-screwdriver"></i>
       <span>Especialidades</span>
     </a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="recebimentos.php">
+    <a class="nav-link" href="/pages/financeiro/recebimentos.php">
       <i class="fas fa-hand-holding-usd"></i>
       <span>Recebimentos</span>
     </a>

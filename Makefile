@@ -8,3 +8,6 @@ down:
 
 login:
 	docker exec -it clinicaodontologica-app-1 /bin/bash
+
+logs-db:
+	docker logs -f clinicaodontologica-db-1
