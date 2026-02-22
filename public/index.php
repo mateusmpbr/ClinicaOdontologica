@@ -37,7 +37,7 @@ if (has_input('login')) {
         $funcionario_id = $recepcionista->existe();
         if (!is_null($funcionario_id)) {
             $_SESSION["funcionario"] = $funcionario_id;
-            header("Location: system/recepcionista/index.php");
+            header("Location: pages/recepcionista/index.php");
         } else {
             $flag = 1;
         }
@@ -49,7 +49,7 @@ if (has_input('login')) {
         $funcionario_id = $administrador->existe();
         if (!is_null($funcionario_id)) {
             $_SESSION["funcionario"] = $funcionario_id;
-            header("Location: system/administrador/index.php");
+            header("Location: pages/administrador/index.php");
         } else {
             $flag = 1;
         }
