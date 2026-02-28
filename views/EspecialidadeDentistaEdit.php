@@ -1,4 +1,4 @@
-<?php include_once __DIR__ . '/_common/header.php' ?>
+<?php include_once __DIR__ . '/_common/Header.php' ?>
 <?php
 
 if (has_input('botao')) {

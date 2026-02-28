@@ -6,7 +6,7 @@ use ClinicaOdontologica\Controllers\RecebimentoEditController;
 $controller = new RecebimentoEditController();
 $data = $controller->handleRequest();
 
-include_once __DIR__ . '/_common/header.php';
+include_once __DIR__ . '/_common/Header.php';
 
 $flag = $data['flag'] ?? 0;
 $values = $data['values'] ?? [];

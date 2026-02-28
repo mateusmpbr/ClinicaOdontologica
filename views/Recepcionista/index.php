@@ -1,4 +1,4 @@
-<?php include_once'header.php' ?>
+<?php include_once'Header.php' ?>
 <?php
 
 if (has_input('botao-remover')) {
@@ -90,5 +90,5 @@ while ($row = $stmt->fetch(PDO::FETCH_OBJ)) {
     $confirmButtonLabel = 'Remover';
     include __DIR__ . '/../_common/ModalConfirm.php';
 }
-include_once '../_common/footer.php';
+include_once '../_common/Footer.php';
 ?>

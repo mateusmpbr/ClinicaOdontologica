@@ -1,18 +1,18 @@
 <?php
 require_once __DIR__ . '/../app/bootstrap.php';
-include_once __DIR__ . '/_common/header.php';
+include_once __DIR__ . '/_common/Header.php';
 
 // Include appropriate sidebar depending on logged-in role
 if (isset($_SESSION['funcionario'])) {
   $a = new \ClinicaOdontologica\Models\Administrador();
   $a->setFuncionarioId($_SESSION['funcionario']);
   if (!empty($a->viewAdministrador())) {
-    include __DIR__ . '/Administrador/sidebar.php';
+    include __DIR__ . '/Administrador/Sidebar.php';
   } else {
     $r = new \ClinicaOdontologica\Models\Recepcionista();
     $r->setFuncionarioId($_SESSION['funcionario']);
     if (!empty($r->viewRecepcionista())) {
-      include __DIR__ . '/Recepcionista/sidebar.php';
+      include __DIR__ . '/Recepcionista/Sidebar.php';
     }
   }
 }
@@ -119,5 +119,5 @@ while ($row = $stmt->fetch(PDO::FETCH_OBJ)) {
     $confirmButtonLabel = 'Remover';
     include __DIR__ . '/_common/ModalConfirm.php';
 }
-include_once __DIR__ . '/_common/footer.php';
+include_once __DIR__ . '/_common/Footer.php';
 ?>

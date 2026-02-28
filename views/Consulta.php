@@ -6,7 +6,7 @@ use ClinicaOdontologica\Controllers\ConsultaController;
 $controller = new ConsultaController();
 $data = $controller->handleRequest();
 
-include_once __DIR__ . '/_common/header.php';
+include_once __DIR__ . '/_common/Header.php';
 
 if (!empty($data['sidebar'])) {
     include $data['sidebar'];
@@ -100,5 +100,5 @@ foreach ($data['consultas'] as $row) {
     $confirmButtonLabel = 'Remover';
         include __DIR__ . '/_common/ModalConfirm.php';
 }
-include_once __DIR__ . '/_common/footer.php';
+include_once __DIR__ . '/_common/Footer.php';
 ?>

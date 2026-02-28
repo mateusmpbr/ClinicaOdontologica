@@ -1,4 +1,4 @@
-<?php include_once'header.php' ?>
+<?php include_once'Header.php' ?>
 <?php
 
 if (has_input('botao-remover')) {
@@ -320,5 +320,5 @@ if (has_input('btn')) {
           $confirmButtonLabel = 'Remover';
               include __DIR__ . '/../_common/ModalConfirm.php';
       }
-      include_once '../_common/footer.php';
+      include_once '../_common/Footer.php';
       ?>

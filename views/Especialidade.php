@@ -6,7 +6,7 @@ use ClinicaOdontologica\Controllers\EspecialidadeController;
 $controller = new EspecialidadeController();
 $data = $controller->handleRequest();
 
-include_once __DIR__ . '/_common/header.php';
+include_once __DIR__ . '/_common/Header.php';
 
 ?>
       <div id="content-wrapper">
@@ -69,5 +69,5 @@ include_once __DIR__ . '/_common/header.php';
           $confirmButtonLabel = 'Remover';
           include __DIR__ . '/_common/ModalConfirm.php';
         }
-        include_once __DIR__ . '/_common/footer.php';
+        include_once __DIR__ . '/_common/Footer.php';
         ?>

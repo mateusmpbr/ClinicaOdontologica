@@ -6,7 +6,7 @@ use ClinicaOdontologica\Controllers\DespesaController;
 $controller = new DespesaController();
 $data = $controller->handleRequest();
 
-include_once __DIR__ . '/_common/header.php';
+include_once __DIR__ . '/_common/Header.php';
 ?>
               Despesas</div>
 
@@ -73,5 +73,5 @@ include_once __DIR__ . '/_common/header.php';
           $confirmButtonLabel = $m['confirmButtonLabel'];
             include __DIR__ . '/_common/ModalConfirm.php';
         }
-        include_once __DIR__ . '/_common/footer.php';
+        include_once __DIR__ . '/_common/Footer.php';
         ?>

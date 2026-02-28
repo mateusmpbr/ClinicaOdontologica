@@ -6,7 +6,7 @@ use ClinicaOdontologica\Controllers\PacienteRecebimentoController;
 $controller = new PacienteRecebimentoController();
 $data = $controller->handleRequest();
 
-include_once __DIR__ . '/_common/header.php';
+include_once __DIR__ . '/_common/Header.php';
 ?>
   <body class="bg-dark">
     <div id="wrapper">
