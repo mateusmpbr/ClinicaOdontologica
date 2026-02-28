@@ -317,7 +317,7 @@ if (has_input('btn')) {
           $hiddenFields = ['id' => $row->id];
           $confirmButtonName = 'botao-remover';
           $confirmButtonLabel = 'Remover';
-          include __DIR__ . '/../_partials/modal-confirm.php';
+          include __DIR__ . '/../_common/modal-confirm.php';
       }
-      include_once 'footer.php';
+      include_once '../_common/footer.php';
       ?>

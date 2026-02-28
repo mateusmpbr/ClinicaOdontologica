@@ -6,7 +6,7 @@ use ClinicaOdontologica\Controllers\FuncionarioCreateController;
 $controller = new FuncionarioCreateController();
 $data = $controller->handleRequest();
 
-include_once __DIR__ . '/_partials/header.php';
+include_once __DIR__ . '/_common/header.php';
 
 $flag = $data['flag'] ?? 0;
 $step = $data['step'] ?? 0;

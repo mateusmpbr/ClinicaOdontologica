@@ -6,7 +6,7 @@ use ClinicaOdontologica\Controllers\ConsultaController;
 $controller = new ConsultaController();
 $data = $controller->handleRequest();
 
-include_once __DIR__ . '/_partials/header.php';
+include_once __DIR__ . '/_common/header.php';
 
 if (!empty($data['sidebar'])) {
     include $data['sidebar'];
@@ -98,7 +98,7 @@ foreach ($data['consultas'] as $row) {
     $hiddenFields = ['id' => $row->id];
     $confirmButtonName = 'botao-remover';
     $confirmButtonLabel = 'Remover';
-    include __DIR__ . '/_partials/modal-confirm.php';
+    include __DIR__ . '/_common/modal-confirm.php';
 }
-include_once __DIR__ . '/_partials/footer.php';
+include_once __DIR__ . '/_common/footer.php';
 ?>

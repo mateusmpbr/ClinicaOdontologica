@@ -6,7 +6,7 @@ use ClinicaOdontologica\Controllers\EspecialidadeEditController;
 $controller = new EspecialidadeEditController();
 $data = $controller->handleRequest();
 
-include_once __DIR__ . '/_partials/header.php';
+include_once __DIR__ . '/_common/header.php';
 
 $resultado = $data['resultado'] ?? null;
 ?>

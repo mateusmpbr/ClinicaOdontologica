@@ -8,7 +8,7 @@ use ClinicaOdontologica\Controllers\RecebimentoCreateController;
 $controller = new RecebimentoCreateController();
 $data = $controller->handleRequest();
 
-include_once __DIR__ . '/_partials/header.php';
+include_once __DIR__ . '/_common/header.php';
 ?>
   <body class="bg-dark">
 

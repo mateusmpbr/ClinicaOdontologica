@@ -1,6 +1,6 @@
 <ul class="sidebar navbar-nav">
   <li class="nav-item">
-    <a class="nav-link" href="/views/recepcionista/index.php">
+    <a class="nav-link" href="/views/Recepcionista/index.php">
       <i class="fas fa-users"></i>
       <span>Pacientes</span>
     </a>

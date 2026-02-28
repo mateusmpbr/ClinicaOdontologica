@@ -3,7 +3,7 @@ require_once __DIR__ . '/../app/bootstrap.php';
 use ClinicaOdontologica\Controllers\DentistaController;
 $controller = new DentistaController();
 $data = $controller->handleRequest();
-include_once __DIR__ . '/_partials/header.php';
+include_once __DIR__ . '/_common/header.php';
 
 ?>
   <body class="bg-dark">
@@ -18,7 +18,7 @@ include_once __DIR__ . '/_partials/header.php';
               <i class="fas fa-table"></i>
               Dentistas
             <div class="float-right">
-              <a href="common/ConsultaEspecialidade.php" target="_blank" class="btn">Buscar especialidades</a>
+              <a href="_common/ConsultaEspecialidade.php" target="_blank" class="btn">Buscar especialidades</a>
             </div>
             </div>
 

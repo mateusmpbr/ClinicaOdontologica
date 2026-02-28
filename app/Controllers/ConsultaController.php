@@ -65,13 +65,13 @@ class ConsultaController
         $a = new Administrador();
         $a->setFuncionarioId($_SESSION['funcionario']);
         if (!empty($a->viewAdministrador())) {
-            return __DIR__ . '/../../views/administrador/sidebar.php';
+            return __DIR__ . '/../../views/Administrador/sidebar.php';
         }
 
         $r = new Recepcionista();
         $r->setFuncionarioId($_SESSION['funcionario']);
         if (!empty($r->viewRecepcionista())) {
-            return __DIR__ . '/../../views/recepcionista/sidebar.php';
+            return __DIR__ . '/../../views/Recepcionista/sidebar.php';
         }
 
         return null;

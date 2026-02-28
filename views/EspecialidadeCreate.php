@@ -6,7 +6,7 @@ use ClinicaOdontologica\Controllers\EspecialidadeCreateController;
 $controller = new EspecialidadeCreateController();
 $data = $controller->handleRequest();
 
-include_once __DIR__ . '/_partials/header.php';
+include_once __DIR__ . '/_common/header.php';
 
 $nome = $data['values']['nome'] ?? '';
 $flag = $data['flag'] ?? 0;

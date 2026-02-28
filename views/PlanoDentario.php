@@ -6,19 +6,19 @@ use ClinicaOdontologica\Controllers\PlanoDentarioController;
 $controller = new PlanoDentarioController();
 $data = $controller->handleRequest();
 
-include_once __DIR__ . '/_partials/header.php';
+include_once __DIR__ . '/_common/header.php';
 
 // Include appropriate sidebar depending on logged-in role
 if (isset($_SESSION['funcionario'])) {
   $a = new \ClinicaOdontologica\Models\Administrador();
   $a->setFuncionarioId($_SESSION['funcionario']);
   if (!empty($a->viewAdministrador())) {
-    include __DIR__ . '/administrador/sidebar.php';
+    include __DIR__ . '/Administrador/sidebar.php';
   } else {
     $r = new \ClinicaOdontologica\Models\Recepcionista();
     $r->setFuncionarioId($_SESSION['funcionario']);
     if (!empty($r->viewRecepcionista())) {
-      include __DIR__ . '/recepcionista/sidebar.php';
+      include __DIR__ . '/Recepcionista/sidebar.php';
     }
   }
 }
@@ -102,7 +102,7 @@ foreach ($planos as $row) {
   $hiddenFields = ['id' => $row->id];
   $confirmButtonName = 'botao-remover';
   $confirmButtonLabel = 'Remover';
-  include __DIR__ . '/_partials/modal-confirm.php';
+  include __DIR__ . '/_common/modal-confirm.php';
 }
-include_once __DIR__ . '/_partials/footer.php';
+include_once __DIR__ . '/_common/footer.php';
 ?>

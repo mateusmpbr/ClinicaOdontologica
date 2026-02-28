@@ -1,6 +1,6 @@
 <ul class="sidebar navbar-nav">
   <li class="nav-item">
-    <a class="nav-link" href="/views/administrador/index.php">
+    <a class="nav-link" href="/views/Administrador/index.php">
       <i class="fas fa-id-badge"></i>
       <span>Funcionários</span>
     </a>

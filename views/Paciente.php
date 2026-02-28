@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . '/../app/bootstrap.php';
 
-include_once __DIR__ . '/_partials/header.php';
+include_once __DIR__ . '/_common/header.php';
 
 ?>
   <body class="bg-dark">

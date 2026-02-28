@@ -6,7 +6,7 @@ use ClinicaOdontologica\Controllers\ConsultaCreateController;
 $controller = new ConsultaCreateController();
 $data = $controller->handleRequest();
 
-include_once __DIR__ . '/_partials/header.php';
+include_once __DIR__ . '/_common/header.php';
 ?>
   <body class="bg-dark">
     <div class="container">
@@ -15,7 +15,7 @@ include_once __DIR__ . '/_partials/header.php';
           Cadastro de Consulta
           <div class="float-right">
             <a href="paciente-consulta.php" target="_blank" class="btn">Buscar pacientes</a>
-            <a href="common/ConsultaDentista.php" target="_blank" class="btn">Buscar dentistas</a>
+            <a href="_common/ConsultaDentista.php" target="_blank" class="btn">Buscar dentistas</a>
           </div>
         </div>
         <div class="card-body">

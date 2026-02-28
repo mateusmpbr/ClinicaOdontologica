@@ -6,7 +6,7 @@ use ClinicaOdontologica\Controllers\BalancoController;
 $controller = new BalancoController();
 $data = $controller->handleRequest();
 
-include_once __DIR__ . '/_partials/header.php';
+include_once __DIR__ . '/_common/header.php';
 ?>
       <div id="content-wrapper">
 
@@ -52,4 +52,4 @@ include_once __DIR__ . '/_partials/header.php';
         <!-- /.container-fluid -->
       </div>
       <!-- /.content-wrapper -->
-<?php include_once __DIR__ . '/_partials/footer.php' ?>
+<?php include_once __DIR__ . '/_common/footer.php' ?>

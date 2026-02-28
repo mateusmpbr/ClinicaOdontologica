@@ -6,7 +6,7 @@ use ClinicaOdontologica\Controllers\EspecialidadeController;
 $controller = new EspecialidadeController();
 $data = $controller->handleRequest();
 
-include_once __DIR__ . '/_partials/header.php';
+include_once __DIR__ . '/_common/header.php';
 
 ?>
       <div id="content-wrapper">
@@ -67,7 +67,7 @@ include_once __DIR__ . '/_partials/header.php';
           $hiddenFields = ['nome' => $row->nome];
           $confirmButtonName = 'botao-remover';
           $confirmButtonLabel = 'Remover';
-          include __DIR__ . '/_partials/modal-confirm.php';
+          include __DIR__ . '/_common/modal-confirm.php';
         }
-        include_once __DIR__ . '/_partials/footer.php';
+        include_once __DIR__ . '/_common/footer.php';
         ?>
