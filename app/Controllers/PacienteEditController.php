@@ -12,13 +12,13 @@ class PacienteEditController
     {
         autenticar(AuthRole::RECEPTIONIST);
 
-        $flag = 0;
+        $errors = [];
         $values = [];
 
         if (function_exists('has_input') && has_input('botao')) {
             if (function_exists('validate_csrf') && !validate_csrf()) {
                 error_log('CSRF token validation failed in ' . __FILE__);
-                return ['flag' => 5, 'values' => []];
+                $errors['csrf'] = 'invalid_token';
             }
             $id = input('id', null);
             $values['nome'] = input('nome', '');
@@ -36,23 +36,23 @@ class PacienteEditController
             $paciente->setPlanoDentarioId($values['plano_dentario']);
 
             if (!$paciente->validaCPF($values['cpf'])) {
-                $flag = 1;
+                $errors['cpf'] = 'invalid';
                 $resultado = $paciente->viewPaciente();
             }
 
             if ($paciente->existeCpf()) {
-                $flag = 2;
+                $errors['cpf'] = 'duplicate';
                 $resultado = $paciente->viewPaciente();
             }
 
-            if ($flag == 0) {
+            if (empty($errors)) {
                 $paciente->edit();
                 header('Location: /views/Recepcionista/index.php');
                 exit;
             }
 
             return [
-                'flag' => $flag,
+                'errors' => $errors,
                 'values' => $values,
                 'resultado' => $resultado ?? null,
             ];
@@ -68,7 +68,7 @@ class PacienteEditController
         $planos = $stmt->fetchAll(\PDO::FETCH_OBJ);
 
         return [
-            'flag' => $flag,
+            'errors' => $errors,
             'values' => [],
             'resultado' => $resultado,
             'planos' => $planos,

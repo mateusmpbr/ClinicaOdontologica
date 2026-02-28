@@ -9,13 +9,13 @@ class AuxilioCreateController
 {
     public function handleRequest(): array
     {
-        $flag = 0;
+        $errors = [];
         $values = ['nome_dentista' => '', 'cro_dentista' => '', 'nome_auxiliar' => '', 'cpf_auxiliar' => ''];
 
         if (function_exists('has_input') && has_input('botao')) {
             if (function_exists('validate_csrf') && !validate_csrf()) {
                 error_log('CSRF token validation failed in ' . __FILE__);
-                return ['flag' => 5, 'values' => []];
+                $errors['csrf'] = 'invalid_token';
             }
             $d = new Dentista();
             $a = new Auxiliar();
@@ -30,13 +30,13 @@ class AuxilioCreateController
             $id_auxiliar = $a->existeNomeCpf($values['nome_auxiliar'], $values['cpf_auxiliar']);
 
             if (!$id_dentista) {
-                $flag = 1;
+                $errors['dentista'] = 'not_found';
             }
             if (!$id_auxiliar) {
-                $flag += 2;
+                $errors['auxiliar'] = 'not_found';
             }
 
-            if ($flag === 0) {
+            if (empty($errors)) {
                 $aad->setDentistaId($id_dentista);
                 $aad->setAuxiliarId($id_auxiliar);
                 $aad->insert();
@@ -44,7 +44,6 @@ class AuxilioCreateController
                 exit;
             }
         }
-
-        return ['flag' => $flag, 'values' => $values];
+        return ['errors' => $errors, 'values' => $values];
     }
 }

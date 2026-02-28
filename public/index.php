@@ -4,9 +4,14 @@ use ClinicaOdontologica\Helpers\AuthGuard;
 
 require_once __DIR__ . '/../app/bootstrap.php';
 
-$flag = 0;
+$errors = [];
 
 session_start();
+
+if (isset($_SESSION)) {
+  session_unset();
+  session_destroy();
+}
 
 if (isset($_SESSION)) {
   session_unset();
@@ -32,8 +37,7 @@ if (has_input('login')) {
     $senha = input('senha');
 
     AuthGuard::loginUser($nome_usuario, $senha);
-
-    $flag = 1;
+    $errors['auth'] = 'failed';
 }
 ?>
 <!DOCTYPE html>
@@ -67,7 +71,7 @@ if (has_input('login')) {
         <div class="card-header">Login - Clínica Odontológica</div>
         <div class="card-body">
         <?php
-          if ($flag == 1) { ?>
+          if (!empty($errors['auth'])) { ?>
             <div class="alert alert-danger form-group" role="alert">
               <b>Nome de usuário e senha não correspondentes</b>
             </div>

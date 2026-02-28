@@ -8,20 +8,20 @@ class PlanoDentarioCreateController
 {
     public function handleRequest(): array
     {
-        $flag = 0;
+        $errors = [];
         $values = ['nome' => '', 'desconto' => ''];
 
         if (function_exists('has_input') && has_input('botao')) {
             if (function_exists('validate_csrf') && !validate_csrf()) {
                 error_log('CSRF token validation failed in ' . __FILE__);
-                return ['flag' => 5, 'values' => []];
+                $errors['csrf'] = 'invalid_token';
             }
             $values['nome'] = input('nome', '');
             $values['desconto'] = input('desconto', '');
 
             $p = new PlanoDentario();
             if ($p->existeNome($values['nome'])) {
-                $flag = 1;
+                $errors['nome'] = 'duplicate';
             } else {
                 $p->setNome($values['nome']);
                 $p->setDesconto($values['desconto']);
@@ -31,6 +31,6 @@ class PlanoDentarioCreateController
             }
         }
 
-        return ['flag' => $flag, 'values' => $values];
+        return ['errors' => $errors, 'values' => $values];
     }
 }

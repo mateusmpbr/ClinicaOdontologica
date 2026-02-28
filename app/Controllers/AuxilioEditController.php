@@ -10,7 +10,7 @@ class AuxilioEditController
 {
     public function handleRequest(): array
     {
-        $flag = 0;
+        $errors = [];
         $values = [];
 
         $d = new Dentista();
@@ -21,7 +21,7 @@ class AuxilioEditController
         if (function_exists('has_input') && has_input('botao')) {
             if (function_exists('validate_csrf') && !validate_csrf()) {
                 error_log('CSRF token validation failed in ' . __FILE__);
-                return ['flag' => 5, 'values' => []];
+                $errors['csrf'] = 'invalid_token';
             }
             $dentista_id_atual = (request()->getParsedBody()['dentista_id_atual'] ?? request()->getQueryParams()['dentista_id_atual'] ?? null);
             $auxiliar_id_atual = (request()->getParsedBody()['auxiliar_id_atual'] ?? request()->getQueryParams()['auxiliar_id_atual'] ?? null);
@@ -34,13 +34,13 @@ class AuxilioEditController
             $dentista_id_novo = $d->existeNomeCro($values['nome_dentista'], $values['cro_dentista']);
 
             if (empty($dentista_id_novo)) {
-                $flag = 1;
+                $errors['dentista'] = 'not_found';
             }
             if (empty($auxiliar_id_novo)) {
-                $flag += 2;
+                $errors['auxiliar'] = 'not_found';
             }
 
-            if ($flag == 0) {
+            if (empty($errors)) {
                 $aad->setDentistaId($dentista_id_atual);
                 $aad->setAuxiliarId($auxiliar_id_atual);
                 $aad->edit($dentista_id_novo, $auxiliar_id_novo);
@@ -72,6 +72,6 @@ class AuxilioEditController
             $values['nome_auxiliar'] = $funcionario->nome ?? '';
         }
 
-        return ['flag' => $flag, 'values' => $values, 'dentista_id' => $dentista_id ?? null, 'auxiliar_id' => $auxiliar_id ?? null];
+        return ['errors' => $errors, 'values' => $values, 'dentista_id' => $dentista_id ?? null, 'auxiliar_id' => $auxiliar_id ?? null];
     }
 }

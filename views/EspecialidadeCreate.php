@@ -9,14 +9,14 @@ $data = $controller->handleRequest();
 include_once __DIR__ . '/_common/Header.php';
 
 $nome = $data['values']['nome'] ?? '';
-$flag = $data['flag'] ?? 0;
+$errors = $data['errors'] ?? [];
 ?>
 <body class="bg-dark">
   <div class="container">
     <div class="card card-register mx-auto mt-5">
       <div class="card-header">Cadastro de Especialidade</div>
       <div class="card-body">
-        <?php if ($flag == 1) { ?>
+        <?php if (!empty($errors['nome']) && $errors['nome'] === 'duplicate') { ?>
           <div class="alert alert-danger form-group" role="alert">
             <b>Especialidade já cadastrada</b>
           </div>

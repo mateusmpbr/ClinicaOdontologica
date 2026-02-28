@@ -19,7 +19,8 @@ include_once __DIR__ . '/_common/Header.php';
             </div>
         </div>
         <div class="card-body">
-        <?php if ($flag == 1) { ?>
+        <?php $errors = $data['errors'] ?? [];
+        if (!empty($errors['paciente'])) { ?>
           <div class="alert alert-danger form-group" role="alert">
             <b>O nome e o CPF informado não estão cadastrados ou não coincidem</b>
           </div>

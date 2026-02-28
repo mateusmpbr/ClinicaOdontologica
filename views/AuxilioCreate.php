@@ -20,15 +20,16 @@ include_once __DIR__ . '/_common/Header.php';
             </div>
         </div>
         <div class="card-body">
-        <?php if (!empty($data['flag']) && $data['flag'] == 1) { ?>
+        <?php $errors = $data['errors'] ?? [];
+        if (!empty($errors['dentista'])) { ?>
           <div class="alert alert-danger form-group" role="alert">
             <b>O nome e o CRO do dentista não estão cadastrados ou não coincidem</b>
           </div>
-        <?php } elseif (!empty($data['flag']) && $data['flag'] == 2) { ?>
+        <?php } elseif (!empty($errors['auxiliar'])) { ?>
           <div class="alert alert-danger form-group" role="alert">
             <b>O nome e o CPF do auxiliar não estão cadastrados ou não coincidem</b>
           </div>
-        <?php } elseif (!empty($data['flag']) && $data['flag'] == 3) { ?>
+        <?php } elseif (!empty($errors['dados'])) { ?>
           <div class="alert alert-danger form-group" role="alert">
             <b>Os dados informados não estão cadastrados ou não coincidem</b>
           </div>

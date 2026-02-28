@@ -8,7 +8,7 @@ $data = $controller->handleRequest();
 
 include_once __DIR__ . '/_common/Header.php';
 
-$flag = $data['flag'] ?? 0;
+$errors = $data['errors'] ?? [];
 $values = $data['values'] ?? ['nome' => '', 'desconto' => ''];
 ?>
 <body class="bg-dark">
@@ -19,7 +19,7 @@ $values = $data['values'] ?? ['nome' => '', 'desconto' => ''];
         Cadastro de Plano Dentário
       </div>
       <div class="card-body">
-        <?php if ($flag == 1) { ?>
+        <?php if (!empty($errors['nome']) && $errors['nome'] === 'duplicate') { ?>
           <div class="alert alert-danger form-group" role="alert">
             <b>Esse plano dentário já está cadastrado</b>
           </div>

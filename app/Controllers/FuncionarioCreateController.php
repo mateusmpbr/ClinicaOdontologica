@@ -11,7 +11,7 @@ class FuncionarioCreateController
     {
         autenticar(AuthRole::RECEPTIONIST);
 
-        $flag = 0;
+        $errors = [];
         $step = 0; // 0 = initial, 1 = detail
         $values = [
             'nome' => '', 'sobrenome' => '', 'nascimento' => '', 'cpf' => '', 'salario' => '', 'cargo' => ''
@@ -22,7 +22,7 @@ class FuncionarioCreateController
         if (function_exists('has_input') && has_input('botao')) {
             if (function_exists('validate_csrf') && !validate_csrf()) {
                 error_log('CSRF token validation failed in ' . __FILE__);
-                return ['flag' => 5, 'values' => []];
+                $errors['csrf'] = 'invalid_token';
             }
             $values['nome'] = input('nome', '');
             $values['sobrenome'] = input('sobrenome', '');
@@ -32,7 +32,7 @@ class FuncionarioCreateController
             $values['cargo'] = input('cargo', '');
 
             if (!$service->validateCpf($values['cpf'])) {
-                $flag = 1;
+                $errors['cpf'] = 'invalid';
                 $step = 0;
             } else {
                 $step = 2; // proceed to detail
@@ -54,6 +54,6 @@ class FuncionarioCreateController
             exit;
         }
 
-        return ['flag' => $flag, 'step' => $step, 'values' => $values];
+        return ['errors' => $errors, 'step' => $step, 'values' => $values];
     }
 }

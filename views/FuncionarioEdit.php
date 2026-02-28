@@ -8,7 +8,7 @@ $data = $controller->handleRequest();
 
 include_once __DIR__ . '/_common/Header.php';
 
-$flag = $data['flag'] ?? 0;
+$errors = $data['errors'] ?? [];
 $step = $data['step'] ?? 0;
 $values = $data['values'] ?? [];
 $resultado = $data['resultado'] ?? null;
@@ -23,7 +23,7 @@ $cargo = $data['cargo'] ?? ($values['cargo'] ?? ($resultado->cargo ?? ''));
           Atualização de Funcionário
         </div>
         <div class="card-body">
-        <?php if ($flag == 0) { ?>
+        <?php if ($step == 0) { ?>
           <form action="FuncionarioEdit.php" method="post">
             <?= function_exists('csrf_field') ? csrf_field() : '' ?>
             <?= function_exists('csrf_field') ? csrf_field() : '' ?>
@@ -51,7 +51,7 @@ $cargo = $data['cargo'] ?? ($values['cargo'] ?? ($resultado->cargo ?? ''));
             <input type="hidden" name="cargo" value="<?= htmlspecialchars($cargo ?? '') ?>">
             <button class="btn btn-primary btn-block" type="submit" name="botao">Avançar</button>
           </form>
-        <?php } elseif ($flag == 1) { ?>
+        <?php } elseif (!empty($errors['cpf'])) { ?>
           <div class="alert alert-danger form-group" role="alert">
             <b>O CPF informado não é válido</b>
           </div>
@@ -80,7 +80,7 @@ $cargo = $data['cargo'] ?? ($values['cargo'] ?? ($resultado->cargo ?? ''));
             <input type="hidden" name="cargo" value="<?= htmlspecialchars($cargo ?? '') ?>">
             <button class="btn btn-primary btn-block" type="submit" name="botao">Avançar</button>
           </form>
-       <?php } elseif ($flag == 2) { ?>
+       <?php } elseif ($step == 2) { ?>
           <form action="FuncionarioEdit.php" method="post">
     <?php  if ($cargo === 'Recepcionista' || $cargo === 'Administrador') { ?>
             <div class="form-group">

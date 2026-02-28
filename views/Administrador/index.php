@@ -41,7 +41,7 @@ if (has_input('botao-remover')) {
             <div class="card-body">
               <div class="table-responsive">
                 <?php
-                $flag = 0;
+                
 if (has_input('btn')) {
     $cargo = (request()->getParsedBody()['cargo'] ?? request()->getQueryParams()['cargo'] ?? null);
     if ($cargo == "Administrador") {

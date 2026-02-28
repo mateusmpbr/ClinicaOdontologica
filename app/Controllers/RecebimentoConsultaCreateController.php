@@ -12,7 +12,7 @@ class RecebimentoConsultaCreateController
     {
         autenticar(AuthRole::RECEPTIONIST);
 
-        $flag = 0;
+        $errors = [];
 
         $paciente = new Paciente();
         $recebimento = new Recebimento();
@@ -29,7 +29,7 @@ class RecebimentoConsultaCreateController
         if (function_exists('has_input') && has_input('botao')) {
             if (function_exists('validate_csrf') && !validate_csrf()) {
                 error_log('CSRF token validation failed in ' . __FILE__);
-                return ['flag' => 5, 'values' => []];
+                $errors['csrf'] = 'invalid_token';
             }
             $values['valor'] = (request()->getParsedBody()['valor'] ?? request()->getQueryParams()['valor'] ?? null);
             $values['data'] = (request()->getParsedBody()['data'] ?? request()->getQueryParams()['data'] ?? null);
@@ -61,7 +61,7 @@ class RecebimentoConsultaCreateController
                 header("Location: recebimentos.php");
                 exit;
             } else {
-                $flag = 1;
+                $errors['paciente'] = 'not_found';
             }
         } else {
             $id = (request()->getParsedBody()['id'] ?? request()->getQueryParams()['id'] ?? null);
@@ -79,6 +79,6 @@ class RecebimentoConsultaCreateController
             }
         }
 
-        return ['flag' => $flag, 'values' => $values];
+        return ['errors' => $errors, 'values' => $values];
     }
 }

@@ -9,7 +9,7 @@ $data = $controller->handleRequest();
 include_once __DIR__ . '/_common/Header.php';
 
 // compatibility variables
-$flag = $data['flag'] ?? 0;
+$errors = $data['errors'] ?? [];
 $resultado = $data['resultado'] ?? null;
 $planos = $data['planos'] ?? [];
 ?>
@@ -21,11 +21,11 @@ $planos = $data['planos'] ?? [];
           Atualização de Paciente
         </div>
         <div class="card-body">
-        <?php if ($flag == 1) { ?>
+        <?php if (!empty($errors['cpf']) && $errors['cpf'] === 'invalid') { ?>
           <div class="alert alert-danger form-group" role="alert">
             <b>O CPF informado não é válido</b>
           </div>
-        <?php } elseif ($flag == 2) { ?>
+        <?php } elseif (!empty($errors['cpf']) && $errors['cpf'] === 'duplicate') { ?>
           <div class="alert alert-danger form-group" role="alert">
             <b>O CPF informado já foi cadastrado</b>
           </div>

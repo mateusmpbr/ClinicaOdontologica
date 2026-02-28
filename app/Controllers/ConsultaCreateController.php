@@ -19,7 +19,7 @@ class ConsultaCreateController
         $d = new Dentista();
         $pd = new PlanoDentario();
 
-        $flag = 0;
+        $errors = [];
 
         $values = [
             'operacao' => '',
@@ -36,7 +36,7 @@ class ConsultaCreateController
         if (function_exists('has_input') && has_input('botao')) {
             if (function_exists('validate_csrf') && !validate_csrf()) {
                 error_log('CSRF token validation failed in ' . __FILE__);
-                return ['flag' => 5, 'values' => []];
+                $errors['csrf'] = 'invalid_token';
             }
             $values['nome_dentista'] = input('nome_dentista', '');
             $values['cro_dentista'] = input('cro_dentista', '');
@@ -53,7 +53,7 @@ class ConsultaCreateController
 
             $id_dentista = $d->existeNomeCro($values['nome_dentista'], $values['cro_dentista']);
             if (!$id_dentista) {
-                $flag = 1;
+                $errors['dentista'] = 'not_found';
             }
 
             $dcp->setDentistaId($id_dentista);
@@ -61,10 +61,10 @@ class ConsultaCreateController
             $dcp->setHorario($values['horario']);
 
             if (!$dcp->horarioValidoCadastro()) {
-                $flag = 4;
+                $errors['horario'] = 'conflict';
             }
 
-            if ($flag == 0) {
+            if (empty($errors)) {
                 $id_paciente = $p->existeNomeCpf();
                 $p->setId($id_paciente);
                 $paciente = $p->viewPaciente();
@@ -97,7 +97,7 @@ class ConsultaCreateController
         }
 
         return [
-            'flag' => $flag,
+            'errors' => $errors,
             'values' => $values,
         ];
     }

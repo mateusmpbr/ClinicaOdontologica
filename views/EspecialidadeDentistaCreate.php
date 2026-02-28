@@ -1,7 +1,7 @@
 <?php include_once __DIR__ . '/_common/Header.php' ?>
 <?php
 
-$flag = 0;
+$errors = [];
 
 // Inserção direta por IDs (formulário com selects)
 if (!empty($_POST) && isset($_POST['dentista_id']) && isset($_POST['especialidade_id']) && !isset($_POST['botao'])) {
@@ -31,18 +31,18 @@ if (has_input('botao')) {
     $especialidade = (request()->getParsedBody()['especialidade'] ?? request()->getQueryParams()['especialidade'] ?? null);
 
     if (!($id_dentista = $d->existeNomeCro($nome_dentista, $cro_dentista))) {
-        $flag = 1;
+      $errors['dentista'] = 'not_found';
     }
 
-    if ($flag == 0) {
-        $dhe->setDentistaId($id_dentista);
-        $dhe->setEspecialidadeNome($especialidade);
-        if ($dhe->viewDentistaHasEspecialidade()) {
-            $flag = 2;
-        }
+    if (empty($errors)) {
+      $dhe->setDentistaId($id_dentista);
+      $dhe->setEspecialidadeNome($especialidade);
+      if ($dhe->viewDentistaHasEspecialidade()) {
+        $errors['combination'] = 'duplicate';
+      }
     }
 
-    if ($flag == 0) {
+    if (empty($errors)) {
         $dhe->insert();
         header("Location: EspecialidadeDentistas.php");
         exit;
@@ -89,11 +89,11 @@ if (has_input('botao')) {
           </div>
       </div>
       <div class="card-body">
-      <?php if ($flag == 1) { ?>
+      <?php if (!empty($errors['dentista'])) { ?>
         <div class="alert alert-danger form-group" role="alert">
           <b>O nome e o CRO informados não estão cadastrados ou não coincidem</b>
         </div>
-      <?php } elseif ($flag == 2) { ?>
+      <?php } elseif (!empty($errors['combination'])) { ?>
         <div class="alert alert-danger form-group" role="alert">
           <b>Combinação de dentista e especialidade já cadastrada</b>
         </div>

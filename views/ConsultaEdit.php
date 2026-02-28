@@ -20,19 +20,20 @@ include_once __DIR__ . '/_common/Header.php';
           </div>
         </div>
         <div class="card-body">
-        <?php if ($data['flag'] == 1) { ?>
+        <?php $errors = $data['errors'] ?? [];
+        if (isset($errors['cpf'])) { ?>
           <div class="alert alert-danger form-group" role="alert">
             <b>O CPF informado não é válido</b>
           </div>
-        <?php } elseif ($data['flag'] == 2) { ?>
+        <?php } elseif (isset($errors['horario'])) { ?>
           <div class="alert alert-danger form-group" role="alert">
             <b>Já há uma pessoa agendada</b>
           </div>
-        <?php } elseif ($data['flag'] == 3) { ?>
+        <?php } elseif (isset($errors['dentista'])) { ?>
           <div class="alert alert-danger form-group" role="alert">
             <b>Não há esse dentista cadastrado</b>
           </div>
-        <?php } elseif ($data['flag'] == 4) { ?>
+        <?php } elseif (isset($errors['paciente'])) { ?>
           <div class="alert alert-danger form-group" role="alert">
             <b>Não há esse paciente cadastrado</b>
           </div>

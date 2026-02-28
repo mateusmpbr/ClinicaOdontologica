@@ -8,12 +8,7 @@ $data = $controller->handleRequest();
 
 include_once __DIR__ . '/_common/Header.php';
 
-$flag = $data['flag'] ?? 0;
-$step = $data['step'] ?? 0;
-$auxiliares = $data['auxiliares'] ?? [];
-$resultado = $data['resultado'] ?? null;
-
-$flag = $data['flag'] ?? 0;
+$errors = $data['errors'] ?? [];
 $step = $data['step'] ?? 0;
 $auxiliares = $data['auxiliares'] ?? [];
 $resultado = $data['resultado'] ?? null;

@@ -11,7 +11,7 @@ class ConsultaEditController
 {
     public function handleRequest(): array
     {
-        $flag = 0;
+        $errors = [];
 
         $dcp = new DentistaConsultaPaciente();
         $p = new Paciente();
@@ -23,7 +23,7 @@ class ConsultaEditController
         if (function_exists('has_input') && has_input('botao')) {
             if (function_exists('validate_csrf') && !validate_csrf()) {
                 error_log('CSRF token validation failed in ' . __FILE__);
-                $flag = 5;
+                $errors['csrf'] = 'invalid_token';
             } else {
             $id = input('id', null);
             $paciente_id = input('paciente_id', null);
@@ -40,7 +40,7 @@ class ConsultaEditController
             $operacao = input('operacao', null);
 
             if (!$p->validaCPF($cpf_paciente)) {
-                $flag = 1;
+                $errors['cpf'] = 'invalid';
             }
 
             $dcp->setId($id);
@@ -49,21 +49,21 @@ class ConsultaEditController
             $dcp->setHorario($horario);
 
             if (!$dcp->horarioValido()) {
-                $flag = 2;
+                $errors['horario'] = 'conflict';
             }
 
             if (!$d->existeNomeCro($nome_dentista, $cro_dentista)) {
-                $flag = 3;
+                $errors['dentista'] = 'not_found';
             }
 
             $p->setNome($nome_paciente);
             $p->setCpf($cpf_paciente);
 
             if (!$p->existeNomeCpf()) {
-                $flag = 4;
+                $errors['paciente'] = 'not_found';
             }
 
-            if ($flag == 0) {
+            if (empty($errors)) {
                 $dcp->setPacienteId($paciente_id);
                 $dcp->setValor($valor);
                 $dcp->setSituacao($situacao);
@@ -114,7 +114,7 @@ class ConsultaEditController
         }
 
         return [
-            'flag' => $flag,
+            'errors' => $errors,
             'values' => $values,
         ];
     }

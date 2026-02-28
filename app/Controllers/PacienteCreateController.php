@@ -11,8 +11,6 @@ class PacienteCreateController
     public function handleRequest(): array
     {
         autenticar(AuthRole::RECEPTIONIST);
-
-        $flag = 0;
         $values = [
             'nome' => '',
             'sobrenome' => '',
@@ -20,11 +18,13 @@ class PacienteCreateController
             'cpf' => '',
             'plano_dentario' => '',
         ];
+        $errors = [];
 
         if (function_exists('has_input') && has_input('botao')) {
             if (function_exists('validate_csrf') && !validate_csrf()) {
                 error_log('CSRF token validation failed in ' . __FILE__);
-                return ['flag' => 5, 'values' => $values, 'planos' => []];
+                $errors['csrf'] = 'invalid_token';
+                // continue to render form with error
             }
             $values['nome'] = input('nome', '');
             $values['sobrenome'] = input('sobrenome', '');
@@ -40,13 +40,13 @@ class PacienteCreateController
             $paciente->setPlanoDentarioId($values['plano_dentario']);
 
             if (!$paciente->validaCPF($values['cpf'])) {
-                $flag = 1;
+                $errors['cpf'] = 'invalid';
             }
             if ($paciente->existeCpf()) {
-                $flag = 2;
+                $errors['cpf'] = 'duplicate';
             }
 
-            if ($flag == 0) {
+            if (empty($errors)) {
                 $paciente->insert();
                 header('Location: /views/Recepcionista/index.php');
                 exit;
@@ -58,7 +58,7 @@ class PacienteCreateController
         $planos = $stmt->fetchAll(\PDO::FETCH_OBJ);
 
         return [
-            'flag' => $flag,
+            'errors' => $errors,
             'values' => $values,
             'planos' => $planos,
         ];

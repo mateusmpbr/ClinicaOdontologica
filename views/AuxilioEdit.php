@@ -8,7 +8,7 @@ $data = $controller->handleRequest();
 
 include_once __DIR__ . '/_common/Header.php';
 
-$flag = $data['flag'] ?? 0;
+$errors = $data['errors'] ?? [];
 $values = $data['values'] ?? [];
 $dentista_id = $data['dentista_id'] ?? null;
 $auxiliar_id = $data['auxiliar_id'] ?? null;
@@ -25,15 +25,15 @@ $auxiliar_id = $data['auxiliar_id'] ?? null;
             </div>
         </div>
         <div class="card-body">
-        <?php if (!empty($flag) && $flag == 1) { ?>
+        <?php if (!empty($errors['dentista'])) { ?>
           <div class="alert alert-danger form-group" role="alert">
             <b>O nome e o CRO do dentista não estão cadastrados ou não coincidem</b>
           </div>
-        <?php } elseif (!empty($flag) && $flag == 2) { ?>
+        <?php } elseif (!empty($errors['auxiliar'])) { ?>
           <div class="alert alert-danger form-group" role="alert">
             <b>O nome e o CPF do auxiliar não estão cadastrados ou não coincidem</b>
           </div>
-        <?php } elseif (!empty($flag) && $flag == 3) { ?>
+        <?php } elseif (!empty($errors['dados'])) { ?>
           <div class="alert alert-danger form-group" role="alert">
             <b>Os dados informados não estão cadastrados ou não coincidem</b>
           </div>

@@ -8,14 +8,18 @@ $data = $controller->handleRequest();
 
 include_once __DIR__ . '/_common/Header.php';
 
-$flag = $data['flag'] ?? 0;
+$errors = $data['errors'] ?? [];
 $step = $data['step'] ?? 0;
 $values = $data['values'] ?? ['nome'=>'','sobrenome'=>'','nascimento'=>'','cpf'=>'','salario'=>'','cargo'=>''];
 $resultado = $data['resultado'] ?? null;
 $id = $data['id'] ?? ($values['id'] ?? null);
 $cargo = $data['cargo'] ?? ($values['cargo'] ?? ($resultado->cargo ?? ''));
 ?>
-<body class="bg-dark">
+  <?php if (!empty($errors['cpf'])) : ?>
+          <div class="alert alert-danger form-group" role="alert">
+            <b>O CPF informado não é válido</b>
+          </div>
+        <?php endif; ?>
 
   <div class="container">
     <div class="card card-register mx-auto mt-5">

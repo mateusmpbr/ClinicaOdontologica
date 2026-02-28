@@ -9,7 +9,7 @@ $data = $controller->handleRequest();
 include_once __DIR__ . '/_common/Header.php';
 
 // compatibility variables for existing template
-$flag = $data['flag'] ?? 0;
+$errors = $data['errors'] ?? [];
 $nome = $data['values']['nome'] ?? '';
 $sobrenome = $data['values']['sobrenome'] ?? '';
 $nascimento = $data['values']['nascimento'] ?? '';
@@ -24,7 +24,7 @@ $planoDentarioList = $data['planos'] ?? [];
           Cadastro de Paciente
         </div>
         <div class="card-body">
-        <?php if ($flag == 1) { ?>
+        <?php if (isset($errors['cpf']) && $errors['cpf'] === 'invalid') { ?>
           <div class="alert alert-danger form-group" role="alert">
             <b>O CPF informado não é válido</b>
           </div>
@@ -60,7 +60,7 @@ $planoDentarioList = $data['planos'] ?? [];
             </div>
             <button class="btn btn-primary btn-block" type="submit" name="botao">Cadastrar</button>
           </form>
-        <?php } elseif ($flag == 2) { ?>
+        <?php } elseif (isset($errors['cpf']) && $errors['cpf'] === 'duplicate') { ?>
           <div class="alert alert-danger form-group" role="alert">
             <b>O CPF informado já foi cadastrado</b>
           </div>

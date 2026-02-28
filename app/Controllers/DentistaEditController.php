@@ -11,13 +11,13 @@ class DentistaEditController
     {
         autenticar(AuthRole::RECEPTIONIST);
 
-        $flag = 0;
+        $errors = [];
         $values = [];
 
         if (function_exists('has_input') && has_input('botao')) {
             if (function_exists('validate_csrf') && !validate_csrf()) {
                 error_log('CSRF token validation failed in ' . __FILE__);
-                return ['flag' => 5, 'values' => []];
+                $errors['csrf'] = 'invalid_token';
             }
             $id = input('id', null);
             $values['nome'] = input('nome', '');
@@ -37,6 +37,6 @@ class DentistaEditController
         $d->setId($id);
         $resultado = $d->viewDentista();
 
-        return ['flag' => $flag, 'values' => $values, 'resultado' => $resultado];
+        return ['errors' => $errors, 'values' => $values, 'resultado' => $resultado];
     }
 }

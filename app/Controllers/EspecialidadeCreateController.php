@@ -8,19 +8,19 @@ class EspecialidadeCreateController
 {
     public function handleRequest(): array
     {
-        $flag = 0;
+        $errors = [];
         $values = ['nome' => ''];
 
         if (function_exists('has_input') && has_input('botao')) {
             if (function_exists('validate_csrf') && !validate_csrf()) {
                 error_log('CSRF token validation failed in ' . __FILE__);
-                return ['flag' => 5, 'values' => []];
+                $errors['csrf'] = 'invalid_token';
             }
             $values['nome'] = input('nome', '');
             $e = new Especialidade();
             $e->setNome($values['nome']);
             if ($e->viewEspecialidade()) {
-                $flag = 1;
+                $errors['nome'] = 'duplicate';
             } else {
                 $e->insert();
                 header('Location: especialidades.php');
@@ -28,6 +28,6 @@ class EspecialidadeCreateController
             }
         }
 
-        return ['flag' => $flag, 'values' => $values];
+        return ['errors' => $errors, 'values' => $values];
     }
 }

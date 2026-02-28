@@ -8,7 +8,7 @@ class DespesaCreateController
 {
     public function handleRequest(): array
     {
-        $flag = 0;
+        $errors = [];
         $values = [
             'nome' => '',
             'data' => '',
@@ -20,7 +20,7 @@ class DespesaCreateController
         if (function_exists('has_input') && has_input('botao')) {
             if (function_exists('validate_csrf') && !validate_csrf()) {
                 error_log('CSRF token validation failed in ' . __FILE__);
-                return ['flag' => 5, 'values' => []];
+                $errors['csrf'] = 'invalid_token';
             }
             $b = new Balanco();
             $d = new Despesa();
@@ -33,7 +33,7 @@ class DespesaCreateController
             $administrador_id = $_SESSION['funcionario'] ?? null;
 
             if ($values['situacao'] === 'Pago' && $b->mostraSaldo() - $values['valor'] < 0) {
-                $flag = 1;
+                $errors['saldo'] = 'insufficient';
             } else {
                 $d->setNome($values['nome']);
                 $d->setData($values['data']);
@@ -47,6 +47,6 @@ class DespesaCreateController
             }
         }
 
-        return ['flag' => $flag, 'values' => $values];
+        return ['errors' => $errors, 'values' => $values];
     }
 }

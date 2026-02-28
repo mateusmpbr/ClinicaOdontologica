@@ -16,7 +16,8 @@ include_once __DIR__ . '/_common/Header.php';
           Cadastro de Despesa
         </div>
         <div class="card-body">
-        <?php if (!empty($data['flag']) && $data['flag'] == 1) { ?>
+        <?php $errors = $data['errors'] ?? [];
+        if (!empty($errors['saldo'])) { ?>
           <div class="alert alert-danger form-group" role="alert">
             <b>Não há saldo suficiente</b>
           </div>
