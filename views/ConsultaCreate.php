@@ -38,6 +38,8 @@ include_once __DIR__ . '/_common/header.php';
           </div>
         <?php }  ?>
           <form action="ConsultaCreate.php" method="post">
+            <?= function_exists('csrf_field') ? csrf_field() : '' ?>
+            <?= function_exists('csrf_field') ? csrf_field() : '' ?>
             <div class="form-group">
                 <label>Operação</label>
                 <input type="text" class="form-control" required="required" autofocus="autofocus" name="operacao" value="<?= htmlspecialchars($data['values']['operacao']) ?>">

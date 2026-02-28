@@ -23,6 +23,8 @@ $cargo = $data['cargo'] ?? ($values['cargo'] ?? ($resultado->cargo ?? ''));
       <div class="card-body">
         <?php if ($step === 0) : ?>
         <form action="FuncionarioCreate.php" method="post">
+          <?= function_exists('csrf_field') ? csrf_field() : '' ?>
+          <?= function_exists('csrf_field') ? csrf_field() : '' ?>
           <div class="form-group">
             <label>Nome</label>
             <input class="form-control" name="nome" required value="<?= htmlspecialchars($values['nome']) ?>">
@@ -48,6 +50,8 @@ $cargo = $data['cargo'] ?? ($values['cargo'] ?? ($resultado->cargo ?? ''));
         </form>
         <?php elseif ($step === 2) : ?>
         <form action="FuncionarioCreate.php" method="post">
+          <?= function_exists('csrf_field') ? csrf_field() : '' ?>
+          <?= function_exists('csrf_field') ? csrf_field() : '' ?>
           <?php if ($values['cargo'] === 'Recepcionista' || $values['cargo'] === 'Administrador') : ?>
             <div class="form-group">
               <label>Nome de usuário</label>

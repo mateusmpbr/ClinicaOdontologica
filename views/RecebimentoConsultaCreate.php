@@ -25,6 +25,7 @@ include_once __DIR__ . '/_common/header.php';
           </div>
         <?php } ?>
           <form action="RecebimentoConsultaCreate.php" method="post">
+            <?= function_exists('csrf_field') ? csrf_field() : '' ?>
             <div class="form-group">
                 <label>Nome do Paciente</label>
                 <input type="text" class="form-control" name="nome_paciente" value="<?= htmlspecialchars($data['values']['nome_paciente'] ?? '') ?>">

@@ -29,21 +29,22 @@ $planoDentarioList = $data['planos'] ?? [];
             <b>O CPF informado não é válido</b>
           </div>
           <form action="PacienteCreate.php" name="cadastrarPaciente" method="post">
+            <?= function_exists('csrf_field') ? csrf_field() : '' ?>
             <div class="form-group">
                 <label>Primeiro nome</label>
-                <input type="text" class="form-control" required="required" autofocus="autofocus" name="nome" value="<?=$nome?>">
+                <input type="text" class="form-control" required="required" autofocus="autofocus" name="nome" value="<?= htmlspecialchars($nome) ?>">
             </div>
             <div class="form-group">
                 <label>Sobrenome</label>
-                <input type="text" class="form-control" required="required" name="sobrenome" value="<?=$sobrenome?>">
+                <input type="text" class="form-control" required="required" name="sobrenome" value="<?= htmlspecialchars($sobrenome) ?>">
             </div>
             <div class="form-group">
                 <label>Data de nascimento</label>
-                <input type="date" class="form-control" required="required" name="nascimento" value="<?=$nascimento?>">
+                <input type="date" class="form-control" required="required" name="nascimento" value="<?= htmlspecialchars($nascimento) ?>">
             </div>
             <div class="form-group">
                 <label>CPF (somente números)</label>
-                <input type="text" class="form-control" maxlength="11" name="cpf" value="<?=$cpf?>">
+                <input type="text" class="form-control" maxlength="11" name="cpf" value="<?= htmlspecialchars($cpf) ?>">
             </div>
             <div class="form-group">
               <label>Plano Dentário</label><br>
@@ -53,7 +54,7 @@ $planoDentarioList = $data['planos'] ?? [];
             $stmt = $planoDentario->viewAll();
 
             while ($row = $stmt->fetch(PDO::FETCH_OBJ)) { ?>
-                <option value= <?= $row->id; ?>> <?= $row->nome; ?> </option>
+                <option value="<?= htmlspecialchars($row->id) ?>"> <?= htmlspecialchars($row->nome) ?> </option>
                 <?php } ?>
               </select>
             </div>
@@ -64,27 +65,28 @@ $planoDentarioList = $data['planos'] ?? [];
             <b>O CPF informado já foi cadastrado</b>
           </div>
           <form action="PacienteCreate.php" name="cadastrarPaciente" method="post">
+            <?= function_exists('csrf_field') ? csrf_field() : '' ?>
             <div class="form-group">
                 <label>Primeiro nome</label>
-                <input type="text" class="form-control" required="required" autofocus="autofocus" name="nome" value="<?=$nome?>">
+                <input type="text" class="form-control" required="required" autofocus="autofocus" name="nome" value="<?= htmlspecialchars($nome) ?>">
             </div>
             <div class="form-group">
                 <label>Sobrenome</label>
-                <input type="text" class="form-control" required="required" name="sobrenome" value="<?=$sobrenome?>">
+                <input type="text" class="form-control" required="required" name="sobrenome" value="<?= htmlspecialchars($sobrenome) ?>">
             </div>
             <div class="form-group">
                 <label>Data de nascimento</label>
-                <input type="date" class="form-control" required="required" name="nascimento" value="<?=$nascimento?>">
+                <input type="date" class="form-control" required="required" name="nascimento" value="<?= htmlspecialchars($nascimento) ?>">
             </div>
             <div class="form-group">
                 <label>CPF (somente números)</label>
-                <input type="text" class="form-control" maxlength="11" name="cpf" value="<?=$cpf?>">
+                <input type="text" class="form-control" maxlength="11" name="cpf" value="<?= htmlspecialchars($cpf) ?>">
             </div>
             <div class="form-group">
               <label>Plano Dentário</label><br>
               <select id="select-paciente" name="plano_dentario">
                 <?php foreach ($planoDentarioList as $row) { ?>
-                <option value="<?= $row->id; ?>"> <?= htmlspecialchars($row->nome); ?> </option>
+                <option value="<?= htmlspecialchars($row->id) ?>"> <?= htmlspecialchars($row->nome); ?> </option>
                 <?php } ?>
               </select>
             </div>
@@ -92,6 +94,7 @@ $planoDentarioList = $data['planos'] ?? [];
           </form>
         <?php } else { ?>
           <form action="PacienteCreate.php" name="cadastrarPaciente" method="post">
+            <?= function_exists('csrf_field') ? csrf_field() : '' ?>
             <div class="form-group">
                 <label>Primeiro nome</label>
                 <input type="text" class="form-control" required="required" autofocus="autofocus" name="nome">
@@ -112,7 +115,7 @@ $planoDentarioList = $data['planos'] ?? [];
               <label>Plano Dentário</label><br>
               <select id="select-paciente" name="plano_dentario">
                 <?php foreach ($planoDentarioList as $row) { $selected = ($row->nome == "Não") ? "selected='selected'" : ""; ?>
-                <option value="<?= $row->id; ?>" <?= $selected ?>> <?= htmlspecialchars($row->nome); ?> </option>
+                <option value="<?= htmlspecialchars($row->id) ?>" <?= $selected ?>> <?= htmlspecialchars($row->nome); ?> </option>
                 <?php } ?>
               </select>
             </div>

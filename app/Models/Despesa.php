@@ -114,7 +114,7 @@ class Despesa
             $stmt->execute();
             return 1;
         } catch (\PDOException $e) {
-            echo $e->getMessage();
+            error_log($e->getMessage());
             return 0;
         }
     }
@@ -133,7 +133,7 @@ class Despesa
             $stmt->execute();
             return 1;
         } catch (\PDOException $e) {
-            echo $e->getMessage();
+            error_log($e->getMessage());
             return 0;
         }
     }
@@ -146,7 +146,7 @@ class Despesa
             $stmt->execute();
             return 1;
         } catch (\PDOException $e) {
-            echo $e->getMessage();
+            error_log($e->getMessage());
             return 0;
         }
     }
@@ -180,7 +180,7 @@ class Despesa
                 return $result->nome;
             }
         } catch (\PDOException $e) {
-            echo $e->getMessage();
+            error_log($e->getMessage());
             return 0;
         }
     }

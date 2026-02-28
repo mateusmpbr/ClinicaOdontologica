@@ -55,17 +55,17 @@ $stmt = $p->viewAll();
 
 while ($row = $stmt->fetch(PDO::FETCH_OBJ)) { ?>
                       <tr align="center">
-                        <td> <?= $row->nome; ?> </td>
-                        <td> <?= $row->sobrenome; ?> </td>
-                        <td> <?= $row->nascimento; ?> </td>
-                        <td> <?= empty($row->cpf) ? "" : $row->cpf; ?> </td>
+                        <td> <?= htmlspecialchars($row->nome) ?> </td>
+                        <td> <?= htmlspecialchars($row->sobrenome) ?> </td>
+                        <td> <?= htmlspecialchars($row->nascimento) ?> </td>
+                        <td> <?= empty($row->cpf) ? "" : htmlspecialchars($row->cpf); ?> </td>
                         <?php
     $p->setId($row->id);
     $plano_dentario = $p->nomePlanoDentario();
     ?>
-                        <td> <?= $plano_dentario; ?> </td>
-                        <td><a href="../PacienteEdit.php?id=<?=$row->id?>" class="btn btn-primary">Alterar</a></td>
-                        <td><a href="#" class="btn btn-danger" data-toggle="modal" data-target="#removeModal<?=$row->id?>">Remover</a></td>
+                        <td> <?= htmlspecialchars($plano_dentario) ?> </td>
+                        <td><a href="../PacienteEdit.php?id=<?= htmlspecialchars($row->id) ?>" class="btn btn-primary">Alterar</a></td>
+                        <td><a href="#" class="btn btn-danger" data-toggle="modal" data-target="#removeModal<?= htmlspecialchars($row->id) ?>">Remover</a></td>
                       </tr>
                       <?php } ?>
                   </tbody>
@@ -82,7 +82,7 @@ $stmt = $p->viewAll();
 
 while ($row = $stmt->fetch(PDO::FETCH_OBJ)) {
     $modalId = "removeModal{$row->id}";
-    $modalTitle = "Você tem certeza que deseja remover o paciente {$row->nome} ?";
+    $modalTitle = "Você tem certeza que deseja remover o paciente " . htmlspecialchars($row->nome) . " ?";
     $modalBody = "Essa ação não poderá ser desfeita";
     $formAction = "index.php";
     $hiddenFields = ['id' => $row->id];

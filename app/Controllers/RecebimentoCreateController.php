@@ -18,6 +18,10 @@ class RecebimentoCreateController
         ];
 
         if (function_exists('has_input') && has_input('botao')) {
+            if (function_exists('validate_csrf') && !validate_csrf()) {
+                error_log('CSRF token validation failed in ' . __FILE__);
+                return ['flag' => 5, 'values' => []];
+            }
             $paciente = new Paciente();
             $recebimento = new Recebimento();
 

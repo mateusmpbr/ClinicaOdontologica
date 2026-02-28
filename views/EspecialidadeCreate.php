@@ -22,6 +22,8 @@ $flag = $data['flag'] ?? 0;
           </div>
         <?php } ?>
         <form action="EspecialidadeCreate.php" method="post">
+          <?= function_exists('csrf_field') ? csrf_field() : '' ?>
+          <?= function_exists('csrf_field') ? csrf_field() : '' ?>
           <div class="form-group">
             <label>Nome</label>
             <input class="form-control" name="nome" required value="<?= htmlspecialchars($nome) ?>">

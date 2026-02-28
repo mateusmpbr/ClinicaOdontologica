@@ -35,11 +35,13 @@ if (has_input('botao')) {
         </div>
         <div class="card-body">
           <form action="EspecialidadeDentistaEdit.php" method="post">
+            <?= function_exists('csrf_field') ? csrf_field() : '' ?>
+            <?= function_exists('csrf_field') ? csrf_field() : '' ?>
             <div class="form-group">
               <label>Dentista</label>
               <select name="dentista_id" class="form-control">
                 <?php foreach ((new \ClinicaOdontologica\Models\Dentista())->all() as $dentista) { ?>
-                  <option value=<?=$dentista['id']?> <?=($dentista['id']==$resultado->dentista_id)?'selected':''?>><?=$dentista['nome']?></option>
+                  <option value="<?= htmlspecialchars($dentista['id']) ?>" <?=($dentista['id']==$resultado->dentista_id)?'selected':''?>><?= htmlspecialchars($dentista['nome']) ?></option>
                 <?php } ?>
               </select>
             </div>
@@ -47,11 +49,11 @@ if (has_input('botao')) {
               <label>Especialidade</label>
               <select name="especialidade_id" class="form-control">
                 <?php foreach ((new \ClinicaOdontologica\Models\Especialidade())->all() as $esp) { ?>
-                  <option value=<?=$esp['id']?> <?=($esp['id']==$resultado->especialidade_id)?'selected':''?>><?=$esp['nome']?></option>
+                  <option value="<?= htmlspecialchars($esp['id']) ?>" <?=($esp['id']==$resultado->especialidade_id)?'selected':''?>><?= htmlspecialchars($esp['nome']) ?></option>
                 <?php } ?>
               </select>
             </div>
-            <input type="hidden" name="resultado_id" value=<?=$resultado_id?>>
+            <input type="hidden" name="resultado_id" value="<?= htmlspecialchars($resultado_id) ?>">
             <button class="btn btn-primary btn-block" type="submit" name="botao">Atualizar</button>
           </form>
         </div>

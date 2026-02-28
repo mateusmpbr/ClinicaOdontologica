@@ -21,6 +21,10 @@ class ConsultaEditController
         $values = [];
 
         if (function_exists('has_input') && has_input('botao')) {
+            if (function_exists('validate_csrf') && !validate_csrf()) {
+                error_log('CSRF token validation failed in ' . __FILE__);
+                $flag = 5;
+            } else {
             $id = input('id', null);
             $paciente_id = input('paciente_id', null);
             $dentista_id = input('dentista_id', null);
@@ -80,6 +84,7 @@ class ConsultaEditController
             }
 
             $values = compact('id','paciente_id','dentista_id','nome_dentista','cro_dentista','nome_paciente','cpf_paciente','valor','data','horario','situacao','operacao');
+            }
         } else {
             $id = input('id', null);
             $dcp->setId($id);

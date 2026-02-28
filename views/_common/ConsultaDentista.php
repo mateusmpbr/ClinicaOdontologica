@@ -41,8 +41,8 @@ $stmt = $d->viewAll();
 
 while ($row = $stmt->fetch(PDO::FETCH_OBJ)) { ?>
                       <tr align="center">
-                        <td> <?= $row->nome; ?> </td>
-                        <td> <?= $row->cro; ?></td>
+                        <td> <?= htmlspecialchars($row->nome) ?> </td>
+                        <td> <?= htmlspecialchars($row->cro) ?></td>
                       </tr>
                       <?php } ?>
                   </tbody>

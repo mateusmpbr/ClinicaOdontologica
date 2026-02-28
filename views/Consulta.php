@@ -62,22 +62,22 @@ $dcp = $data['dcp'];
                   <tbody>
                       <?php foreach ($data['consultas'] as $row) { ?>
                       <tr align="center">
-                        <td> <?= $row->operacao; ?> </td>
+                        <td> <?= htmlspecialchars($row->operacao) ?> </td>
                         <?php
     $dcp->setId($row->id);
     $nome_paciente = $dcp->nomePaciente();
     ?>
-                        <td> <?= $nome_paciente; ?> </td>
+                        <td> <?= htmlspecialchars($nome_paciente) ?> </td>
                         <?php
       $nome_dentista = $dcp->nomeDentista();
     ?>
-                        <td> <?= $nome_dentista; ?> </td>
-                        <td> <?= $row->data ?> </td>
-                        <td> <?= $row->horario; ?> </td>
-                        <td> <?= $row->valor; ?> </td>
-                        <td> <?= $row->situacao; ?> </td>
-                        <td><a href="ConsultaEdit.php?id=<?=$row->id?>" class="btn btn-primary">Alterar</a></td>
-                        <td><a href="#" class="btn btn-danger" data-toggle="modal" data-target="#removeModal<?=$row->id?>">Remover</a></td>
+                        <td> <?= htmlspecialchars($nome_dentista) ?> </td>
+                        <td> <?= htmlspecialchars($row->data) ?> </td>
+                        <td> <?= htmlspecialchars($row->horario) ?> </td>
+                        <td> <?= htmlspecialchars($row->valor) ?> </td>
+                        <td> <?= htmlspecialchars($row->situacao) ?> </td>
+                        <td><a href="ConsultaEdit.php?id=<?= htmlspecialchars($row->id) ?>" class="btn btn-primary">Alterar</a></td>
+                        <td><a href="#" class="btn btn-danger" data-toggle="modal" data-target="#removeModal<?= htmlspecialchars($row->id) ?>">Remover</a></td>
                       </tr>
                       <?php } ?>
                   </tbody>

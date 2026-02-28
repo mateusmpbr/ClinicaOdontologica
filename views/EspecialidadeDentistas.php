@@ -86,11 +86,11 @@ while ($row = $stmt->fetch(PDO::FETCH_OBJ)) { ?>
     $dhe->setDentistaId($row->dentista_id);
     $dentista_nome = $dhe->nomeDentista();
     ?>
-                        <td> <?= $dentista_nome; ?> </td>
-                        <td> <?= $row->especialidade_nome; ?> </td>
+                        <td> <?= htmlspecialchars($dentista_nome) ?> </td>
+                        <td> <?= htmlspecialchars($row->especialidade_nome) ?> </td>
                         <?php if ($isAdmin) : ?>
-                        <td><a href="EspecialidadeDentistaEdit.php?dentista_id=<?=$row->dentista_id?>&especialidade_nome=<?=$row->especialidade_nome?>" class="btn btn-primary">Alterar</a></td>
-                        <td><a href="#" class="btn btn-danger" data-toggle="modal" data-target="#removeModal<?=$row->dentista_id?>-<?=$row->especialidade_nome?>">Remover</a></td>
+                        <td><a href="EspecialidadeDentistaEdit.php?dentista_id=<?= htmlspecialchars($row->dentista_id) ?>&especialidade_nome=<?= rawurlencode($row->especialidade_nome) ?>" class="btn btn-primary">Alterar</a></td>
+                        <td><a href="#" class="btn btn-danger" data-toggle="modal" data-target="#removeModal<?= htmlspecialchars($row->dentista_id) ?>-<?= htmlspecialchars($row->especialidade_nome) ?>">Remover</a></td>
                         <?php endif; ?>
                       </tr>
                       <?php } ?>
@@ -111,7 +111,7 @@ while ($row = $stmt->fetch(PDO::FETCH_OBJ)) {
     $dhe->setDentistaId($row->dentista_id);
     $dentista_nome = $dhe->nomeDentista();
     $modalId = "removeModal{$row->dentista_id}-{$row->especialidade_nome}";
-    $modalTitle = "Você tem certeza que deseja remover a especialidade {$row->especialidade_nome} do dentista {$dentista_nome} ?";
+    $modalTitle = "Você tem certeza que deseja remover a especialidade " . htmlspecialchars($row->especialidade_nome) . " do dentista " . htmlspecialchars($dentista_nome) . " ?";
     $modalBody = "Essa ação não poderá ser desfeita";
     $formAction = "EspecialidadeDentistas.php";
     $hiddenFields = ['dentista_id' => $row->dentista_id, 'especialidade_nome' => $row->especialidade_nome];

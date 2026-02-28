@@ -122,7 +122,7 @@ class DentistaConsultaPaciente
             $stmt->execute();
             return $this->conn->lastInsertId();
         } catch (\PDOException $e) {
-            echo $e->getMessage();
+            error_log($e->getMessage());
             return 0;
         }
     }
@@ -140,7 +140,7 @@ class DentistaConsultaPaciente
             $stmt->execute();
             return $this->id;
         } catch (\PDOException $e) {
-            echo $e->getMessage();
+            error_log($e->getMessage());
             return 0;
         }
     }
@@ -153,7 +153,7 @@ class DentistaConsultaPaciente
             $stmt->execute();
             return 1;
         } catch (\PDOException $e) {
-            echo $e->getMessage();
+            error_log($e->getMessage());
             return 0;
         }
     }
@@ -186,7 +186,7 @@ class DentistaConsultaPaciente
             $resultado = $stmt->fetch(\PDO::FETCH_OBJ);
             return empty($resultado);
         } catch (\PDOException $e) {
-            echo $e->getMessage();
+            error_log($e->getMessage());
             return 0;
         }
     }
@@ -202,7 +202,7 @@ class DentistaConsultaPaciente
             $resultado = $stmt->fetch(\PDO::FETCH_OBJ);
             return empty($resultado);
         } catch (\PDOException $e) {
-            echo $e->getMessage();
+            error_log($e->getMessage());
             return 0;
         }
     }
@@ -219,7 +219,7 @@ class DentistaConsultaPaciente
             }
             return $result->nome;
         } catch (\PDOException $e) {
-            echo $e->getMessage();
+            error_log($e->getMessage());
             return 0;
         }
     }
@@ -236,7 +236,7 @@ class DentistaConsultaPaciente
             }
             return $result->nome;
         } catch (\PDOException $e) {
-            echo $e->getMessage();
+            error_log($e->getMessage());
             return 0;
         }
     }

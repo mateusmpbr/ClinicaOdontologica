@@ -78,8 +78,8 @@ $planos = $data['planos'] ?? [];
                         <td> <?= htmlspecialchars($row->nome); ?> </td>
                         <td> <?= htmlspecialchars($row->desconto) . "%"; ?> </td>
                         <?php if ($isAdmin) : ?>
-                        <td><a href="PlanoDentarioEdit.php?id=<?= $row->id ?>" class="btn btn-primary">Alterar</a></td>
-                        <td><a href="#" class="btn btn-danger" data-toggle="modal" data-target="#removeModal<?= $row->id ?>">Remover</a></td>
+                        <td><a href="PlanoDentarioEdit.php?id=<?= rawurlencode($row->id) ?>" class="btn btn-primary">Alterar</a></td>
+                        <td><a href="#" class="btn btn-danger" data-toggle="modal" data-target="#removeModal<?= htmlspecialchars($row->id) ?>">Remover</a></td>
                         <?php endif; ?>
                       </tr>
                       <?php } ?>

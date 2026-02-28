@@ -46,7 +46,8 @@ class Recepcionista extends Funcionario
 
     public function setSenha($senha)
     {
-        $this->senha = sha1($senha);
+        // store only the hashed password for storage
+        $this->senha = password_hash($senha, PASSWORD_DEFAULT);
     }
 
     public function insert()
@@ -59,7 +60,7 @@ class Recepcionista extends Funcionario
             $stmt->execute();
             return $this->conn->lastInsertId();
         } catch (\PDOException $e) {
-            echo $e->getMessage();
+            error_log($e->getMessage());
             return 0;
         }
     }
@@ -74,7 +75,7 @@ class Recepcionista extends Funcionario
             $stmt->execute();
             return 1;
         } catch (\PDOException $e) {
-            echo $e->getMessage();
+            error_log($e->getMessage());
             return 0;
         }
     }
@@ -87,24 +88,42 @@ class Recepcionista extends Funcionario
             $stmt->execute();
             return 1;
         } catch (\PDOException $e) {
-            echo $e->getMessage();
+            error_log($e->getMessage());
             return 0;
         }
     }
 
-    public function existe()
+    public function existe($senha = null)
     {
         try {
-            $stmt = $this->conn->prepare("SELECT * FROM recepcionista WHERE nome_usuario = :nome_usuario AND senha = :senha");
+            $stmt = $this->conn->prepare("SELECT * FROM recepcionista WHERE nome_usuario = :nome_usuario");
             $stmt->bindParam(":nome_usuario", $this->nome_usuario);
-            $stmt->bindParam(":senha", $this->senha);
             $stmt->execute();
             $result = $stmt->fetch(\PDO::FETCH_OBJ);
-            if (!empty($result)) {
-                return $result->funcionario_id;
+            if (!empty($result) && !empty($senha)) {
+                // modern verification
+                if (password_verify($senha, $result->senha)) {
+                    return $result->funcionario_id;
+                }
+                // legacy SHA1 fallback: if stored hash looks like SHA1, verify and migrate
+                if (is_string($result->senha) && preg_match('/^[0-9a-f]{40}$/i', $result->senha)) {
+                    if (hash_equals($result->senha, sha1($senha))) {
+                        // migrate to password_hash
+                        try {
+                            $newHash = password_hash($senha, PASSWORD_DEFAULT);
+                            $u = $this->conn->prepare("UPDATE recepcionista SET senha = :senha WHERE funcionario_id = :funcionario_id");
+                            $u->bindParam(':senha', $newHash);
+                            $u->bindParam(':funcionario_id', $result->funcionario_id);
+                            $u->execute();
+                        } catch (\PDOException $e) {
+                            error_log('Failed to migrate recepcionista password for id ' . $result->funcionario_id . ': ' . $e->getMessage());
+                        }
+                        return $result->funcionario_id;
+                    }
+                }
             }
         } catch (\PDOException $e) {
-            echo $e->getMessage();
+            error_log($e->getMessage());
             return null;
         }
     }
@@ -125,7 +144,7 @@ class Recepcionista extends Funcionario
                 return $result->funcionario_id;
             }
         } catch (\PDOException $e) {
-            echo $e->getMessage();
+            error_log($e->getMessage());
             return null;
         }
     }

@@ -33,8 +33,7 @@ if (has_input('login')) {
         require_once __DIR__ . '/../app/bootstrap.php';
         $recepcionista = new \ClinicaOdontologica\Models\Recepcionista();
         $recepcionista->setNomeUsuario($nome_usuario);
-        $recepcionista->setSenha($senha);
-        $funcionario_id = $recepcionista->existe();
+      $funcionario_id = $recepcionista->existe($senha);
         if (!is_null($funcionario_id)) {
             $_SESSION["funcionario"] = $funcionario_id;
             header("Location: views/Recepcionista/index.php");
@@ -45,8 +44,7 @@ if (has_input('login')) {
         require_once __DIR__ . '/../app/bootstrap.php';
         $administrador = new \ClinicaOdontologica\Models\Administrador();
         $administrador->setNomeUsuario($nome_usuario);
-        $administrador->setSenha($senha);
-        $funcionario_id = $administrador->existe();
+      $funcionario_id = $administrador->existe($senha);
         if (!is_null($funcionario_id)) {
             $_SESSION["funcionario"] = $funcionario_id;
             header("Location: views/Administrador/index.php");

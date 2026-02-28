@@ -20,15 +20,17 @@ $resultado = $data['resultado'] ?? null;
         </div>
         <div class="card-body">
           <form action="PlanoDentarioEdit.php" method="post">
+            <?= function_exists('csrf_field') ? csrf_field() : '' ?>
+            <?= function_exists('csrf_field') ? csrf_field() : '' ?>
             <div class="form-group">
                 <label>Nome</label>
-                <input type="text" class="form-control" required="required" autofocus="autofocus" name="nome" value="<?= $resultado->nome ?>">
+                <input type="text" class="form-control" required="required" autofocus="autofocus" name="nome" value="<?= htmlspecialchars($resultado->nome) ?>">
             </div>
             <div class="form-group">
                 <label>Desconto em %</label>
-                <input type="number" class="form-control" required="required" name="desconto" value="<?= $resultado->desconto ?>">
+                <input type="number" class="form-control" required="required" name="desconto" value="<?= htmlspecialchars($resultado->desconto) ?>">
             </div>
-            <input type="hidden" name="id" value=<?=$resultado->id?>>
+              <input type="hidden" name="id" value="<?= htmlspecialchars($resultado->id) ?>">
             <button class="btn btn-primary btn-block" type="submit" name="botao">Atualizar</button>
           </form>
         </div>

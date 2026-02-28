@@ -34,6 +34,10 @@ class ConsultaCreateController
         ];
 
         if (function_exists('has_input') && has_input('botao')) {
+            if (function_exists('validate_csrf') && !validate_csrf()) {
+                error_log('CSRF token validation failed in ' . __FILE__);
+                return ['flag' => 5, 'values' => []];
+            }
             $values['nome_dentista'] = input('nome_dentista', '');
             $values['cro_dentista'] = input('cro_dentista', '');
             $values['nome_paciente'] = input('nome_paciente', '');

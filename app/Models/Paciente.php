@@ -134,7 +134,7 @@ class Paciente
             $stmt->execute();
             return $this->conn->lastInsertId();
         } catch (\PDOException $e) {
-            echo $e->getMessage();
+            error_log($e->getMessage());
             return 0;
         }
     }
@@ -152,7 +152,7 @@ class Paciente
             $stmt->execute();
             return 1;
         } catch (\PDOException $e) {
-            echo $e->getMessage();
+            error_log($e->getMessage());
             return 0;
         }
     }
@@ -171,7 +171,7 @@ class Paciente
             $stmt->execute();
             return 1;
         } catch (\PDOException $e) {
-            echo $e->getMessage();
+            error_log($e->getMessage());
             return 0;
         }
     }
@@ -187,7 +187,7 @@ class Paciente
                 return true;
             }
         } catch (\PDOException $e) {
-            echo $e->getMessage();
+            error_log($e->getMessage());
             return false;
         }
     }
@@ -200,7 +200,7 @@ class Paciente
             $stmt->execute();
             return 1;
         } catch (\PDOException $e) {
-            echo $e->getMessage();
+            error_log($e->getMessage());
             return 0;
         }
     }
@@ -221,7 +221,7 @@ class Paciente
             $resultado = $stmt->fetch(\PDO::FETCH_OBJ);
             return $resultado;
         } catch (\PDOException $e) {
-            echo $e->getMessage();
+            error_log($e->getMessage());
             return null;
         }
     }
@@ -251,7 +251,7 @@ class Paciente
                 return $result->id;
             }
         } catch (\PDOException $e) {
-            echo $e->getMessage();
+            error_log($e->getMessage());
             return null;
         }
     }
@@ -281,7 +281,7 @@ class Paciente
                 }
             }
         } catch (\PDOException $e) {
-            echo $e->getMessage();
+            error_log($e->getMessage());
             return 0;
         }
     }

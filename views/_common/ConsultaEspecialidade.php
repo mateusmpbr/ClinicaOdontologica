@@ -41,8 +41,8 @@ while ($row = $stmt->fetch(PDO::FETCH_OBJ)) { ?>
     $dhe->setDentistaId($row->dentista_id);
     $dentista_nome = $dhe->nomeDentista();
     ?>
-                        <td> <?= $dentista_nome; ?> </td>
-                        <td> <?= $row->especialidade_nome; ?> </td>
+                        <td> <?= htmlspecialchars($dentista_nome) ?> </td>
+                        <td> <?= htmlspecialchars($row->especialidade_nome) ?> </td>
                       </tr>
                       <?php } ?>
                   </tbody>

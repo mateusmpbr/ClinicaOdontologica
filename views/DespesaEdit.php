@@ -21,6 +21,8 @@ $id = $data['id'] ?? null;
         </div>
         <div class="card-body">
           <form action="DespesaEdit.php" method="post">
+            <?= function_exists('csrf_field') ? csrf_field() : '' ?>
+            <?= function_exists('csrf_field') ? csrf_field() : '' ?>
             <div class="form-group">
                 <label>Descrição</label>
                 <input type="text" class="form-control" required="required" autofocus="autofocus" name="descricao" value="<?= htmlspecialchars($resultado->descricao ?? '') ?>">

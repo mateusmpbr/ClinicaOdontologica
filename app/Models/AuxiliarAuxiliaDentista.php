@@ -43,7 +43,7 @@ class AuxiliarAuxiliaDentista
             $stmt->execute();
             return 1;
         } catch (\PDOException $e) {
-            echo $e->getMessage();
+            error_log($e->getMessage());
             return 0;
         }
     }
@@ -59,7 +59,7 @@ class AuxiliarAuxiliaDentista
             $stmt->execute();
             return 1;
         } catch (\PDOException $e) {
-            echo $e->getMessage();
+            error_log($e->getMessage());
             return 0;
         }
     }
@@ -73,7 +73,7 @@ class AuxiliarAuxiliaDentista
             $stmt->execute();
             return 1;
         } catch (\PDOException $e) {
-            echo $e->getMessage();
+            error_log($e->getMessage());
             return 0;
         }
     }
@@ -107,7 +107,7 @@ class AuxiliarAuxiliaDentista
             }
             return $result->nome;
         } catch (\PDOException $e) {
-            echo $e->getMessage();
+            error_log($e->getMessage());
             return 0;
         }
     }
@@ -125,7 +125,7 @@ class AuxiliarAuxiliaDentista
             }
             return $result->nome;
         } catch (\PDOException $e) {
-            echo $e->getMessage();
+            error_log($e->getMessage());
             return 0;
         }
     }
@@ -139,7 +139,7 @@ class AuxiliarAuxiliaDentista
             $result = $stmt->fetch(\PDO::FETCH_OBJ);
             return empty($result) ? 0 : 1;
         } catch (\PDOException $e) {
-            echo $e->getMessage();
+            error_log($e->getMessage());
             return 0;
         }
     }
@@ -153,7 +153,7 @@ class AuxiliarAuxiliaDentista
             $result = $stmt->fetch(\PDO::FETCH_OBJ);
             return empty($result) ? 0 : 1;
         } catch (\PDOException $e) {
-            echo $e->getMessage();
+            error_log($e->getMessage());
             return 0;
         }
     }

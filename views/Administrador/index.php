@@ -27,6 +27,7 @@ if (has_input('botao-remover')) {
               Funcionários
               <div class="float-right">
                 <form action="index.php" method="post">
+                  <?= function_exists('csrf_field') ? csrf_field() : '' ?>
                   <select name="cargo">
                     <option value="Administrador">Administrador</option>
                     <option value="Auxiliar">Auxiliar</option>
@@ -80,16 +81,16 @@ if (has_input('btn')) {
 
         while ($row = $stmt->fetch(PDO::FETCH_OBJ)) { ?>
                           <tr align="center">
-                            <td> <?= $row->nome; ?> </td>
-                            <td> <?= $row->sobrenome; ?> </td>
-                            <td> <?= $row->nascimento; ?> </td>
-                            <td> <?= empty($row->cpf) ? "" : $row->cpf; ?> </td>
-                            <td> <?= $row->salario; ?> </td>
-                            <td> <?= $row->cargo; ?> </td>
-                            <td> <?= $row->nome_usuario; ?></td>
-                            <td><a href="../FuncionarioEdit.php?id=<?=$row->funcionario_id?>" class="btn btn-primary">Alterar</a></td>
+                            <td> <?= htmlspecialchars($row->nome) ?> </td>
+                            <td> <?= htmlspecialchars($row->sobrenome) ?> </td>
+                            <td> <?= htmlspecialchars($row->nascimento) ?> </td>
+                            <td> <?= empty($row->cpf) ? "" : htmlspecialchars($row->cpf); ?> </td>
+                            <td> <?= htmlspecialchars($row->salario) ?> </td>
+                            <td> <?= htmlspecialchars($row->cargo) ?> </td>
+                            <td> <?= htmlspecialchars($row->nome_usuario) ?></td>
+                            <td><a href="../FuncionarioEdit.php?id=<?= htmlspecialchars($row->funcionario_id) ?>" class="btn btn-primary">Alterar</a></td>
                             <?php $id = $row->funcionario_id; ?>
-                            <td><a href="#" class="btn btn-danger" data-toggle="modal" data-target="#removeModal<?=$row->id?>">Remover</a></td>
+                            <td><a href="#" class="btn btn-danger" data-toggle="modal" data-target="#removeModal<?= htmlspecialchars($row->id) ?>">Remover</a></td>
                           </tr>
                           <?php } ?>
                       </tbody>
@@ -132,16 +133,16 @@ if (has_input('btn')) {
 
         while ($row = $stmt->fetch(PDO::FETCH_OBJ)) { ?>
                           <tr align="center">
-                            <td> <?= $row->nome; ?> </td>
-                            <td> <?= $row->sobrenome; ?> </td>
-                            <td> <?= $row->nascimento; ?> </td>
-                            <td> <?= empty($row->cpf) ? "" : $row->cpf; ?> </td>
-                            <td> <?= $row->salario; ?> </td>
-                            <td> <?= $row->cargo; ?> </td>
-                            <td> <?= $row->nome_usuario; ?></td>
-                            <td><a href="../FuncionarioEdit.php?id=<?=$row->funcionario_id?>" class="btn btn-primary">Alterar</a></td>
+                            <td> <?= htmlspecialchars($row->nome) ?> </td>
+                            <td> <?= htmlspecialchars($row->sobrenome) ?> </td>
+                            <td> <?= htmlspecialchars($row->nascimento) ?> </td>
+                            <td> <?= empty($row->cpf) ? "" : htmlspecialchars($row->cpf); ?> </td>
+                            <td> <?= htmlspecialchars($row->salario) ?> </td>
+                            <td> <?= htmlspecialchars($row->cargo) ?> </td>
+                            <td> <?= htmlspecialchars($row->nome_usuario) ?></td>
+                            <td><a href="../FuncionarioEdit.php?id=<?= htmlspecialchars($row->funcionario_id) ?>" class="btn btn-primary">Alterar</a></td>
                             <?php $id = $row->funcionario_id; ?>
-                            <td><a href="#" class="btn btn-danger" data-toggle="modal" data-target="#removeModal<?=$row->id?>">Remover</a></td>
+                            <td><a href="#" class="btn btn-danger" data-toggle="modal" data-target="#removeModal<?= htmlspecialchars($row->id) ?>">Remover</a></td>
                           </tr>
                           <?php } ?>
                       </tbody>
@@ -184,16 +185,16 @@ if (has_input('btn')) {
 
         while ($row = $stmt->fetch(PDO::FETCH_OBJ)) { ?>
                           <tr align="center">
-                            <td> <?= $row->nome; ?> </td>
-                            <td> <?= $row->sobrenome; ?> </td>
-                            <td> <?= $row->nascimento; ?> </td>
-                            <td> <?= empty($row->cpf) ? "" : $row->cpf; ?> </td>
-                            <td> <?= $row->salario; ?> </td>
-                            <td> <?= $row->cargo; ?> </td>
-                            <td> <?= $row->cro; ?></td>
-                            <td><a href="../FuncionarioEdit.php?id=<?=$row->funcionario_id?>" class="btn btn-primary">Alterar</a></td>
+                            <td> <?= htmlspecialchars($row->nome) ?> </td>
+                            <td> <?= htmlspecialchars($row->sobrenome) ?> </td>
+                            <td> <?= htmlspecialchars($row->nascimento) ?> </td>
+                            <td> <?= empty($row->cpf) ? "" : htmlspecialchars($row->cpf); ?> </td>
+                            <td> <?= htmlspecialchars($row->salario) ?> </td>
+                            <td> <?= htmlspecialchars($row->cargo) ?> </td>
+                            <td> <?= htmlspecialchars($row->cro) ?></td>
+                            <td><a href="../FuncionarioEdit.php?id=<?= htmlspecialchars($row->funcionario_id) ?>" class="btn btn-primary">Alterar</a></td>
                             <?php $id = $row->funcionario_id; ?>
-                            <td><a href="#" class="btn btn-danger" data-toggle="modal" data-target="#removeModal<?=$row->id?>">Remover</a></td>
+                            <td><a href="#" class="btn btn-danger" data-toggle="modal" data-target="#removeModal<?= htmlspecialchars($row->id) ?>">Remover</a></td>
                           </tr>
                           <?php } ?>
                       </tbody>
@@ -234,15 +235,15 @@ if (has_input('btn')) {
 
         while ($row = $stmt->fetch(PDO::FETCH_OBJ)) { ?>
                           <tr align="center">
-                            <td> <?= $row->nome; ?> </td>
-                            <td> <?= $row->sobrenome; ?> </td>
-                            <td> <?= $row->nascimento; ?> </td>
-                            <td> <?= empty($row->cpf) ? "" : $row->cpf; ?> </td>
-                            <td> <?= $row->salario; ?> </td>
-                            <td> <?= $row->cargo; ?> </td>
-                            <td><a href="../FuncionarioEdit.php?id=<?=$row->funcionario_id?>" class="btn btn-primary">Alterar</a></td>
+                            <td> <?= htmlspecialchars($row->nome) ?> </td>
+                            <td> <?= htmlspecialchars($row->sobrenome) ?> </td>
+                            <td> <?= htmlspecialchars($row->nascimento) ?> </td>
+                            <td> <?= empty($row->cpf) ? "" : htmlspecialchars($row->cpf); ?> </td>
+                            <td> <?= htmlspecialchars($row->salario) ?> </td>
+                            <td> <?= htmlspecialchars($row->cargo) ?> </td>
+                            <td><a href="../FuncionarioEdit.php?id=<?= htmlspecialchars($row->funcionario_id) ?>" class="btn btn-primary">Alterar</a></td>
                             <?php $id = $row->funcionario_id; ?>
-                            <td><a href="#" class="btn btn-danger" data-toggle="modal" data-target="#removeModal<?=$row->id?>">Remover</a></td>
+                            <td><a href="#" class="btn btn-danger" data-toggle="modal" data-target="#removeModal<?= htmlspecialchars($row->id) ?>">Remover</a></td>
                           </tr>
                           <?php } ?>
                       </tbody>
@@ -284,15 +285,15 @@ if (has_input('btn')) {
 
     while ($row = $stmt->fetch(PDO::FETCH_OBJ)) { ?>
                       <tr align="center">
-                        <td> <?= $row->nome; ?> </td>
-                        <td> <?= $row->sobrenome; ?> </td>
-                        <td> <?= $row->nascimento; ?> </td>
-                        <td> <?= empty($row->cpf) ? "" : $row->cpf; ?> </td>
-                        <td> <?= $row->salario; ?> </td>
-                        <td> <?= $row->cargo; ?> </td>
-                        <td><a href="../FuncionarioEdit.php?id=<?=$row->id?>" class="btn btn-primary">Alterar</a></td>
+                        <td> <?= htmlspecialchars($row->nome) ?> </td>
+                        <td> <?= htmlspecialchars($row->sobrenome) ?> </td>
+                        <td> <?= htmlspecialchars($row->nascimento) ?> </td>
+                        <td> <?= empty($row->cpf) ? "" : htmlspecialchars($row->cpf); ?> </td>
+                        <td> <?= htmlspecialchars($row->salario) ?> </td>
+                        <td> <?= htmlspecialchars($row->cargo) ?> </td>
+                        <td><a href="../FuncionarioEdit.php?id=<?= htmlspecialchars($row->id) ?>" class="btn btn-primary">Alterar</a></td>
                         <?php $id = $row->id; ?>
-                        <td><a href="#" class="btn btn-danger" data-toggle="modal" data-target="#removeModal<?=$row->id?>">Remover</a></td>
+                        <td><a href="#" class="btn btn-danger" data-toggle="modal" data-target="#removeModal<?= htmlspecialchars($row->id) ?>">Remover</a></td>
                       </tr>
                       <?php } ?>
                   </tbody>

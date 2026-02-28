@@ -45,15 +45,15 @@ $stmt = $p->viewAll();
 
 while ($row = $stmt->fetch(PDO::FETCH_OBJ)) { ?>
                       <tr align="center">
-                        <td> <?= $row->nome; ?> </td>
-                        <td> <?= $row->sobrenome; ?> </td>
-                        <td> <?= $row->nascimento; ?> </td>
-                        <td> <?= empty($row->cpf) ? "" : $row->cpf; ?> </td>
+                        <td> <?= htmlspecialchars($row->nome) ?> </td>
+                        <td> <?= htmlspecialchars($row->sobrenome) ?> </td>
+                        <td> <?= htmlspecialchars($row->nascimento) ?> </td>
+                        <td> <?= empty($row->cpf) ? "" : htmlspecialchars($row->cpf); ?> </td>
                         <?php
     $p->setId($row->id);
     $plano_dentario = $p->nomePlanoDentario();
     ?>
-                        <td> <?= $plano_dentario; ?> </td>
+                        <td> <?= htmlspecialchars($plano_dentario) ?> </td>
                       </tr>
                       <?php } ?>
                   </tbody>

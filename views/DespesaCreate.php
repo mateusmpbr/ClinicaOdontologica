@@ -22,6 +22,8 @@ include_once __DIR__ . '/_common/header.php';
           </div>
         <?php } ?>
           <form action="DespesaCreate.php" method="post">
+            <?= function_exists('csrf_field') ? csrf_field() : '' ?>
+            <?= function_exists('csrf_field') ? csrf_field() : '' ?>
             <div class="form-group">
                 <label>Nome</label>
                 <input type="text" class="form-control" required="required" autofocus="autofocus" name="nome" value="<?= htmlspecialchars($data['values']['nome'] ?? '') ?>">

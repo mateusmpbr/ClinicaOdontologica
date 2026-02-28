@@ -58,7 +58,7 @@ class PlanoDentario
             $stmt->execute();
             return $this->conn->lastInsertId();
         } catch (\PDOException $e) {
-            echo $e->getMessage();
+            error_log($e->getMessage());
             return 0;
         }
     }
@@ -73,7 +73,7 @@ class PlanoDentario
             $stmt->execute();
             return 1;
         } catch (\PDOException $e) {
-            echo $e->getMessage();
+            error_log($e->getMessage());
             return 0;
         }
     }
@@ -86,7 +86,7 @@ class PlanoDentario
             $stmt->execute();
             return 1;
         } catch (\PDOException $e) {
-            echo $e->getMessage();
+            error_log($e->getMessage());
             return 0;
         }
     }
@@ -111,7 +111,7 @@ class PlanoDentario
                 return null;
             }
         } catch (\PDOException $e) {
-            echo $e->getMessage();
+            error_log($e->getMessage());
             return null;
         }
     }
@@ -128,7 +128,7 @@ class PlanoDentario
                 return $result->id;
             }
         } catch (\PDOException $e) {
-            echo $e->getMessage();
+            error_log($e->getMessage());
             return null;
         }
     }
@@ -144,7 +144,7 @@ class PlanoDentario
                 return $result->id;
             }
         } catch (\PDOException $e) {
-            echo $e->getMessage();
+            error_log($e->getMessage());
             return null;
         }
     }

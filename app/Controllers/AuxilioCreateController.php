@@ -13,6 +13,10 @@ class AuxilioCreateController
         $values = ['nome_dentista' => '', 'cro_dentista' => '', 'nome_auxiliar' => '', 'cpf_auxiliar' => ''];
 
         if (function_exists('has_input') && has_input('botao')) {
+            if (function_exists('validate_csrf') && !validate_csrf()) {
+                error_log('CSRF token validation failed in ' . __FILE__);
+                return ['flag' => 5, 'values' => []];
+            }
             $d = new Dentista();
             $a = new Auxiliar();
             $aad = new AuxiliarAuxiliaDentista();

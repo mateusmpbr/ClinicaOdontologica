@@ -31,6 +31,8 @@ $planos = $data['planos'] ?? [];
           </div>
         <?php } ?>
           <form action="PacienteEdit.php" method="post">
+            <?= function_exists('csrf_field') ? csrf_field() : '' ?>
+            <?= function_exists('csrf_field') ? csrf_field() : '' ?>
             <div class="form-group">
               <label>Primeiro nome</label>
               <input type="text" class="form-control" required="required" autofocus="autofocus" name="nome" value="<?= htmlspecialchars($resultado->nome) ?>">
@@ -45,13 +47,13 @@ $planos = $data['planos'] ?? [];
             </div>
             <div class="form-group">
                 <label>CPF (somente números)</label>
-                <input type="text" class="form-control" maxlength="11" name="cpf" value="<?=$resultado->cpf?>">
+                <input type="text" class="form-control" maxlength="11" name="cpf" value="<?= htmlspecialchars($resultado->cpf) ?>">
             </div>
             <div class="form-group">
               <label>Plano Dentário</label><br>
               <select id="select-paciente" name="plano_dentario">
                 <?php foreach ($planos as $row) { $selected = ($row->id == $resultado->plano_dentario_id) ? "selected='selected'" : ""; ?>
-                <option value="<?= $row->id; ?>" <?=$selected?>><?= htmlspecialchars($row->nome) ?></option>
+                <option value="<?= htmlspecialchars($row->id) ?>" <?=$selected?>><?= htmlspecialchars($row->nome) ?></option>
                 <?php } ?>
               </select>
             </div>

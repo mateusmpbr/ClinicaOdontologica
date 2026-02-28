@@ -43,7 +43,7 @@ class DentistaHasEspecialidade
             $stmt->execute();
             return 1;
         } catch (\PDOException $e) {
-            echo $e->getMessage();
+            error_log($e->getMessage());
             return 0;
         }
     }
@@ -59,7 +59,7 @@ class DentistaHasEspecialidade
             $stmt->execute();
             return 1;
         } catch (\PDOException $e) {
-            echo $e->getMessage();
+            error_log($e->getMessage());
             return 0;
         }
     }
@@ -73,7 +73,7 @@ class DentistaHasEspecialidade
             $stmt->execute();
             return 1;
         } catch (\PDOException $e) {
-            echo $e->getMessage();
+            error_log($e->getMessage());
             return 0;
         }
     }
@@ -110,7 +110,7 @@ class DentistaHasEspecialidade
             }
             return $result->nome;
         } catch (\PDOException $e) {
-            echo $e->getMessage();
+            error_log($e->getMessage());
             return 0;
         }
     }
@@ -124,7 +124,7 @@ class DentistaHasEspecialidade
             $result = $stmt->fetch(\PDO::FETCH_OBJ);
             return !empty($result) ? 1 : 0;
         } catch (\PDOException $e) {
-            echo $e->getMessage();
+            error_log($e->getMessage());
             return 0;
         }
     }
@@ -141,7 +141,7 @@ class DentistaHasEspecialidade
             }
             return $result->nome;
         } catch (\PDOException $e) {
-            echo $e->getMessage();
+            error_log($e->getMessage());
             return 0;
         }
     }

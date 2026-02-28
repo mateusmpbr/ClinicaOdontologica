@@ -38,6 +38,8 @@ include_once __DIR__ . '/_common/header.php';
           </div>
         <?php } ?>
           <form action="ConsultaEdit.php" method="post">
+            <?= function_exists('csrf_field') ? csrf_field() : '' ?>
+            <?= function_exists('csrf_field') ? csrf_field() : '' ?>
             <div class="form-group">
                 <label>Operação</label>
                 <input type="text" class="form-control" required="required" autofocus="autofocus" name="operacao" value="<?= htmlspecialchars($data['values']['operacao']) ?>">
@@ -81,10 +83,14 @@ include_once __DIR__ . '/_common/header.php';
                     <option value="Não Pago" <?=$nao_pago?>>Não Pago</option>
                 </select>
             </div>
-            <input type="hidden" name="situacao_antiga" value="<?=$data['values']['situacao']?>">
-            <input type="hidden" name="dentista_id" value="<?=$data['values']['dentista_id']?>">
-            <input type="hidden" name="paciente_id" value="<?=$data['values']['paciente_id']?>">
-            <input type="hidden" name="id" value="<?=$data['values']['id']?>">
+            <input type="hidden" name="situacao_antiga" value="<?= htmlspecialchars($data['values']['situacao']) ?>">
+            <input type="hidden" name="dentista_id" value="<?= htmlspecialchars($data['values']['dentista_id']) ?>">
+            <input type="hidden" name="paciente_id" value="<?= htmlspecialchars($data['values']['paciente_id']) ?>">
+            <input type="hidden" name="id" value="<?= htmlspecialchars($data['values']['id']) ?>">
+              <input type="hidden" name="situacao_antiga" value="<?= htmlspecialchars($data['values']['situacao']) ?>">
+              <input type="hidden" name="dentista_id" value="<?= htmlspecialchars($data['values']['dentista_id']) ?>">
+              <input type="hidden" name="paciente_id" value="<?= htmlspecialchars($data['values']['paciente_id']) ?>">
+              <input type="hidden" name="id" value="<?= htmlspecialchars($data['values']['id']) ?>">
             <button class="btn btn-primary btn-block" type="submit" name="botao">Atualizar</button>
           </form>
         </div>

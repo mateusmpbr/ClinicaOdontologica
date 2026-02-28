@@ -39,6 +39,8 @@ $auxiliar_id = $data['auxiliar_id'] ?? null;
           </div>
         <?php } ?>
           <form action="AuxilioEdit.php" method="post">
+            <?= function_exists('csrf_field') ? csrf_field() : '' ?>
+            <?= function_exists('csrf_field') ? csrf_field() : '' ?>
             <div class="form-group">
                 <label>Nome do Dentista</label>
                 <input type="text" class="form-control" required="required" name="nome_dentista" value="<?= htmlspecialchars($values['nome_dentista'] ?? '') ?>">

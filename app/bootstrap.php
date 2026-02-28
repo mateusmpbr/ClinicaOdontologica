@@ -13,6 +13,43 @@ if (file_exists($configDb)) {
     require_once $configDb;
 }
 
+// Configure session cookie flags before any session_start() calls in helpers
+$appEnv = getenv('APP_ENV') ?: ($_SERVER['APP_ENV'] ?? 'production');
+$isSecure = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || (isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == 443);
+// Configure session settings only when a session is not already active
+if (session_status() === PHP_SESSION_NONE) {
+    // Ensure sensible ini settings
+    ini_set('session.cookie_secure', $isSecure ? '1' : '0');
+    ini_set('session.cookie_httponly', '1');
+    // Prefer SameSite via session_set_cookie_params when available (PHP 7.3+ supports array)
+    $cookieParams = session_get_cookie_params();
+    if (PHP_VERSION_ID >= 70300) {
+        session_set_cookie_params([
+            'lifetime' => $cookieParams['lifetime'] ?? 0,
+            'path' => $cookieParams['path'] ?? '/',
+            'domain' => $cookieParams['domain'] ?? '',
+            'secure' => $isSecure,
+            'httponly' => true,
+            'samesite' => 'Lax'
+        ]);
+    } else {
+        // Fallback for older PHP: append SameSite to path
+        $path = ($cookieParams['path'] ?? '/') . '; SameSite=Lax';
+        session_set_cookie_params($cookieParams['lifetime'] ?? 0, $path, $cookieParams['domain'] ?? '', $isSecure, true);
+    }
+} else {
+    error_log('Session already active when bootstrap ran; skipping session cookie/ini reconfiguration');
+}
+
+// Disable error display in non-development environments
+if (strtolower($appEnv) === 'development') {
+    ini_set('display_errors', '1');
+    error_reporting(E_ALL);
+} else {
+    ini_set('display_errors', '0');
+    error_reporting(E_ALL & ~E_DEPRECATED & ~E_STRICT);
+}
+
 $funcoes = __DIR__ . '/Helpers/funcoesAuxiliares.php';
 if (file_exists($funcoes)) {
     require_once $funcoes;

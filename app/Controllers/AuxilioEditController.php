@@ -19,6 +19,10 @@ class AuxilioEditController
         $aad = new AuxiliarAuxiliaDentista();
 
         if (function_exists('has_input') && has_input('botao')) {
+            if (function_exists('validate_csrf') && !validate_csrf()) {
+                error_log('CSRF token validation failed in ' . __FILE__);
+                return ['flag' => 5, 'values' => []];
+            }
             $dentista_id_atual = (request()->getParsedBody()['dentista_id_atual'] ?? request()->getQueryParams()['dentista_id_atual'] ?? null);
             $auxiliar_id_atual = (request()->getParsedBody()['auxiliar_id_atual'] ?? request()->getQueryParams()['auxiliar_id_atual'] ?? null);
             $values['nome_dentista'] = (request()->getParsedBody()['nome_dentista'] ?? request()->getQueryParams()['nome_dentista'] ?? null);

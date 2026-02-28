@@ -34,6 +34,8 @@ include_once __DIR__ . '/_common/header.php';
           </div>
         <?php } ?>
           <form action="AuxilioCreate.php" method="post">
+            <?= function_exists('csrf_field') ? csrf_field() : '' ?>
+            <?= function_exists('csrf_field') ? csrf_field() : '' ?>
             <div class="form-group">
                 <label>Nome do Dentista</label>
                 <input type="text" class="form-control" required="required" name="nome_dentista" value="<?= htmlspecialchars($data['values']['nome_dentista'] ?? '') ?>">

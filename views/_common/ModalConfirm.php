@@ -23,6 +23,9 @@ $confirmButtonLabel = $confirmButtonLabel ?? 'Confirmar';
           <?php foreach ($hiddenFields as $name => $value) : ?>
             <input type="hidden" name="<?= htmlspecialchars($name) ?>" value="<?= htmlspecialchars($value) ?>">
           <?php endforeach; ?>
+          <?php if (function_exists('csrf_field')) : ?>
+            <?= csrf_field() ?>
+          <?php endif; ?>
           <button type="submit" class="btn btn-primary" name="<?= htmlspecialchars($confirmButtonName) ?>"><?= htmlspecialchars($confirmButtonLabel) ?></button>
         </form>
       </div>

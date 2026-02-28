@@ -11,3 +11,6 @@ login:
 
 logs-db:
 	docker logs -f clinicaodontologica-db-1
+
+logs-app:
+	docker logs -f clinicaodontologica-app-1

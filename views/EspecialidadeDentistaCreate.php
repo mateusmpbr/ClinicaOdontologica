@@ -59,11 +59,12 @@ if (has_input('botao')) {
       <div class="card-header">Cadastro de Especialidade do Dentista</div>
       <div class="card-body">
         <form action="EspecialidadeDentistaCreate.php" method="post">
+          <?= function_exists('csrf_field') ? csrf_field() : '' ?>
           <div class="form-group">
             <label>Dentista</label>
             <select name="dentista_id" class="form-control">
               <?php foreach ((new \ClinicaOdontologica\Models\Dentista())->all() as $dentista) { ?>
-                <option value="<?=$dentista['id']?>"><?=$dentista['nome']?></option>
+                <option value="<?= htmlspecialchars($dentista['id']) ?>"><?= htmlspecialchars($dentista['nome']) ?></option>
               <?php } ?>
             </select>
           </div>
@@ -71,7 +72,7 @@ if (has_input('botao')) {
             <label>Especialidade</label>
             <select name="especialidade_id" class="form-control">
               <?php foreach ((new \ClinicaOdontologica\Models\Especialidade())->all() as $esp) { ?>
-                <option value="<?=$esp['id']?>"><?=$esp['nome']?></option>
+                <option value="<?= htmlspecialchars($esp['id']) ?>"><?= htmlspecialchars($esp['nome']) ?></option>
               <?php } ?>
             </select>
           </div>
@@ -98,13 +99,14 @@ if (has_input('botao')) {
         </div>
       <?php } ?>
         <form action="EspecialidadeDentistaCreate.php" method="post">
+          <?= function_exists('csrf_field') ? csrf_field() : '' ?>
           <div class="form-group">
-              <label>Nome do Dentista</label>
-              <input type="text" class="form-control" required="required" name="nome_dentista" value="<?= $nome_dentista ?>">
+            <label>Nome do Dentista</label>
+            <input type="text" class="form-control" required="required" name="nome_dentista" value="<?= htmlspecialchars($nome_dentista) ?>">
           </div>
           <div class="form-group">
-              <label>CRO do Dentista</label>
-              <input type="text" class="form-control" maxlength="5" name="cro_dentista" value="<?= $cro_dentista ?>">
+            <label>CRO do Dentista</label>
+            <input type="text" class="form-control" maxlength="5" name="cro_dentista" value="<?= htmlspecialchars($cro_dentista) ?>">
           </div>
           <div class="form-group">
               <label>Especialidade</label><br>
@@ -115,7 +117,7 @@ if (has_input('botao')) {
 $stmt = $e->viewAll();
 
 while ($row = $stmt->fetch(PDO::FETCH_OBJ)) { ?>
-              <option value="<?= $row->nome; ?>"> <?= $row->nome; ?> </option>
+              <option value="<?= htmlspecialchars($row->nome) ?>"> <?= htmlspecialchars($row->nome) ?> </option>
               <?php } ?>
               </select>
           </div>

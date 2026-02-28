@@ -15,6 +15,10 @@ class DentistaCreateController
         $values = ['nome' => '', 'cro' => ''];
 
         if (function_exists('has_input') && has_input('botao')) {
+            if (function_exists('validate_csrf') && !validate_csrf()) {
+                error_log('CSRF token validation failed in ' . __FILE__);
+                return ['flag' => 5, 'values' => []];
+            }
             $values['nome'] = input('nome', '');
             $values['cro'] = input('cro', '');
 
