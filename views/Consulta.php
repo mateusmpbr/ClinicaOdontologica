@@ -98,7 +98,7 @@ foreach ($data['consultas'] as $row) {
     $hiddenFields = ['id' => $row->id];
     $confirmButtonName = 'botao-remover';
     $confirmButtonLabel = 'Remover';
-    include __DIR__ . '/_common/modal-confirm.php';
+        include __DIR__ . '/_common/ModalConfirm.php';
 }
 include_once __DIR__ . '/_common/footer.php';
 ?>

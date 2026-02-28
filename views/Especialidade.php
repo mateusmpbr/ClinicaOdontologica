@@ -45,7 +45,7 @@ include_once __DIR__ . '/_common/header.php';
                       <?php foreach ($data['especialidades'] as $row) { ?>
                       <tr align="center">
                         <td> <?= htmlspecialchars($row->nome); ?> </td>
-                        <td><a href="editar-especialidade.php?nome=<?= rawurlencode($row->nome) ?>" class="btn btn-primary">Alterar</a></td>
+                        <td><a href="EspecialidadeEdit.php?nome=<?= rawurlencode($row->nome) ?>" class="btn btn-primary">Alterar</a></td>
                         <td><a href="#" class="btn btn-danger" data-toggle="modal" data-target="#removeModal<?= htmlspecialchars($row->nome) ?>">Remover</a></td>
                       </tr>
                       <?php } ?>
@@ -67,7 +67,7 @@ include_once __DIR__ . '/_common/header.php';
           $hiddenFields = ['nome' => $row->nome];
           $confirmButtonName = 'botao-remover';
           $confirmButtonLabel = 'Remover';
-          include __DIR__ . '/_common/modal-confirm.php';
+          include __DIR__ . '/_common/ModalConfirm.php';
         }
         include_once __DIR__ . '/_common/footer.php';
         ?>

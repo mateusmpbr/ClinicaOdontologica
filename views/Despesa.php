@@ -48,7 +48,7 @@ include_once __DIR__ . '/_common/header.php';
                         <td> <?= htmlspecialchars($row->tipo) ?> </td>
                         <td> <?= htmlspecialchars($row->situacao) ?> </td>
                         <td> <?= htmlspecialchars($row->administrador) ?> </td>
-                        <td><a href="editar-despesa.php?id=<?= htmlspecialchars($row->id) ?>" class="btn btn-primary">Alterar</a></td>
+                        <td><a href="DespesaEdit.php?id=<?= htmlspecialchars($row->id) ?>" class="btn btn-primary">Alterar</a></td>
                         <td><a href="#" class="btn btn-danger" data-toggle="modal" data-target="#removeModal<?= htmlspecialchars($row->id) ?>">Remover</a></td>
                       </tr>
                       <?php } ?>
@@ -71,7 +71,7 @@ include_once __DIR__ . '/_common/header.php';
           $hiddenFields = $m['hiddenFields'];
           $confirmButtonName = $m['confirmButtonName'];
           $confirmButtonLabel = $m['confirmButtonLabel'];
-          include __DIR__ . '/_common/modal-confirm.php';
+            include __DIR__ . '/_common/ModalConfirm.php';
         }
         include_once __DIR__ . '/_common/footer.php';
         ?>

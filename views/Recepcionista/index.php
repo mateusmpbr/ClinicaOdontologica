@@ -88,7 +88,7 @@ while ($row = $stmt->fetch(PDO::FETCH_OBJ)) {
     $hiddenFields = ['id' => $row->id];
     $confirmButtonName = 'botao-remover';
     $confirmButtonLabel = 'Remover';
-    include __DIR__ . '/../_common/modal-confirm.php';
+    include __DIR__ . '/../_common/ModalConfirm.php';
 }
 include_once '../_common/footer.php';
 ?>

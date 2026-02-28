@@ -9,7 +9,7 @@ if (!empty($_POST) && isset($_POST['dentista_id']) && isset($_POST['especialidad
     $d->setDentistaId($_POST['dentista_id']);
     $d->setEspecialidadeId($_POST['especialidade_id']);
     $d->insert();
-    header('Location: especialidades-dentistas.php');
+    header('Location: EspecialidadeDentistas.php');
     exit;
 }
 
@@ -44,7 +44,7 @@ if (has_input('botao')) {
 
     if ($flag == 0) {
         $dhe->insert();
-        header("Location: especialidades-dentistas.php");
+        header("Location: EspecialidadeDentistas.php");
         exit;
     }
 
@@ -84,7 +84,7 @@ if (has_input('botao')) {
       <div class="card-header">
         Cadastro de Especialidade para Dentista
            <div class="float-right">
-              <a href="d-e.php" target="_blank" class="btn">Buscar dentistas</a>
+              <a href="Dentista.php" target="_blank" class="btn">Buscar dentistas</a>
           </div>
       </div>
       <div class="card-body">

@@ -117,7 +117,7 @@ while ($row = $stmt->fetch(PDO::FETCH_OBJ)) {
     $hiddenFields = ['dentista_id' => $row->dentista_id, 'especialidade_nome' => $row->especialidade_nome];
     $confirmButtonName = 'botao-remover';
     $confirmButtonLabel = 'Remover';
-    include __DIR__ . '/_common/modal-confirm.php';
+    include __DIR__ . '/_common/ModalConfirm.php';
 }
 include_once __DIR__ . '/_common/footer.php';
 ?>

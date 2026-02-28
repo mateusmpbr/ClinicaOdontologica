@@ -98,11 +98,11 @@ foreach ($planos as $row) {
   $modalId = "removeModal{$row->id}";
   $modalTitle = "Você tem certeza que deseja remover o plano dentário {$row->nome}?";
   $modalBody = "Essa ação não poderá ser desfeita";
-  $formAction = "planos-dentarios.php";
+  $formAction = "PlanoDentario.php";
   $hiddenFields = ['id' => $row->id];
   $confirmButtonName = 'botao-remover';
   $confirmButtonLabel = 'Remover';
-  include __DIR__ . '/_common/modal-confirm.php';
+    include __DIR__ . '/_common/ModalConfirm.php';
 }
 include_once __DIR__ . '/_common/footer.php';
 ?>

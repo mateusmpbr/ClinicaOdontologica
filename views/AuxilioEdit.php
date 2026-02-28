@@ -21,7 +21,7 @@ $auxiliar_id = $data['auxiliar_id'] ?? null;
           Atualização de Auxílio
              <div class="float-right">
                 <a href="auxiliar.php" target="_blank" class="btn">Buscar auxiliares</a>
-                <a href="d-e.php" target="_blank" class="btn">Buscar dentistas</a>
+                <a href="Dentista.php" target="_blank" class="btn">Buscar dentistas</a>
             </div>
         </div>
         <div class="card-body">
@@ -38,7 +38,7 @@ $auxiliar_id = $data['auxiliar_id'] ?? null;
             <b>Os dados informados não estão cadastrados ou não coincidem</b>
           </div>
         <?php } ?>
-          <form action="editar-auxilio.php" method="post">
+          <form action="AuxilioEdit.php" method="post">
             <div class="form-group">
                 <label>Nome do Dentista</label>
                 <input type="text" class="form-control" required="required" name="nome_dentista" value="<?= htmlspecialchars($values['nome_dentista'] ?? '') ?>">

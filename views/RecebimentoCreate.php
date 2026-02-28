@@ -17,7 +17,7 @@ include_once __DIR__ . '/_common/header.php';
         <div class="card-header">
           Cadastro de Recebimento
             <div class="float-right">
-                <a href="paciente-consulta.php" target="_blank" class="btn">Buscar pacientes</a>
+                <a href="Paciente.php" target="_blank" class="btn">Buscar pacientes</a>
             </div>
         </div>
         <div class="card-body">

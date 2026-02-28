@@ -16,7 +16,7 @@ include_once __DIR__ . '/_common/header.php';
           Cadastro de Auxílio
              <div class="float-right">
                 <a href="auxiliar.php" target="_blank" class="btn">Buscar auxiliares</a>
-                <a href="d-e.php" target="_blank" class="btn">Buscar dentistas</a>
+                <a href="Dentista.php" target="_blank" class="btn">Buscar dentistas</a>
             </div>
         </div>
         <div class="card-body">

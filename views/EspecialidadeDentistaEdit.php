@@ -12,7 +12,7 @@ if (has_input('botao')) {
     $dhe->setEspecialidadeId($especialidade_id);
     $dhe->edit($resultado_id);
 
-    header('Location: especialidades-dentistas.php');
+    header('Location: EspecialidadeDentistas.php');
 
 } else {
     $resultado_id = (request()->getParsedBody()['resultado_id'] ?? request()->getQueryParams()['resultado_id'] ?? null);
@@ -30,7 +30,7 @@ if (has_input('botao')) {
         <div class="card-header">
           Atualização de Especialidade do Dentista
              <div class="float-right">
-                <a href="d-e.php" target="_blank" class="btn">Buscar dentistas</a>
+                <a href="Dentista.php" target="_blank" class="btn">Buscar dentistas</a>
             </div>
         </div>
         <div class="card-body">

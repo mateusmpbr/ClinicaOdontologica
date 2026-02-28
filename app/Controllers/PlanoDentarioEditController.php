@@ -21,7 +21,7 @@ class PlanoDentarioEditController
             $p->setNome($nome);
             $p->setDesconto($desconto);
             $p->edit();
-            header('Location: planos-dentarios.php');
+            header('Location: PlanoDentario.php');
             exit;
         }
 

@@ -15,7 +15,7 @@ include_once __DIR__ . '/_common/header.php';
         <div class="card-header">
           Atualização de Consulta
           <div class="float-right">
-            <a href="paciente-consulta.php" target="_blank" class="btn">Buscar pacientes</a>
+            <a href="Paciente.php" target="_blank" class="btn">Buscar pacientes</a>
              <a href="_common/ConsultaDentista.php" target="_blank" class="btn">Buscar dentistas</a>
           </div>
         </div>

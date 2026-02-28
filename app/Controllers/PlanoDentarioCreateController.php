@@ -22,7 +22,7 @@ class PlanoDentarioCreateController
                 $p->setNome($values['nome']);
                 $p->setDesconto($values['desconto']);
                 $p->insert();
-                header('Location: planos-dentarios.php');
+                header('Location: PlanoDentario.php');
                 exit;
             }
         }

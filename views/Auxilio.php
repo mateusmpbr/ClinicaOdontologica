@@ -72,7 +72,7 @@ include_once __DIR__ . '/_common/header.php';
           $hiddenFields = ['dentista_id' => $row->dentista_id, 'auxiliar_id' => $row->auxiliar_id];
           $confirmButtonName = 'botao-remover';
           $confirmButtonLabel = 'Remover';
-          include __DIR__ . '/_common/modal-confirm.php';
+          include __DIR__ . '/_common/ModalConfirm.php';
       }
       include_once __DIR__ . '/_common/footer.php';
 ?>

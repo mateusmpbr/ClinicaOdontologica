@@ -19,7 +19,7 @@ $id = $data['id'] ?? null;
         <div class="card-header">
           Atualização de Recebimento
             <div class="float-right">
-                <a href="paciente-recebimento.php" target="_blank" class="btn">Buscar pacientes</a>
+                <a href="PacienteRecebimento.php" target="_blank" class="btn">Buscar pacientes</a>
             </div>
         </div>
         <div class="card-body">
