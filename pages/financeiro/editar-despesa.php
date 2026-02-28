@@ -1,30 +1,15 @@
-<?php include_once __DIR__ . '/../_partials/header.php' ?>
 <?php
+require_once __DIR__ . '/../../app/bootstrap.php';
 
-$flag = 0;
+use ClinicaOdontologica\Controllers\DespesaEditController;
 
-if (has_input('botao')) {
+$controller = new DespesaEditController();
+$data = $controller->handleRequest();
 
-    $id = (request()->getParsedBody()['id'] ?? request()->getQueryParams()['id'] ?? null);
-    $descricao = (request()->getParsedBody()['descricao'] ?? request()->getQueryParams()['descricao'] ?? null);
-    $valor = (request()->getParsedBody()['valor'] ?? request()->getQueryParams()['valor'] ?? null);
+include_once __DIR__ . '/../_partials/header.php';
 
-    $d = new \ClinicaOdontologica\Models\Despesa();
-    $d->setId($id);
-    $d->setDescricao($descricao);
-    $d->setValor($valor);
-    $d->edit();
-
-    header('Location: despesas.php');
-
-} else {
-
-    $id = (request()->getParsedBody()['id'] ?? request()->getQueryParams()['id'] ?? null);
-    $d = new \ClinicaOdontologica\Models\Despesa();
-    $d->setId($id);
-    $resultado = $d->viewDespesa();
-
-}
+$resultado = $data['resultado'] ?? null;
+$id = $data['id'] ?? null;
 ?>
 
   <body class="bg-dark">
@@ -38,13 +23,13 @@ if (has_input('botao')) {
           <form action="editar-despesa.php" method="post">
             <div class="form-group">
                 <label>Descrição</label>
-                <input type="text" class="form-control" required="required" autofocus="autofocus" name="descricao" value="<?= $resultado->descricao ?>">
+                <input type="text" class="form-control" required="required" autofocus="autofocus" name="descricao" value="<?= htmlspecialchars($resultado->descricao ?? '') ?>">
             </div>
             <div class="form-group">
                 <label>Valor</label>
-                <input type="number" class="form-control" required="required" name="valor" value="<?= $resultado->valor ?>">
+                <input type="number" class="form-control" required="required" name="valor" value="<?= htmlspecialchars($resultado->valor ?? '') ?>">
             </div>
-            <input type="hidden" name="id" value=<?=$id?>>
+            <input type="hidden" name="id" value="<?= htmlspecialchars($id ?? '') ?>">
             <button class="btn btn-primary btn-block" type="submit" name="botao">Atualizar</button>
           </form>
         </div>

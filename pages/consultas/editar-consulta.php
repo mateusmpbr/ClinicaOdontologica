@@ -1,96 +1,12 @@
-<?php include_once __DIR__ . '/../_partials/header.php' ?>
 <?php
+require_once __DIR__ . '/../../app/bootstrap.php';
 
-$flag = 0;
+use ClinicaOdontologica\Controllers\ConsultaEditController;
 
-$dcp = new \ClinicaOdontologica\Models\DentistaConsultaPaciente();
+$controller = new ConsultaEditController();
+$data = $controller->handleRequest();
 
-$p = new \ClinicaOdontologica\Models\Paciente();
-$d = new \ClinicaOdontologica\Models\Dentista();
-$f = new \ClinicaOdontologica\Models\Funcionario();
-
-if (has_input('botao')) {
-
-    $id = (request()->getParsedBody()['id'] ?? request()->getQueryParams()['id'] ?? null);
-    $paciente_id = (request()->getParsedBody()['paciente_id'] ?? request()->getQueryParams()['paciente_id'] ?? null);
-    $dentista_id = (request()->getParsedBody()['dentista_id'] ?? request()->getQueryParams()['dentista_id'] ?? null);
-    $nome_dentista = (request()->getParsedBody()['nome_dentista'] ?? request()->getQueryParams()['nome_dentista'] ?? null);
-    $cro_dentista = (request()->getParsedBody()['cro_dentista'] ?? request()->getQueryParams()['cro_dentista'] ?? null);
-    $nome_paciente = (request()->getParsedBody()['nome_paciente'] ?? request()->getQueryParams()['nome_paciente'] ?? null);
-    $cpf_paciente = (request()->getParsedBody()['cpf_paciente'] ?? request()->getQueryParams()['cpf_paciente'] ?? null);
-    $valor = (request()->getParsedBody()['valor'] ?? request()->getQueryParams()['valor'] ?? null);
-    $data = (request()->getParsedBody()['data'] ?? request()->getQueryParams()['data'] ?? null);
-    $horario = (request()->getParsedBody()['horario'] ?? request()->getQueryParams()['horario'] ?? null);
-    $situacao = (request()->getParsedBody()['situacao'] ?? request()->getQueryParams()['situacao'] ?? null);
-    $situacao_antiga = (request()->getParsedBody()['situacao_antiga'] ?? request()->getQueryParams()['situacao_antiga'] ?? null);
-    $operacao = (request()->getParsedBody()['operacao'] ?? request()->getQueryParams()['operacao'] ?? null);
-
-    if (!$p->validaCPF($cpf_paciente)) {
-        $flag = 1;
-    }
-
-    $dcp->setId($id);
-    $dcp->setDentistaId($dentista_id);
-    $dcp->setData($data);
-    $dcp->setHorario($horario);
-
-    if (!$dcp->horarioValido()) {
-        $flag = 2;
-    }
-
-    if (!$d->existeNomeCro($nome_dentista, $cro_dentista)) {
-        $flag = 3;
-    }
-
-    $p->setNome($nome_paciente);
-    $p->setCpf($cpf_paciente);
-
-    if (!$p->existeNomeCpf()) {
-        $flag = 4;
-    }
-
-    if ($flag == 0) {
-        $dcp->setPacienteId($paciente_id);
-        $dcp->setValor($valor);
-        $dcp->setSituacao($situacao);
-        $dcp->setOperacao($operacao);
-        $id = $dcp->edit();
-        if ($situacao_antiga == "Pago") {
-            header("Location: editar-recebimentos-consultas.php?id=$id");
-        } else {
-            if ($situacao == "Pago") {
-                header("Location: cadastrar-recebimentos-consultas.php?id=$id");
-            } else {
-                header("Location: consultas.php");
-            }
-        }
-    }
-} else {
-    $id = (request()->getParsedBody()['id'] ?? request()->getQueryParams()['id'] ?? null);
-
-    $dcp->setId($id);
-    $consulta = $dcp->viewConsulta();
-    $valor = $consulta->valor;
-    $data = $consulta->data;
-    $horario = $consulta->horario;
-    $situacao = $consulta->situacao;
-    $operacao = $consulta->operacao;
-
-    $dentista_id = $consulta->dentista_id;
-    $d->setFuncionarioId($dentista_id);
-    $dentista = $d->viewDentista();
-    $cro_dentista = $dentista->cro;
-
-    $paciente_id = $consulta->paciente_id;
-    $p->setId($paciente_id);
-    $paciente = $p->viewPaciente();
-    $nome_paciente = $paciente->nome;
-    $cpf_paciente = $paciente->cpf;
-
-    $f->setId($dentista_id);
-    $funcionario = $f->viewFuncionario();
-    $nome_dentista = $funcionario->nome;
-}
+include_once __DIR__ . '/../_partials/header.php';
 ?>
   <body class="bg-dark">
 
@@ -104,19 +20,19 @@ if (has_input('botao')) {
           </div>
         </div>
         <div class="card-body">
-        <?php if ($flag == 1) { ?>
+        <?php if ($data['flag'] == 1) { ?>
           <div class="alert alert-danger form-group" role="alert">
             <b>O CPF informado não é válido</b>
           </div>
-        <?php } elseif ($flag == 2) { ?>
+        <?php } elseif ($data['flag'] == 2) { ?>
           <div class="alert alert-danger form-group" role="alert">
             <b>Já há uma pessoa agendada</b>
           </div>
-        <?php } elseif ($flag == 3) { ?>
+        <?php } elseif ($data['flag'] == 3) { ?>
           <div class="alert alert-danger form-group" role="alert">
             <b>Não há esse dentista cadastrado</b>
           </div>
-        <?php } elseif ($flag == 4) { ?>
+        <?php } elseif ($data['flag'] == 4) { ?>
           <div class="alert alert-danger form-group" role="alert">
             <b>Não há esse paciente cadastrado</b>
           </div>
@@ -124,51 +40,51 @@ if (has_input('botao')) {
           <form action="editar-consulta.php" method="post">
             <div class="form-group">
                 <label>Operação</label>
-                <input type="text" class="form-control" required="required" autofocus="autofocus" name="operacao" value="<?= $operacao ?>">
+                <input type="text" class="form-control" required="required" autofocus="autofocus" name="operacao" value="<?= htmlspecialchars($data['values']['operacao']) ?>">
             </div>
             <div class="form-group">
                 <label>Nome do Paciente</label>
-                <input type="text" class="form-control" name="nome_paciente" value="<?= $nome_paciente ?>">
+                <input type="text" class="form-control" name="nome_paciente" value="<?= htmlspecialchars($data['values']['nome_paciente']) ?>">
             </div>
             <div class="form-group">
                 <label>CPF do Paciente (somente números)</label>
-                <input type="text" class="form-control" maxlength="11" name="cpf_paciente" value="<?= $cpf_paciente ?>">
+                <input type="text" class="form-control" maxlength="11" name="cpf_paciente" value="<?= htmlspecialchars($data['values']['cpf_paciente']) ?>">
             </div>
             <div class="form-group">
                 <label>Nome do Dentista</label>
-                <input type="text" class="form-control" required="required" name="nome_dentista" value="<?= $nome_dentista ?>">
+                <input type="text" class="form-control" required="required" name="nome_dentista" value="<?= htmlspecialchars($data['values']['nome_dentista']) ?>">
             </div>
             <div class="form-group">
                 <label>CRO do Dentista</label>
-                <input type="text" class="form-control" maxlength="5" name="cro_dentista" value="<?= $cro_dentista  ?>">
+                <input type="text" class="form-control" maxlength="5" name="cro_dentista" value="<?= htmlspecialchars($data['values']['cro_dentista']) ?>">
             </div>
             <div class="form-group">
                 <label>Data</label>
-                <input type="date" class="form-control" required="required" name="data" value="<?= $data ?>">
+                <input type="date" class="form-control" required="required" name="data" value="<?= htmlspecialchars($data['values']['data']) ?>">
             </div>
             <div class="form-group">
                 <label>Horário</label>
-                <input type="time" class="form-control" required="required" autofocus="autofocus" name="horario" value="<?= $horario ?>">
+                <input type="time" class="form-control" required="required" autofocus="autofocus" name="horario" value="<?= htmlspecialchars($data['values']['horario']) ?>">
             </div>
             <div class="form-group">
                 <label>Valor</label>
-                <input type="number" class="form-control"  step="0.01" required="required" autofocus="autofocus" name="valor" value="<?= $valor ?>">
+                <input type="number" class="form-control"  step="0.01" required="required" autofocus="autofocus" name="valor" value="<?= htmlspecialchars($data['values']['valor']) ?>">
             </div>
             <div class="form-group">
                 <label>Situação</label><br>
                 <select name="situacao">
                     <?php
-                        $pago = ($situacao == "Pago") ? "selected='selected'" : "";
-$nao_pago = ($situacao == "Não Pago") ? "selected='selected'" : "";
+                        $pago = ($data['values']['situacao'] == "Pago") ? "selected='selected'" : "";
+$nao_pago = ($data['values']['situacao'] == "Não Pago") ? "selected='selected'" : "";
 ?>
                     <option value="Pago" <?=$pago?>>Pago</option>
                     <option value="Não Pago" <?=$nao_pago?>>Não Pago</option>
                 </select>
             </div>
-            <input type="hidden" name="situacao_antiga" value="<?=$situacao?>">
-            <input type="hidden" name="dentista_id" value="<?=$dentista_id?>">
-            <input type="hidden" name="paciente_id" value="<?=$paciente_id?>">
-            <input type="hidden" name="id" value="<?=$id?>">
+            <input type="hidden" name="situacao_antiga" value="<?=$data['values']['situacao']?>">
+            <input type="hidden" name="dentista_id" value="<?=$data['values']['dentista_id']?>">
+            <input type="hidden" name="paciente_id" value="<?=$data['values']['paciente_id']?>">
+            <input type="hidden" name="id" value="<?=$data['values']['id']?>">
             <button class="btn btn-primary btn-block" type="submit" name="botao">Atualizar</button>
           </form>
         </div>

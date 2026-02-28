@@ -1,5 +1,11 @@
 <?php
 require_once __DIR__ . '/../../app/bootstrap.php';
+
+use ClinicaOdontologica\Controllers\PlanoDentarioController;
+
+$controller = new PlanoDentarioController();
+$data = $controller->handleRequest();
+
 include_once __DIR__ . '/../_partials/header.php';
 
 // Include appropriate sidebar depending on logged-in role
@@ -17,16 +23,7 @@ if (isset($_SESSION['funcionario'])) {
   }
 }
 
-$p = new \ClinicaOdontologica\Models\PlanoDentario();
-
-if (has_input('botao-remover')) {
-
-    $id = (request()->getParsedBody()['id'] ?? request()->getQueryParams()['id'] ?? null);
-
-    $p->setId($id);
-    $p->delete();
-
-}
+$planos = $data['planos'] ?? [];
 
 ?>
       <div id="content-wrapper">
@@ -76,18 +73,13 @@ if (has_input('botao-remover')) {
                     </tr>
                   </tfoot>
                   <tbody>
-                      <?php
-
-
-                      $stmt = $p->viewAll();
-
-while ($row = $stmt->fetch(PDO::FETCH_OBJ)) { ?>
+                      <?php foreach ($planos as $row) { ?>
                       <tr align="center">
-                        <td> <?= $row->nome; ?> </td>
-                        <td> <?= $row->desconto."%"; ?> </td>
+                        <td> <?= htmlspecialchars($row->nome); ?> </td>
+                        <td> <?= htmlspecialchars($row->desconto) . "%"; ?> </td>
                         <?php if ($isAdmin) : ?>
-                        <td><a href="editar-plano-dentario.php?id=<?=$row->id?>" class="btn btn-primary">Alterar</a></td>
-                        <td><a href="#" class="btn btn-danger" data-toggle="modal" data-target="#removeModal<?=$row->id?>">Remover</a></td>
+                        <td><a href="editar-plano-dentario.php?id=<?= $row->id ?>" class="btn btn-primary">Alterar</a></td>
+                        <td><a href="#" class="btn btn-danger" data-toggle="modal" data-target="#removeModal<?= $row->id ?>">Remover</a></td>
                         <?php endif; ?>
                       </tr>
                       <?php } ?>
@@ -102,17 +94,15 @@ while ($row = $stmt->fetch(PDO::FETCH_OBJ)) { ?>
       <!-- /.content-wrapper -->
 <?php
 
-      $stmt = $p->viewAll();
-
-while ($row = $stmt->fetch(PDO::FETCH_OBJ)) {
-    $modalId = "removeModal{$row->id}";
-    $modalTitle = "Você tem certeza que deseja remover o plano dentário {$row->nome}?";
-    $modalBody = "Essa ação não poderá ser desfeita";
-    $formAction = "planos-dentarios.php";
-    $hiddenFields = ['id' => $row->id];
-    $confirmButtonName = 'botao-remover';
-    $confirmButtonLabel = 'Remover';
-    include __DIR__ . '/../_partials/modal-confirm.php';
+foreach ($planos as $row) {
+  $modalId = "removeModal{$row->id}";
+  $modalTitle = "Você tem certeza que deseja remover o plano dentário {$row->nome}?";
+  $modalBody = "Essa ação não poderá ser desfeita";
+  $formAction = "planos-dentarios.php";
+  $hiddenFields = ['id' => $row->id];
+  $confirmButtonName = 'botao-remover';
+  $confirmButtonLabel = 'Remover';
+  include __DIR__ . '/../_partials/modal-confirm.php';
 }
 include_once __DIR__ . '/../_partials/footer.php';
 ?>

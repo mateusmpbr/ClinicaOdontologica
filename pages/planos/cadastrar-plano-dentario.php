@@ -1,33 +1,15 @@
-<?php include_once __DIR__ . '/../_partials/header.php' ?>
 <?php
+require_once __DIR__ . '/../../app/bootstrap.php';
 
-$flag = 0;
+use ClinicaOdontologica\Controllers\PlanoDentarioCreateController;
 
-if (has_input('botao')) {
+$controller = new PlanoDentarioCreateController();
+$data = $controller->handleRequest();
 
+include_once __DIR__ . '/../_partials/header.php';
 
-    $nome = (request()->getParsedBody()['nome'] ?? request()->getQueryParams()['nome'] ?? null);
-    $desconto = (request()->getParsedBody()['desconto'] ?? request()->getQueryParams()['desconto'] ?? null);
-
-    $p = new \ClinicaOdontologica\Models\PlanoDentario();
-
-    if ($p->existeNome($nome)) {
-        $flag = 1;
-    }
-
-    if ($flag == 0) {
-        $p->setNome($nome);
-        $p->setDesconto($desconto);
-        $p->insert();
-        header("Location: planos-dentarios.php");
-    }
-
-} else {
-
-    $nome = "";
-    $desconto = "";
-
-}
+$flag = $data['flag'] ?? 0;
+$values = $data['values'] ?? ['nome' => '', 'desconto' => ''];
 ?>
 <body class="bg-dark">
 
@@ -45,11 +27,11 @@ if (has_input('botao')) {
         <form action="cadastrar-plano-dentario.php" method="post">
           <div class="form-group">
               <label>Nome</label>
-              <input type="text" class="form-control" required="required" autofocus="autofocus" name="nome" value="<?=$nome?>">
+              <input type="text" class="form-control" required="required" autofocus="autofocus" name="nome" value="<?= htmlspecialchars($values['nome']) ?>">
           </div>
           <div class="form-group">
               <label>Desconto em %</label>
-              <input type="number" class="form-control" required="required" name="desconto" value="<?=$desconto?>">
+              <input type="number" class="form-control" required="required" name="desconto" value="<?= htmlspecialchars($values['desconto']) ?>">
           </div>
           <button class="btn btn-primary btn-block" type="submit" name="botao">Cadastrar</button>
         </form>

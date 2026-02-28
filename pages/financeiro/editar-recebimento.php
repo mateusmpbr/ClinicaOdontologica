@@ -1,84 +1,16 @@
-<?php include_once __DIR__ . '/../_partials/header.php' ?>
 <?php
+require_once __DIR__ . '/../../app/bootstrap.php';
 
-$flag = 0;
+use ClinicaOdontologica\Controllers\RecebimentoEditController;
 
+$controller = new RecebimentoEditController();
+$data = $controller->handleRequest();
 
+include_once __DIR__ . '/../_partials/header.php';
 
-$paciente = new \ClinicaOdontologica\Models\Paciente();
-$recebimento = new \ClinicaOdontologica\Models\Recebimento();
-
-if (!has_input('valor')) {
-    $valor = "";
-}
-if (!has_input('data')) {
-    $data = "";
-}
-if (!has_input('nome_paciente')) {
-    $nome_paciente = "";
-}
-if (!has_input('cpf_paciente')) {
-    $cpf_paciente = "";
-}
-if (!has_input('modo_pagamento')) {
-    $modo_pagamento = "";
-}
-
-if (has_input('botao')) {
-
-    $id = (request()->getParsedBody()['id'] ?? request()->getQueryParams()['id'] ?? null);
-    $valor = (request()->getParsedBody()['valor'] ?? request()->getQueryParams()['valor'] ?? null);
-    $data = (request()->getParsedBody()['data'] ?? request()->getQueryParams()['data'] ?? null);
-    $nome_paciente = (request()->getParsedBody()['nome_paciente'] ?? request()->getQueryParams()['nome_paciente'] ?? null);
-    $cpf_paciente = (request()->getParsedBody()['cpf_paciente'] ?? request()->getQueryParams()['cpf_paciente'] ?? null);
-    $modo_pagamento = (request()->getParsedBody()['modo_pagamento'] ?? request()->getQueryParams()['modo_pagamento'] ?? null);
-
-    $id_recepcionista = $_SESSION['funcionario'];
-
-    $paciente->setNome($nome_paciente);
-    $paciente->setCpf($cpf_paciente);
-
-    $recebimento->setId($id);
-
-    if ($paciente->semNomeCpf()) {
-        $recebimento->setValor($valor);
-        $recebimento->setData($data);
-        $recebimento->setRecepcionistaId($id_recepcionista);
-        $recebimento->setModoPagamento($modo_pagamento);
-        $recebimento->edit();
-        header("Location: recebimentos.php");
-
-    } elseif ($id_paciente = $paciente->existeNomeCpf()) {
-        $recebimento->setPacienteId($id_paciente);
-        $recebimento->setValor($valor);
-        $recebimento->setData($data);
-        $recebimento->setRecepcionistaId($id_recepcionista);
-        $recebimento->setModoPagamento($modo_pagamento);
-        var_dump($recebimento->edit());
-        header("Location: recebimentos.php");
-    } else {
-        $flag = 1;
-    }
-} else {
-    $id = (request()->getParsedBody()['id'] ?? request()->getQueryParams()['id'] ?? null);
-    $recebimento->setId($id);
-    $r = $recebimento->viewRecebimento();
-
-    $valor = $r->valor;
-    $data = $r->data;
-    $modo_pagamento = $r->modo_pagamento;
-
-    $paciente_id = $r->paciente_id;
-
-    if (!empty($paciente_id)) {
-        $paciente->setId($paciente_id);
-        $p = $paciente->viewPaciente();
-        $nome_paciente = $p->nome;
-        $cpf_paciente = $p->cpf;
-    }
-
-}
-
+$flag = $data['flag'] ?? 0;
+$values = $data['values'] ?? [];
+$id = $data['id'] ?? null;
 ?>
   <body class="bg-dark">
 
@@ -91,7 +23,7 @@ if (has_input('botao')) {
             </div>
         </div>
         <div class="card-body">
-        <?php if ($flag == 1) { ?>
+        <?php if (!empty($flag) && $flag == 1) { ?>
           <div class="alert alert-danger form-group" role="alert">
             <b>Não há esse paciente cadastrado</b>
           </div>
@@ -99,15 +31,15 @@ if (has_input('botao')) {
           <form action="editar-recebimento.php" method="post">
             <div class="form-group">
                 <label>Nome do Paciente</label>
-                <input type="text" class="form-control" name="nome_paciente" value="<?= $nome_paciente ?>">
+                <input type="text" class="form-control" name="nome_paciente" value="<?= htmlspecialchars($values['nome_paciente'] ?? '') ?>">
             </div>
             <div class="form-group">
                 <label>CPF do Paciente (somente números)</label>
-                <input type="text" class="form-control" maxlength="11" name="cpf_paciente" value="<?= $cpf_paciente ?>">
+                <input type="text" class="form-control" maxlength="11" name="cpf_paciente" value="<?= htmlspecialchars($values['cpf_paciente'] ?? '') ?>">
             </div>
             <div class="form-group">
                 <label>Valor</label>
-                <input type="number" class="form-control"  step="0.01" required="required" autofocus="autofocus" name="valor" value="<?= $valor ?>">
+                <input type="number" class="form-control"  step="0.01" required="required" autofocus="autofocus" name="valor" value="<?= htmlspecialchars($values['valor'] ?? '') ?>">
             </div>
             <div class="form-group">
                 <label>Modo de Pagamento</label><br>
@@ -119,9 +51,9 @@ if (has_input('botao')) {
             </div>
             <div class="form-group">
                 <label>Data</label>
-                <input type="date" class="form-control" required="required" name="data" value="<?= $data ?>">
+                <input type="date" class="form-control" required="required" name="data" value="<?= htmlspecialchars($values['data'] ?? '') ?>">
             </div>
-            <input type="hidden" name="id" value="<?=$id?>">
+            <input type="hidden" name="id" value="<?= htmlspecialchars($id ?? '') ?>">
             <button class="btn btn-primary btn-block" type="submit" name="botao">Atualizar</button>
           </form>
         </div>

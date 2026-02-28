@@ -1,32 +1,18 @@
 <?php
 require_once __DIR__ . '/../../app/bootstrap.php';
+
+use ClinicaOdontologica\Controllers\ConsultaController;
+
+$controller = new ConsultaController();
+$data = $controller->handleRequest();
+
 include_once __DIR__ . '/../_partials/header.php';
 
-// Include appropriate sidebar depending on logged-in role
-if (isset($_SESSION['funcionario'])) {
-  $a = new \ClinicaOdontologica\Models\Administrador();
-  $a->setFuncionarioId($_SESSION['funcionario']);
-  if (!empty($a->viewAdministrador())) {
-    include __DIR__ . '/../administrador/sidebar.php';
-  } else {
-    $r = new \ClinicaOdontologica\Models\Recepcionista();
-    $r->setFuncionarioId($_SESSION['funcionario']);
-    if (!empty($r->viewRecepcionista())) {
-      include __DIR__ . '/../recepcionista/sidebar.php';
-    }
-  }
+if (!empty($data['sidebar'])) {
+    include $data['sidebar'];
 }
 
-$dcp = new \ClinicaOdontologica\Models\DentistaConsultaPaciente();
-
-if (has_input('botao-remover')) {
-
-    $id = (request()->getParsedBody()['id'] ?? request()->getQueryParams()['id'] ?? null);
-
-    $dcp->setId($id);
-    $dcp->delete();
-
-}
+$dcp = $data['dcp'];
 
 ?>
       <div id="content-wrapper">
@@ -74,11 +60,7 @@ if (has_input('botao-remover')) {
                     </tr>
                   </tfoot>
                   <tbody>
-                      <?php
-
-                      $stmt = $dcp->viewAll();
-
-while ($row = $stmt->fetch(PDO::FETCH_OBJ)) { ?>
+                      <?php foreach ($data['consultas'] as $row) { ?>
                       <tr align="center">
                         <td> <?= $row->operacao; ?> </td>
                         <?php
@@ -108,9 +90,7 @@ while ($row = $stmt->fetch(PDO::FETCH_OBJ)) { ?>
       </div>
       <!-- /.content-wrapper -->
 <?php
-      $stmt = $dcp->viewAll();
-
-while ($row = $stmt->fetch(PDO::FETCH_OBJ)) {
+foreach ($data['consultas'] as $row) {
     $modalId = "removeModal{$row->id}";
     $modalTitle = "Você tem certeza que deseja remover a consulta ?";
     $modalBody = "Essa ação não poderá ser desfeita";

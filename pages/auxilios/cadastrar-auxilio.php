@@ -1,86 +1,12 @@
-<?php include_once __DIR__ . '/../_partials/header.php' ?>
 <?php
+require_once __DIR__ . '/../../app/bootstrap.php';
 
-if (!empty($_POST)) {
-    $a = new \ClinicaOdontologica\Models\AuxiliarAuxiliaDentista();
-    $a->setDescricao($_POST['descricao']);
-    $a->setValor($_POST['valor']);
-    $a->insert();
-    header('Location: auxilios.php');
-}
+use ClinicaOdontologica\Controllers\AuxilioCreateController;
 
-?>
+$controller = new AuxilioCreateController();
+$data = $controller->handleRequest();
 
-<body class="bg-dark">
-  <div class="container">
-    <div class="card card-register mx-auto mt-5">
-      <div class="card-header">Cadastro de Auxílio</div>
-      <div class="card-body">
-        <form action="cadastrar-auxilio.php" method="post">
-          <div class="form-group">
-            <label>Descrição</label>
-            <input class="form-control" name="descricao" required>
-          </div>
-          <div class="form-group">
-            <label>Valor</label>
-            <input class="form-control" name="valor" required>
-          </div>
-          <button class="btn btn-primary btn-block" type="submit">Cadastrar</button>
-        </form>
-      </div>
-    </div>
-  </div>
-
-  <script src="/vendor/jquery/jquery.min.js"></script>
-  <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
-</body>
-</html>
-<?php include_once __DIR__ . '/../_partials/header.php' ?>
-<?php
-
-$flag = 0;
-
-if (!has_input('nome_dentista')) {
-    $nome_dentista = "";
-}
-if (!has_input('cro_dentista')) {
-    $cro_dentista = "";
-}
-if (!has_input('nome_auxiliar')) {
-    $nome_auxiliar = "";
-}
-if (!has_input('cpf_auxiliar')) {
-    $cpf_auxiliar = "";
-}
-
-if (has_input('botao')) {
-
-
-    $d = new \ClinicaOdontologica\Models\Dentista();
-    $a = new \ClinicaOdontologica\Models\Auxiliar();
-    $aad = new \ClinicaOdontologica\Models\AuxiliarAuxiliaDentista();
-
-    $nome_dentista = (request()->getParsedBody()['nome_dentista'] ?? request()->getQueryParams()['nome_dentista'] ?? null);
-    $cro_dentista = (request()->getParsedBody()['cro_dentista'] ?? request()->getQueryParams()['cro_dentista'] ?? null);
-    $nome_auxiliar = (request()->getParsedBody()['nome_auxiliar'] ?? request()->getQueryParams()['nome_auxiliar'] ?? null);
-    $cpf_auxiliar = (request()->getParsedBody()['cpf_auxiliar'] ?? request()->getQueryParams()['cpf_auxiliar'] ?? null);
-
-    if (!($id_dentista = $d->existeNomeCro($nome_dentista, $cro_dentista))) {
-        $flag = 1;
-    }
-
-    if (!($id_auxiliar = $a->existeNomeCpf($nome_auxiliar, $cpf_auxiliar))) {
-        $flag += 2;
-    }
-
-    if ($flag == 0) {
-        $aad->setDentistaId($id_dentista);
-        $aad->setAuxiliarId($id_auxiliar);
-        $aad->insert();
-        header("Location: auxilios.php");
-    }
-}
+include_once __DIR__ . '/../_partials/header.php';
 ?>
   <body class="bg-dark">
 
@@ -94,15 +20,15 @@ if (has_input('botao')) {
             </div>
         </div>
         <div class="card-body">
-        <?php if ($flag == 1) { ?>
+        <?php if (!empty($data['flag']) && $data['flag'] == 1) { ?>
           <div class="alert alert-danger form-group" role="alert">
             <b>O nome e o CRO do dentista não estão cadastrados ou não coincidem</b>
           </div>
-        <?php } elseif ($flag == 2) { ?>
+        <?php } elseif (!empty($data['flag']) && $data['flag'] == 2) { ?>
           <div class="alert alert-danger form-group" role="alert">
             <b>O nome e o CPF do auxiliar não estão cadastrados ou não coincidem</b>
           </div>
-        <?php } elseif ($flag == 3) { ?>
+        <?php } elseif (!empty($data['flag']) && $data['flag'] == 3) { ?>
           <div class="alert alert-danger form-group" role="alert">
             <b>Os dados informados não estão cadastrados ou não coincidem</b>
           </div>
@@ -110,19 +36,19 @@ if (has_input('botao')) {
           <form action="cadastrar-auxilio.php" method="post">
             <div class="form-group">
                 <label>Nome do Dentista</label>
-                <input type="text" class="form-control" required="required" name="nome_dentista" value="<?= $nome_dentista?>">
+                <input type="text" class="form-control" required="required" name="nome_dentista" value="<?= htmlspecialchars($data['values']['nome_dentista'] ?? '') ?>">
             </div>
             <div class="form-group">
                 <label>CRO do Dentista</label>
-                <input type="text" class="form-control" maxlength="5" name="cro_dentista" value="<?= $cro_dentista?>">
+                <input type="text" class="form-control" maxlength="5" name="cro_dentista" value="<?= htmlspecialchars($data['values']['cro_dentista'] ?? '') ?>">
             </div>
             <div class="form-group">
                 <label>Nome do Auxiliar</label>
-                <input type="text" class="form-control" required="required" name="nome_auxiliar" value="<?= $nome_auxiliar?>">
+                <input type="text" class="form-control" required="required" name="nome_auxiliar" value="<?= htmlspecialchars($data['values']['nome_auxiliar'] ?? '') ?>">
             </div>
             <div class="form-group">
                 <label>CPF do Auxiliar (somente números)</label>
-                <input type="text" class="form-control" maxlength="11" name="cpf_auxiliar" value="<?= $cpf_auxiliar?>">
+                <input type="text" class="form-control" maxlength="11" name="cpf_auxiliar" value="<?= htmlspecialchars($data['values']['cpf_auxiliar'] ?? '') ?>">
             </div>
             <button class="btn btn-primary btn-block" type="submit" name="botao">Cadastrar</button>
           </form>

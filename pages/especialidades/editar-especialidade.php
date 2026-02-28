@@ -1,25 +1,14 @@
-<?php include_once __DIR__ . '/../_partials/header.php' ?>
 <?php
+require_once __DIR__ . '/../../app/bootstrap.php';
 
-if (has_input('botao')) {
+use ClinicaOdontologica\Controllers\EspecialidadeEditController;
 
-    $id = (request()->getParsedBody()['id'] ?? request()->getQueryParams()['id'] ?? null);
-    $nome = (request()->getParsedBody()['nome'] ?? request()->getQueryParams()['nome'] ?? null);
+$controller = new EspecialidadeEditController();
+$data = $controller->handleRequest();
 
-    $e = new \ClinicaOdontologica\Models\Especialidade();
-    $e->setId($id);
-    $e->setNome($nome);
-    $e->edit();
+include_once __DIR__ . '/../_partials/header.php';
 
-    header('Location: especialidades.php');
-
-} else {
-    $id = (request()->getParsedBody()['id'] ?? request()->getQueryParams()['id'] ?? null);
-    $e = new \ClinicaOdontologica\Models\Especialidade();
-    $e->setId($id);
-    $resultado = $e->viewEspecialidade();
-}
-
+$resultado = $data['resultado'] ?? null;
 ?>
 
   <body class="bg-dark">
@@ -33,9 +22,9 @@ if (has_input('botao')) {
           <form action="editar-especialidade.php" method="post">
             <div class="form-group">
               <label>Nome</label>
-              <input type="text" class="form-control" required="required" autofocus="autofocus" name="nome" value="<?= $resultado->nome ?>">
+              <input type="text" class="form-control" required="required" autofocus="autofocus" name="nome" value="<?= htmlspecialchars($resultado->nome) ?>">
             </div>
-            <input type="hidden" name="id" value=<?=$id?>>
+            <input type="hidden" name="id" value="<?= htmlspecialchars($resultado->id ?? '') ?>">
             <button class="btn btn-primary btn-block" type="submit" name="botao">Atualizar</button>
           </form>
         </div>

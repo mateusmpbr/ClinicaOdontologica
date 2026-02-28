@@ -1,54 +1,17 @@
 <?php
 require_once __DIR__ . '/../../app/bootstrap.php';
-verificaFuncionarioLogadoCadastro();
-verificarRecepcionistaLogadoCadastro();
 
+use ClinicaOdontologica\Controllers\PacienteEditController;
 
-$flag = 0;
-
-if (has_input('botao')) {
-
-    $id = (request()->getParsedBody()['id'] ?? request()->getQueryParams()['id'] ?? null);
-    $nome = (request()->getParsedBody()['nome'] ?? request()->getQueryParams()['nome'] ?? null);
-    $sobrenome = (request()->getParsedBody()['sobrenome'] ?? request()->getQueryParams()['sobrenome'] ?? null);
-    $nascimento = (request()->getParsedBody()['nascimento'] ?? request()->getQueryParams()['nascimento'] ?? null);
-    $cpf = (request()->getParsedBody()['cpf'] ?? request()->getQueryParams()['cpf'] ?? null);
-    $plano_dentario = (request()->getParsedBody()['plano_dentario'] ?? request()->getQueryParams()['plano_dentario'] ?? null);
-
-    $paciente = new \ClinicaOdontologica\Models\Paciente();
-
-    $paciente->setId($id);
-    $paciente->setCPF($cpf);
-    $paciente->setNome($nome);
-    $paciente->setSobrenome($sobrenome);
-    $paciente->setNascimento($nascimento);
-    $paciente->setPlanoDentarioId($plano_dentario);
-    if (!$paciente->validaCPF($cpf)) {
-        $flag = 1;
-        $resultado = $paciente->viewPaciente();
-    }
-
-    if ($paciente->existeCpf()) {
-        $flag = 2;
-        $resultado = $paciente->viewPaciente();
-    }
-
-    if ($flag == 0) {
-        $p = $paciente->edit();
-        header("Location: index.php");
-        exit;
-    }
-
-} else {
-
-    $id = (request()->getParsedBody()['id'] ?? request()->getQueryParams()['id'] ?? null);
-    $paciente = new \ClinicaOdontologica\Models\Paciente();
-    $paciente->setId($id);
-    $resultado = $paciente->viewPaciente();
-
-}
+$controller = new PacienteEditController();
+$data = $controller->handleRequest();
 
 include_once __DIR__ . '/../_partials/header.php';
+
+// compatibility variables
+$flag = $data['flag'] ?? 0;
+$resultado = $data['resultado'] ?? null;
+$planos = $data['planos'] ?? [];
 ?>
   <body class="bg-dark">
 
@@ -69,16 +32,16 @@ include_once __DIR__ . '/../_partials/header.php';
         <?php } ?>
           <form action="editar-paciente.php" method="post">
             <div class="form-group">
-                <label>Primeiro nome</label>
-                <input type="text" class="form-control" required="required" autofocus="autofocus" name="nome" value="<?=$resultado->nome?>">
+              <label>Primeiro nome</label>
+              <input type="text" class="form-control" required="required" autofocus="autofocus" name="nome" value="<?= htmlspecialchars($resultado->nome) ?>">
             </div>
             <div class="form-group">
-                <label>Sobrenome</label>
-                <input type="text" class="form-control" required="required" name="sobrenome" value="<?=$resultado->sobrenome?>">
+              <label>Sobrenome</label>
+              <input type="text" class="form-control" required="required" name="sobrenome" value="<?= htmlspecialchars($resultado->sobrenome) ?>">
             </div>
             <div class="form-group">
-                <label>Data de nascimento</label>
-                <input type="date" class="form-control" required="required" name="nascimento" value="<?=$resultado->nascimento?>">
+              <label>Data de nascimento</label>
+              <input type="date" class="form-control" required="required" name="nascimento" value="<?= htmlspecialchars($resultado->nascimento) ?>">
             </div>
             <div class="form-group">
                 <label>CPF (somente números)</label>
@@ -87,17 +50,12 @@ include_once __DIR__ . '/../_partials/header.php';
             <div class="form-group">
               <label>Plano Dentário</label><br>
               <select id="select-paciente" name="plano_dentario">
-                <?php
-                $planoDentario = new \ClinicaOdontologica\Models\PlanoDentario();
-$stmt = $planoDentario->viewAll();
-
-while ($row = $stmt->fetch(PDO::FETCH_OBJ)) {
-    $selected = ($row->id == $resultado->plano_dentario_id) ? "selected='selected'" : ""; ?>
-                <option value= "<?= $row->id; ?>" <?=$selected?>><?=$row->nome?></option>
+                <?php foreach ($planos as $row) { $selected = ($row->id == $resultado->plano_dentario_id) ? "selected='selected'" : ""; ?>
+                <option value="<?= $row->id; ?>" <?=$selected?>><?= htmlspecialchars($row->nome) ?></option>
                 <?php } ?>
               </select>
             </div>
-            <input type="hidden" name="id" value="<?=$id?>">
+            <input type="hidden" name="id" value="<?= htmlspecialchars($resultado->id) ?>">
             <button class="btn btn-primary btn-block" type="submit" name="botao">Atualizar</button>
           </form>
         </div>

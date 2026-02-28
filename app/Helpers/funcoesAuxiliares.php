@@ -3,61 +3,36 @@
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
+use ClinicaOdontologica\Helpers\AuthGuard;
 
 function verificaFuncionarioLogado()
 {
-    if (!isset($_SESSION["funcionario"])) {
-        header("Location: ../../index.php");
-        exit;
-    }
+    AuthGuard::ensureFuncionarioLogged(2);
 }
 
 function verificaFuncionarioLogadoCadastro()
 {
-    if (!isset($_SESSION["funcionario"])) {
-        header("Location: ../../../index.php");
-        exit;
-    }
+    AuthGuard::ensureFuncionarioLogged(3);
 }
+
 function verificarAdministradorLogado()
 {
-
-    $a = new \ClinicaOdontologica\Models\Administrador();
-    $a->setFuncionarioId($_SESSION['funcionario']);
-    if (empty($a->viewAdministrador())) {
-        header("Location: ../../index.php");
-        exit;
-    }
+    AuthGuard::ensureAdministradorLogged(2);
 }
 
 function verificarAdministradorLogadoCadastro()
 {
-    $a = new \ClinicaOdontologica\Models\Administrador();
-    $a->setFuncionarioId($_SESSION['funcionario']);
-    if (empty($a->viewAdministrador())) {
-        header("Location: ../../../index.php");
-        exit;
-    }
+    AuthGuard::ensureAdministradorLogged(3);
 }
 
 function verificarRecepcionistaLogado()
 {
-    $r = new \ClinicaOdontologica\Models\Recepcionista();
-    $r->setFuncionarioId($_SESSION['funcionario']);
-    if (empty($r->viewRecepcionista())) {
-        header("Location: ../../index.php");
-        exit;
-    }
+    AuthGuard::ensureRecepcionistaLogged(2);
 }
 
 function verificarRecepcionistaLogadoCadastro()
 {
-    $r = new \ClinicaOdontologica\Models\Recepcionista();
-    $r->setFuncionarioId($_SESSION['funcionario']);
-    if (empty($r->viewRecepcionista())) {
-        header("Location: ../../../index.php");
-        exit;
-    }
+    AuthGuard::ensureRecepcionistaLogged(3);
 }
 
 // Request helpers to ease migration to PSR-7

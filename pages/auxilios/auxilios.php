@@ -1,17 +1,12 @@
-<?php include_once __DIR__ . '/../_partials/header.php' ?>
 <?php
-$aad = new \ClinicaOdontologica\Models\AuxiliarAuxiliaDentista();
+require_once __DIR__ . '/../../app/bootstrap.php';
 
-if (has_input('botao-remover')) {
+use ClinicaOdontologica\Controllers\AuxilioController;
 
-    $dentista_id = (request()->getParsedBody()['dentista_id'] ?? request()->getQueryParams()['dentista_id'] ?? null);
-    $auxiliar_id = (request()->getParsedBody()['auxiliar_id'] ?? request()->getQueryParams()['auxiliar_id'] ?? null);
+$controller = new AuxilioController();
+$data = $controller->handleRequest();
 
-    $aad->setDentistaId($dentista_id);
-    $aad->setAuxiliarId($auxiliar_id);
-    $aad->delete();
-}
-
+include_once __DIR__ . '/../_partials/header.php';
 ?>
       <div id="content-wrapper">
 
@@ -49,21 +44,13 @@ if (has_input('botao-remover')) {
                   </tfoot>
                   <tbody>
                       <?php
-
-                      $stmt = $aad->viewAll();
-
-while ($row = $stmt->fetch(PDO::FETCH_OBJ)) { ?>
+                      $rows = $data['rows'] ?? [];
+                      foreach ($rows as $row) { ?>
                       <tr align="center">
-                        <?php
-    $dentista_nome = $aad->nomeDentista($row->dentista_id, $row->auxiliar_id);
-    ?>
-                        <td> <?= $dentista_nome; ?> </td>
-                        <?php
-      $auxiliar_nome = $aad->nomeAuxiliar($row->dentista_id, $row->auxiliar_id);
-    ?>
-                        <td> <?= $auxiliar_nome; ?> </td>
-                        <td><a href="editar-auxilio.php?dentista_id=<?=$row->dentista_id?>&auxiliar_id=<?=$row->auxiliar_id?>" class="btn btn-primary">Alterar</a></td>
-                        <td><a href="#" class="btn btn-danger" data-toggle="modal" data-target="#removeModal<?=$row->dentista_id?>-<?=$row->auxiliar_id?>">Remover</a></td>
+                        <td> <?= htmlspecialchars($row->dentista_nome) ?> </td>
+                        <td> <?= htmlspecialchars($row->auxiliar_nome) ?> </td>
+                        <td><a href="editar-auxilio.php?dentista_id=<?= htmlspecialchars($row->dentista_id) ?>&auxiliar_id=<?= htmlspecialchars($row->auxiliar_id) ?>" class="btn btn-primary">Alterar</a></td>
+                        <td><a href="#" class="btn btn-danger" data-toggle="modal" data-target="#removeModal<?= htmlspecialchars($row->dentista_id) ?>-<?= htmlspecialchars($row->auxiliar_id) ?>">Remover</a></td>
                       </tr>
                       <?php } ?>
                   </tbody>
@@ -76,18 +63,16 @@ while ($row = $stmt->fetch(PDO::FETCH_OBJ)) { ?>
       </div>
       <!-- /.content-wrapper -->
 <?php
-
-      $stmt = $aad->viewAll();
-
-while ($row = $stmt->fetch(PDO::FETCH_OBJ)) {
-    $modalId = "removeModal{$row->dentista_id}-{$row->auxiliar_id}";
-    $modalTitle = "Você tem certeza que deseja remover esse auxílio?";
-    $modalBody = "Essa ação não poderá ser desfeita";
-    $formAction = "auxilios.php";
-    $hiddenFields = ['dentista_id' => $row->dentista_id, 'auxiliar_id' => $row->auxiliar_id];
-    $confirmButtonName = 'botao-remover';
-    $confirmButtonLabel = 'Remover';
-    include __DIR__ . '/../_partials/modal-confirm.php';
-}
-include_once __DIR__ . '/../_partials/footer.php';
+      $rows = $data['rows'] ?? [];
+      foreach ($rows as $row) {
+          $modalId = "removeModal{$row->dentista_id}-{$row->auxiliar_id}";
+          $modalTitle = "Você tem certeza que deseja remover esse auxílio?";
+          $modalBody = "Essa ação não poderá ser desfeita";
+          $formAction = "auxilios.php";
+          $hiddenFields = ['dentista_id' => $row->dentista_id, 'auxiliar_id' => $row->auxiliar_id];
+          $confirmButtonName = 'botao-remover';
+          $confirmButtonLabel = 'Remover';
+          include __DIR__ . '/../_partials/modal-confirm.php';
+      }
+      include_once __DIR__ . '/../_partials/footer.php';
 ?>

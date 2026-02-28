@@ -1,4 +1,22 @@
-<?php include_once __DIR__ . '/../_partials/header.php';
+<?php
+require_once __DIR__ . '/../../app/bootstrap.php';
+
+use ClinicaOdontologica\Controllers\AuxiliarController;
+
+$controller = new AuxiliarController();
+$data = $controller->handleRequest();
+
+include_once __DIR__ . '/../_partials/header.php';
+
+$flag = $data['flag'] ?? 0;
+$step = $data['step'] ?? 0;
+$auxiliares = $data['auxiliares'] ?? [];
+$resultado = $data['resultado'] ?? null;
+
+$flag = $data['flag'] ?? 0;
+$step = $data['step'] ?? 0;
+$auxiliares = $data['auxiliares'] ?? [];
+$resultado = $data['resultado'] ?? null;
 
 ?>
   <body class="bg-dark">
@@ -31,15 +49,11 @@
                   </tfoot>
                   <tbody>
                       <?php
-
-                      $a = new \ClinicaOdontologica\Models\Auxiliar();
-
-$stmt = $a->viewAll();
-
-while ($row = $stmt->fetch(PDO::FETCH_OBJ)) { ?>
+                      $auxiliares = $data['auxiliares'] ?? [];
+                      foreach ($auxiliares as $row) { ?>
                       <tr align="center">
-                        <td> <?= $row->nome; ?> </td>
-                        <td> <?= $row->cpf; ?></td>
+                        <td> <?= htmlspecialchars($row->nome) ?> </td>
+                        <td> <?= htmlspecialchars($row->cpf) ?></td>
                       </tr>
                       <?php } ?>
                   </tbody>

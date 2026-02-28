@@ -1,14 +1,12 @@
-<?php include_once __DIR__ . '/../_partials/header.php' ?>
 <?php
+require_once __DIR__ . '/../../app/bootstrap.php';
 
-if (has_input('botao-remover')) {
+use ClinicaOdontologica\Controllers\EspecialidadeController;
 
-    $nome = (request()->getParsedBody()['nome'] ?? request()->getQueryParams()['nome'] ?? null);
+$controller = new EspecialidadeController();
+$data = $controller->handleRequest();
 
-    $e = new \ClinicaOdontologica\Models\Especialidade();
-    $e->setNome($nome);
-    $e->delete();
-}
+include_once __DIR__ . '/../_partials/header.php';
 
 ?>
       <div id="content-wrapper">
@@ -44,15 +42,11 @@ if (has_input('botao-remover')) {
                     </tr>
                   </tfoot>
                   <tbody>
-                      <?php
-                      $e = new \ClinicaOdontologica\Models\Especialidade();
-$stmt = $e->viewAll();
-
-while ($row = $stmt->fetch(PDO::FETCH_OBJ)) { ?>
+                      <?php foreach ($data['especialidades'] as $row) { ?>
                       <tr align="center">
-                        <td> <?= $row->nome; ?> </td>
-                        <td><a href="editar-especialidade.php?nome=<?=$row->nome?>" class="btn btn-primary">Alterar</a></td>
-                        <td><a href="#" class="btn btn-danger" data-toggle="modal" data-target="#removeModal<?=$row->nome?>">Remover</a></td>
+                        <td> <?= htmlspecialchars($row->nome); ?> </td>
+                        <td><a href="editar-especialidade.php?nome=<?= rawurlencode($row->nome) ?>" class="btn btn-primary">Alterar</a></td>
+                        <td><a href="#" class="btn btn-danger" data-toggle="modal" data-target="#removeModal<?= htmlspecialchars($row->nome) ?>">Remover</a></td>
                       </tr>
                       <?php } ?>
                   </tbody>
@@ -64,11 +58,8 @@ while ($row = $stmt->fetch(PDO::FETCH_OBJ)) { ?>
         <!-- /.container-fluid -->
       </div>
       <!-- /.content-wrapper -->
-      <?php
-
-            $stmt = $e->viewAll();
-
-      while ($row = $stmt->fetch(PDO::FETCH_OBJ)) {
+        <?php
+        foreach ($data['especialidades'] as $row) {
           $modalId = "removeModal{$row->nome}";
           $modalTitle = "Você tem certeza que deseja remover a especialidade {$row->nome}?";
           $modalBody = "Essa ação não poderá ser desfeita";
@@ -77,6 +68,6 @@ while ($row = $stmt->fetch(PDO::FETCH_OBJ)) { ?>
           $confirmButtonName = 'botao-remover';
           $confirmButtonLabel = 'Remover';
           include __DIR__ . '/../_partials/modal-confirm.php';
-      }
-      include_once __DIR__ . '/../_partials/footer.php';
-      ?>
+        }
+        include_once __DIR__ . '/../_partials/footer.php';
+        ?>

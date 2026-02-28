@@ -1,9 +1,12 @@
 <?php
+require_once __DIR__ . '/../../app/bootstrap.php';
+
+use ClinicaOdontologica\Controllers\BalancoController;
+
+$controller = new BalancoController();
+$data = $controller->handleRequest();
+
 include_once __DIR__ . '/../_partials/header.php';
-include_once'../../app/Models/classBalanco.php';
-
-$b = new \ClinicaOdontologica\Models\Balanco();
-
 ?>
       <div id="content-wrapper">
 
@@ -35,14 +38,9 @@ $b = new \ClinicaOdontologica\Models\Balanco();
                   </tfoot>
                   <tbody>
                       <tr align="center">
-                        <?php
-                          $despesas = number_format($b->valorDespesas(), 2);
-$recebimentos = number_format($b->valorRecebimentos(), 2);
-$saldo = number_format($b->mostraSaldo(), 2);
-?>
-                        <td> <?= $despesas ?> </td>
-                        <td> <?= $recebimentos ?> </td>
-                        <td> <?= $saldo ?> </td>
+                        <td> <?= htmlspecialchars(number_format($data['despesas'] ?? 0, 2)) ?> </td>
+                        <td> <?= htmlspecialchars(number_format($data['recebimentos'] ?? 0, 2)) ?> </td>
+                        <td> <?= htmlspecialchars(number_format($data['saldo'] ?? 0, 2)) ?> </td>
                       </tr>
                   </tbody>
                   

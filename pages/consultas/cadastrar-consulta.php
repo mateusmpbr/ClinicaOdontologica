@@ -1,86 +1,10 @@
 <?php
-verificaFuncionarioLogadoCadastro();
-verificarRecepcionistaLogadoCadastro();
-
 require_once __DIR__ . '/../../app/bootstrap.php';
-verificaFuncionarioLogadoCadastro();
-verificarRecepcionistaLogadoCadastro();
 
-$dcp = new Dentista_consulta_Paciente();
-$dcp = new \ClinicaOdontologica\Models\DentistaConsultaPaciente();
-$p = new \ClinicaOdontologica\Models\Paciente();
-$d = new \ClinicaOdontologica\Models\Dentista();
-$pd = new \ClinicaOdontologica\Models\PlanoDentario();
+use ClinicaOdontologica\Controllers\ConsultaCreateController;
 
-$flag = 0;
-
-if (has_input('botao')) {
-
-    $nome_dentista = (request()->getParsedBody()['nome_dentista'] ?? request()->getQueryParams()['nome_dentista'] ?? null);
-    $cro_dentista = (request()->getParsedBody()['cro_dentista'] ?? request()->getQueryParams()['cro_dentista'] ?? null);
-    $nome_paciente = (request()->getParsedBody()['nome_paciente'] ?? request()->getQueryParams()['nome_paciente'] ?? null);
-    $cpf_paciente = (request()->getParsedBody()['cpf_paciente'] ?? request()->getQueryParams()['cpf_paciente'] ?? null);
-    $valor = (request()->getParsedBody()['valor'] ?? request()->getQueryParams()['valor'] ?? null);
-    $data = (request()->getParsedBody()['data'] ?? request()->getQueryParams()['data'] ?? null);
-    $horario = (request()->getParsedBody()['horario'] ?? request()->getQueryParams()['horario'] ?? null);
-    $situacao = (request()->getParsedBody()['situacao'] ?? request()->getQueryParams()['situacao'] ?? null);
-    $operacao = (request()->getParsedBody()['operacao'] ?? request()->getQueryParams()['operacao'] ?? null);
-
-    $p->setNome($nome_paciente);
-    $p->setCpf($cpf_paciente);
-
-    if (!($id_dentista = $d->existeNomeCro($nome_dentista, $cro_dentista))) {
-        $flag = 1;
-        $dcp = new \ClinicaOdontologica\Models\DentistaConsultaPaciente();
-        $flag += 2;
-    }
-
-    $dcp->setDentistaId($id_dentista);
-    $dcp->setData($data);
-    $dcp->setHorario($horario);
-
-    if (!$dcp->horarioValidoCadastro()) {
-        $flag = 4;
-    }
-
-    if ($flag == 0) {
-        $p->setId($id_paciente);
-        $paciente = $p->viewPaciente();
-
-        $plano_dentario_id = $paciente->plano_dentario_id;
-        $pd->setId($plano_dentario_id);
-        $planoDentario = $pd->viewPlanoDentario();
-        $valor_final = $valor - $valor * ($planoDentario->desconto / 100);
-
-        $dcp->setDentistaId($id_dentista);
-        $dcp->setPacienteId($id_paciente);
-        $dcp->setValor($valor_final);
-        $dcp->setData($data);
-        $dcp->setHorario($horario);
-        $dcp->setSituacao($situacao);
-        $dcp->setOperacao($operacao);
-        $id = $dcp->insert();
-
-        if ($situacao == "Pago") {
-            header("Location: cadastrar-recebimentos-consultas.php?id=$id");
-            exit;
-        } else {
-            header("Location: consultas.php");
-            exit;
-        }
-    }
-} else {
-    $nome_dentista = "";
-    $cro_dentista = "";
-    $nome_paciente = "";
-    $cpf_paciente = "";
-    $valor = "";
-    $data = "";
-    $horario = "";
-    $situacao = "";
-    $operacao = "";
-
-}
+$controller = new ConsultaCreateController();
+$data = $controller->handleRequest();
 
 include_once __DIR__ . '/../_partials/header.php';
 ?>
@@ -96,19 +20,19 @@ include_once __DIR__ . '/../_partials/header.php';
         </div>
         <div class="card-body">
         <?php
-        if ($flag == 1) { ?>
+        if ($data['flag'] == 1) { ?>
           <div class="alert alert-danger form-group" role="alert">
             <b>O nome e o CRO do dentista não estão cadastrados ou não coincidem</b>
           </div>
-        <?php } elseif ($flag == 2) { ?>
+        <?php } elseif ($data['flag'] == 2) { ?>
           <div class="alert alert-danger form-group" role="alert">
             <b>O nome e o CPF do paciente não estão cadastrados ou não coincidem</b>
           </div>
-        <?php } elseif ($flag == 3) { ?>
+        <?php } elseif ($data['flag'] == 3) { ?>
           <div class="alert alert-danger form-group" role="alert">
             <b>Os dados informados não estão cadastrados ou não coincidem</b>
           </div>
-        <?php } elseif ($flag == 4) { ?>
+        <?php } elseif ($data['flag'] == 4) { ?>
           <div class="alert alert-danger form-group" role="alert">
             <b>Já há uma pessoa agendada</b>
           </div>
@@ -116,41 +40,41 @@ include_once __DIR__ . '/../_partials/header.php';
           <form action="cadastrar-consulta.php" method="post">
             <div class="form-group">
                 <label>Operação</label>
-                <input type="text" class="form-control" required="required" autofocus="autofocus" name="operacao" value="<?= $operacao ?>">
+                <input type="text" class="form-control" required="required" autofocus="autofocus" name="operacao" value="<?= htmlspecialchars($data['values']['operacao']) ?>">
             </div>
             <div class="form-group">
                 <label>Nome do Paciente</label>
-                <input type="text" class="form-control" name="nome_paciente" value="<?= $nome_paciente ?>">
+                <input type="text" class="form-control" name="nome_paciente" value="<?= htmlspecialchars($data['values']['nome_paciente']) ?>">
             </div>
             <div class="form-group">
                 <label>CPF do Paciente (somente números)</label>
-                <input type="text" class="form-control" maxlength="11" name="cpf_paciente" value="<?= $cpf_paciente ?>">
+                <input type="text" class="form-control" maxlength="11" name="cpf_paciente" value="<?= htmlspecialchars($data['values']['cpf_paciente']) ?>">
             </div>
             <div class="form-group">
                 <label>Nome do Dentista</label>
-                <input type="text" class="form-control" required="required" name="nome_dentista" value="<?= $nome_dentista ?>">
+                <input type="text" class="form-control" required="required" name="nome_dentista" value="<?= htmlspecialchars($data['values']['nome_dentista']) ?>">
             </div>
             <div class="form-group">
                 <label>CRO do Dentista</label>
-                <input type="text" class="form-control" maxlength="5" name="cro_dentista" value="<?= $cro_dentista ?>">
+                <input type="text" class="form-control" maxlength="5" name="cro_dentista" value="<?= htmlspecialchars($data['values']['cro_dentista']) ?>">
             </div>
             <div class="form-group">
                 <label>Data</label>
-                <input type="date" class="form-control" required="required" name="data" value="<?= $data ?>">
+                <input type="date" class="form-control" required="required" name="data" value="<?= htmlspecialchars($data['values']['data']) ?>">
             </div>
             <div class="form-group">
                 <label>Horário</label>
-                <input type="time" class="form-control" required="required" autofocus="autofocus" name="horario" value="<?= $horario ?>">
+                <input type="time" class="form-control" required="required" autofocus="autofocus" name="horario" value="<?= htmlspecialchars($data['values']['horario']) ?>">
             </div>
             <div class="form-group">
                 <label>Valor</label>
-                <input type="number"  step="0.01" class="form-control" required="required" autofocus="autofocus" name="valor" value="<?= $valor ?>">
+                <input type="number"  step="0.01" class="form-control" required="required" autofocus="autofocus" name="valor" value="<?= htmlspecialchars($data['values']['valor']) ?>">
             </div>
             <div class="form-group">
                 <label>Situação</label><br>
                 <select name="situacao">
-                    <option value="Pago">Pago</option>
-                    <option value="Não Pago">Não Pago</option>
+                    <option value="Pago" <?=($data['values']['situacao']==='Pago')?"selected":""?>>Pago</option>
+                    <option value="Não Pago" <?=($data['values']['situacao']==='Não Pago')?"selected":""?>>Não Pago</option>
                 </select>
             </div>
             <button class="btn btn-primary btn-block" type="submit" name="botao">Cadastrar</button>

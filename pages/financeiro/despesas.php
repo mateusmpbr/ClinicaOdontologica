@@ -1,29 +1,13 @@
-<?php include_once __DIR__ . '/../_partials/header.php' ?>
 <?php
-$d = new \ClinicaOdontologica\Models\Despesa();
+require_once __DIR__ . '/../../app/bootstrap.php';
 
-if (has_input('botao-remover')) {
+use ClinicaOdontologica\Controllers\DespesaController;
 
-    $id = (request()->getParsedBody()['id'] ?? request()->getQueryParams()['id'] ?? null);
+$controller = new DespesaController();
+$data = $controller->handleRequest();
 
-    $d->setId($id);
-    $d->delete();
-
-}
+include_once __DIR__ . '/../_partials/header.php';
 ?>
-      <div id="content-wrapper">
-
-        <div class="container-fluid">
-
-          <!-- DataTables Example -->
-          <div class="card mb-3">
-
-            <div>
-              <button class="btn btn-primary btn-block" onclick="window.location.href='cadastrar-despesa.php'" name="cadastrar-despesa">Cadastrar Despesa</button>
-            </div>
-
-            <div class="card-header">
-              <i class="fas fa-table"></i>
               Despesas</div>
 
             <div class="card-body">
@@ -55,23 +39,17 @@ if (has_input('botao-remover')) {
                   </tfoot>
                   <tbody>
                       <?php
-
-                      $stmt = $d->viewAll();
-
-while ($row = $stmt->fetch(PDO::FETCH_OBJ)) { ?>
+                      $rows = $data['rows'] ?? [];
+                      foreach ($rows as $row) { ?>
                       <tr align="center">
-                        <td> <?= $row->nome; ?> </td>
-                        <td> <?= $row->data; ?> </td>
-                        <td> <?= $row->valor; ?> </td>
-                        <td> <?= $row->tipo; ?> </td>
-                        <td> <?= $row->situacao; ?> </td>
-                        <?php
-    $d->setId($row->id);
-    $administrador = $d->nomeAdministrador();
-    ?>
-                        <td> <?=  $administrador; ?> </td>
-                        <td><a href="editar-despesa.php?id=<?=$row->id?>" class="btn btn-primary">Alterar</a></td>
-                        <td><a href="#" class="btn btn-danger" data-toggle="modal" data-target="#removeModal<?=$row->id?>">Remover</a></td>
+                        <td> <?= htmlspecialchars($row->nome) ?> </td>
+                        <td> <?= htmlspecialchars($row->data) ?> </td>
+                        <td> <?= htmlspecialchars($row->valor) ?> </td>
+                        <td> <?= htmlspecialchars($row->tipo) ?> </td>
+                        <td> <?= htmlspecialchars($row->situacao) ?> </td>
+                        <td> <?= htmlspecialchars($row->administrador) ?> </td>
+                        <td><a href="editar-despesa.php?id=<?= htmlspecialchars($row->id) ?>" class="btn btn-primary">Alterar</a></td>
+                        <td><a href="#" class="btn btn-danger" data-toggle="modal" data-target="#removeModal<?= htmlspecialchars($row->id) ?>">Remover</a></td>
                       </tr>
                       <?php } ?>
                   </tbody>
@@ -83,19 +61,17 @@ while ($row = $stmt->fetch(PDO::FETCH_OBJ)) { ?>
         <!-- /.container-fluid -->
       </div>
       <!-- /.content-wrapper -->
-      <?php
-
-            $stmt = $d->viewAll();
-
-      while ($row = $stmt->fetch(PDO::FETCH_OBJ)) {
-          $modalId = "removeModal{$row->id}";
-          $modalTitle = "Você tem certeza que deseja remover a despesa {$row->nome}?";
-          $modalBody = "Essa ação não poderá ser desfeita";
-          $formAction = "despesas.php";
-          $hiddenFields = ['id' => $row->id];
-          $confirmButtonName = 'botao-remover';
-          $confirmButtonLabel = 'Remover';
+        <?php
+        $modals = $data['modals'] ?? [];
+        foreach ($modals as $m) {
+          $modalId = $m['modalId'];
+          $modalTitle = $m['modalTitle'];
+          $modalBody = $m['modalBody'];
+          $formAction = $m['formAction'];
+          $hiddenFields = $m['hiddenFields'];
+          $confirmButtonName = $m['confirmButtonName'];
+          $confirmButtonLabel = $m['confirmButtonLabel'];
           include __DIR__ . '/../_partials/modal-confirm.php';
-      }
-      include_once __DIR__ . '/../_partials/footer.php';
-      ?>
+        }
+        include_once __DIR__ . '/../_partials/footer.php';
+        ?>

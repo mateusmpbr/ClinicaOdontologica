@@ -1,0 +1,56 @@
+<?php
+
+namespace ClinicaOdontologica\Controllers;
+
+use ClinicaOdontologica\Services\FuncionarioService;
+
+class FuncionarioCreateController
+{
+    public function handleRequest(): array
+    {
+        verificaFuncionarioLogadoCadastro();
+        verificarRecepcionistaLogadoCadastro();
+
+        $flag = 0;
+        $step = 0; // 0 = initial, 1 = detail
+        $values = [
+            'nome' => '', 'sobrenome' => '', 'nascimento' => '', 'cpf' => '', 'salario' => '', 'cargo' => ''
+        ];
+
+        $service = new FuncionarioService();
+
+        if (function_exists('has_input') && has_input('botao')) {
+            $values['nome'] = input('nome', '');
+            $values['sobrenome'] = input('sobrenome', '');
+            $values['nascimento'] = input('nascimento', '');
+            $values['cpf'] = input('cpf', '');
+            $values['salario'] = input('salario', '');
+            $values['cargo'] = input('cargo', '');
+
+            if (!$service->validateCpf($values['cpf'])) {
+                $flag = 1;
+                $step = 0;
+            } else {
+                $step = 2; // proceed to detail
+            }
+        } elseif (function_exists('has_input') && has_input('botao-detalhe')) {
+            $values['nome'] = input('nome', '');
+            $values['sobrenome'] = input('sobrenome', '');
+            $values['nascimento'] = input('nascimento', '');
+            $values['cpf'] = input('cpf', '');
+            $values['salario'] = input('salario', '');
+            $values['cargo'] = input('cargo', '');
+
+            $service->create($values, [
+                'nome_usuario' => input('nome_usuario', ''),
+                'senha' => input('senha', ''),
+                'cro' => input('cro', ''),
+            ]);
+
+            header('Location: index.php');
+            exit;
+        }
+
+        return ['flag' => $flag, 'step' => $step, 'values' => $values];
+    }
+}

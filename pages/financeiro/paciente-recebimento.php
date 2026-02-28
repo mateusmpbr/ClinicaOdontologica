@@ -1,5 +1,12 @@
-<?php include_once __DIR__ . '/../_partials/header.php';
+<?php
+require_once __DIR__ . '/../../app/bootstrap.php';
 
+use ClinicaOdontologica\Controllers\PacienteRecebimentoController;
+
+$controller = new PacienteRecebimentoController();
+$data = $controller->handleRequest();
+
+include_once __DIR__ . '/../_partials/header.php';
 ?>
   <body class="bg-dark">
     <div id="wrapper">
@@ -31,13 +38,11 @@
                   <tbody>
                       <?php
 
-                      $p = new \ClinicaOdontologica\Models\Paciente();
-$stmt = $p->viewAll();
-
-while ($row = $stmt->fetch(PDO::FETCH_OBJ)) { ?>
+                      $rows = $data['rows'] ?? [];
+                      foreach ($rows as $row) { ?>
                       <tr align="center">
-                        <td> <?= $row->nome; ?> </td>
-                        <td> <?= empty($row->cpf) ? "" : $row->cpf; ?> </td>
+                        <td> <?= htmlspecialchars($row->nome) ?> </td>
+                        <td> <?= htmlspecialchars($row->cpf ?? '') ?> </td>
                       </tr>
                       <?php } ?>
                   </tbody>

@@ -1,41 +1,20 @@
 <?php
 require_once __DIR__ . '/../../app/bootstrap.php';
-verificaFuncionarioLogadoCadastro();
-verificarRecepcionistaLogadoCadastro();
 
-$flag = 0;
+use ClinicaOdontologica\Controllers\PacienteCreateController;
 
-if (has_input('botao')) {
-
-    $nome = (request()->getParsedBody()['nome'] ?? request()->getQueryParams()['nome'] ?? null);
-    $sobrenome = (request()->getParsedBody()['sobrenome'] ?? request()->getQueryParams()['sobrenome'] ?? null);
-    $nascimento = (request()->getParsedBody()['nascimento'] ?? request()->getQueryParams()['nascimento'] ?? null);
-    $cpf = (request()->getParsedBody()['cpf'] ?? request()->getQueryParams()['cpf'] ?? null);
-    $plano_dentario = (request()->getParsedBody()['plano_dentario'] ?? request()->getQueryParams()['plano_dentario'] ?? null);
-
-    $paciente = new \ClinicaOdontologica\Models\Paciente();
-
-    $paciente->setNome($nome);
-    $paciente->setSobrenome($sobrenome);
-    $paciente->setNascimento($nascimento);
-    $paciente->setCpf($cpf);
-    $paciente->setPlanoDentarioId($plano_dentario);
-    if (!$paciente->validaCPF($cpf)) {
-        $flag = 1;
-    }
-    if ($paciente->existeCpf()) {
-        $flag = 2;
-    }
-
-    if ($flag == 0) {
-        $paciente->insert();
-        header("Location: index.php");
-        exit;
-    }
-
-}
+$controller = new PacienteCreateController();
+$data = $controller->handleRequest();
 
 include_once __DIR__ . '/../_partials/header.php';
+
+// compatibility variables for existing template
+$flag = $data['flag'] ?? 0;
+$nome = $data['values']['nome'] ?? '';
+$sobrenome = $data['values']['sobrenome'] ?? '';
+$nascimento = $data['values']['nascimento'] ?? '';
+$cpf = $data['values']['cpf'] ?? '';
+$planoDentarioList = $data['planos'] ?? [];
 ?>
   <body class="bg-dark">
 
@@ -104,12 +83,8 @@ include_once __DIR__ . '/../_partials/header.php';
             <div class="form-group">
               <label>Plano Dentário</label><br>
               <select id="select-paciente" name="plano_dentario">
-                <?php
-            $planoDentario = new \ClinicaOdontologica\Models\PlanoDentario();
-            $stmt = $planoDentario->viewAll();
-
-            while ($row = $stmt->fetch(PDO::FETCH_OBJ)) { ?>
-                <option value= <?= $row->id; ?>> <?= $row->nome; ?> </option>
+                <?php foreach ($planoDentarioList as $row) { ?>
+                <option value="<?= $row->id; ?>"> <?= htmlspecialchars($row->nome); ?> </option>
                 <?php } ?>
               </select>
             </div>
@@ -136,13 +111,8 @@ include_once __DIR__ . '/../_partials/header.php';
             <div class="form-group">
               <label>Plano Dentário</label><br>
               <select id="select-paciente" name="plano_dentario">
-                <?php
-            $planoDentario = new \ClinicaOdontologica\Models\PlanoDentario();
-            $stmt = $planoDentario->viewAll();
-
-            while ($row = $stmt->fetch(PDO::FETCH_OBJ)) { ?>
-                <?php $selected = ($row->nome == "Não") ? "selected='selected'" : ""; ?>
-                <option value= <?= $row->id; ?> <?= $selected ?>> <?= $row->nome; ?> </option>
+                <?php foreach ($planoDentarioList as $row) { $selected = ($row->nome == "Não") ? "selected='selected'" : ""; ?>
+                <option value="<?= $row->id; ?>" <?= $selected ?>> <?= htmlspecialchars($row->nome); ?> </option>
                 <?php } ?>
               </select>
             </div>

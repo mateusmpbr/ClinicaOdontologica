@@ -1,4 +1,9 @@
-<?php include_once __DIR__ . '/../_partials/header.php';
+<?php
+require_once __DIR__ . '/../../app/bootstrap.php';
+use ClinicaOdontologica\Controllers\DentistaController;
+$controller = new DentistaController();
+$data = $controller->handleRequest();
+include_once __DIR__ . '/../_partials/header.php';
 
 ?>
   <body class="bg-dark">
@@ -33,16 +38,10 @@
                     </tr>
                   </tfoot>
                   <tbody>
-                      <?php
-
-                      $d = new \ClinicaOdontologica\Models\Dentista();
-
-$stmt = $d->viewAll();
-
-while ($row = $stmt->fetch(PDO::FETCH_OBJ)) { ?>
+                      <?php foreach ($data['dentistas'] as $row) { ?>
                       <tr align="center">
-                        <td> <?= $row->nome; ?> </td>
-                        <td> <?= $row->cro; ?></td>
+                        <td> <?= htmlspecialchars($row->nome); ?> </td>
+                        <td> <?= htmlspecialchars($row->cro); ?></td>
                       </tr>
                       <?php } ?>
                   </tbody>

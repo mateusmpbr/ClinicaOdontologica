@@ -1,121 +1,19 @@
-<?php include_once __DIR__ . '/../_partials/header.php' ?>
 <?php
+require_once __DIR__ . '/../../app/bootstrap.php';
 
-$flag = 0;
+use ClinicaOdontologica\Controllers\FuncionarioEditController;
 
-if (has_input('botao')) {
+$controller = new FuncionarioEditController();
+$data = $controller->handleRequest();
 
+include_once __DIR__ . '/../_partials/header.php';
 
-    $id = (request()->getParsedBody()['id'] ?? request()->getQueryParams()['id'] ?? null);
-    $nome = (request()->getParsedBody()['nome'] ?? request()->getQueryParams()['nome'] ?? null);
-    $sobrenome = (request()->getParsedBody()['sobrenome'] ?? request()->getQueryParams()['sobrenome'] ?? null);
-    $nascimento = (request()->getParsedBody()['nascimento'] ?? request()->getQueryParams()['nascimento'] ?? null);
-    $cpf = (request()->getParsedBody()['cpf'] ?? request()->getQueryParams()['cpf'] ?? null);
-    $salario = (request()->getParsedBody()['salario'] ?? request()->getQueryParams()['salario'] ?? null);
-    $cargo = (request()->getParsedBody()['cargo'] ?? request()->getQueryParams()['cargo'] ?? null);
-
-    $funcionario = new \ClinicaOdontologica\Models\Funcionario();
-
-    $funcionario->setCpf($cpf);
-    if (!$funcionario->validaCPF($cpf)) {
-        $flag = 1;
-    }
-
-    if ($flag == 0) {
-        $flag = 2;
-
-        if ($cargo == "Recepcionista") {
-
-
-            $recepcionista = new \ClinicaOdontologica\Models\Recepcionista();
-            $recepcionista->setFuncionarioId($id);
-            $resultado = $recepcionista->viewRecepcionista();
-
-        } elseif ($cargo == "Administrador") {
-
-
-            $administrador = new \ClinicaOdontologica\Models\Administrador();
-            $administrador->setFuncionarioId($id);
-            $resultado = $administrador->viewAdministrador();
-
-        } elseif ($cargo == "Dentista") {
-
-
-            $dentista = new \ClinicaOdontologica\Models\Dentista();
-            $dentista->setFuncionarioId($id);
-            $resultado = $dentista->viewDentista();
-        }
-    }
-} elseif (has_input('botao-detalhe')) {
-
-
-    $id = (request()->getParsedBody()['id'] ?? request()->getQueryParams()['id'] ?? null);
-    $nome = (request()->getParsedBody()['nome'] ?? request()->getQueryParams()['nome'] ?? null);
-    $sobrenome = (request()->getParsedBody()['sobrenome'] ?? request()->getQueryParams()['sobrenome'] ?? null);
-    $nascimento = (request()->getParsedBody()['nascimento'] ?? request()->getQueryParams()['nascimento'] ?? null);
-    $cpf = (request()->getParsedBody()['cpf'] ?? request()->getQueryParams()['cpf'] ?? null);
-    $salario = (request()->getParsedBody()['salario'] ?? request()->getQueryParams()['salario'] ?? null);
-    $cargo = (request()->getParsedBody()['cargo'] ?? request()->getQueryParams()['cargo'] ?? null);
-
-    $funcionario = new \ClinicaOdontologica\Models\Funcionario();
-
-    $funcionario->setId($id);
-    $funcionario->setCpf($cpf);
-    $funcionario->setNome($nome);
-    $funcionario->setSobrenome($sobrenome);
-    $funcionario->setNascimento($nascimento);
-    $funcionario->setSalario($salario);
-    $funcionario->setCargo($cargo);
-    $v = $funcionario->edit();
-
-    if ($cargo == "Auxiliar") {
-
-
-        $auxiliar = new \ClinicaOdontologica\Models\Auxiliar();
-        $auxiliar->setFuncionarioId($id);
-        $estado = $auxiliar->edit();
-
-    } elseif ($cargo == "Recepcionista") {
-
-        $nome_usuario = (request()->getParsedBody()['nome_usuario'] ?? request()->getQueryParams()['nome_usuario'] ?? null);
-        $senha = (request()->getParsedBody()['senha'] ?? request()->getQueryParams()['senha'] ?? null);
-
-        $recepcionista = new \ClinicaOdontologica\Models\Recepcionista();
-        $recepcionista->setFuncionarioId($id);
-        $recepcionista->setNomeUsuario($nome_usuario);
-        $recepcionista->setSenha($senha);
-        $estado = $recepcionista->edit();
-
-    } elseif ($cargo == "Administrador") {
-
-        $nome_usuario = (request()->getParsedBody()['nome_usuario'] ?? request()->getQueryParams()['nome_usuario'] ?? null);
-        $senha = (request()->getParsedBody()['senha'] ?? request()->getQueryParams()['senha'] ?? null);
-
-        $administrador = new \ClinicaOdontologica\Models\Administrador();
-        $administrador->setFuncionarioId($id);
-        $administrador->setSenha($senha);
-        $administrador->setNomeUsuario($nome_usuario);
-        $estado = $administrador->edit();
-
-    } elseif ($cargo == "Dentista") {
-        $cro = (request()->getParsedBody()['cro'] ?? request()->getQueryParams()['cro'] ?? null);
-
-        $dentista = new \ClinicaOdontologica\Models\Dentista();
-        $dentista->setFuncionarioId($id);
-        $dentista->setCro($cro);
-        $estado = $dentista->edit();
-    }
-    header("Location: index.php");
-
-} else {
-
-
-    $id = (request()->getParsedBody()['id'] ?? request()->getQueryParams()['id'] ?? null);
-    $funcionario = new \ClinicaOdontologica\Models\Funcionario();
-    $funcionario->setId($id);
-    $resultado = $funcionario->viewFuncionario();
-    $cargo = $resultado->cargo;
-}
+$flag = $data['flag'] ?? 0;
+$step = $data['step'] ?? 0;
+$values = $data['values'] ?? [];
+$resultado = $data['resultado'] ?? null;
+$id = $data['id'] ?? ($values['id'] ?? null);
+$cargo = $data['cargo'] ?? ($values['cargo'] ?? ($resultado->cargo ?? ''));
 ?>
   <body class="bg-dark">
 
@@ -129,26 +27,26 @@ if (has_input('botao')) {
           <form action="editar-funcionario.php" method="post">
             <div class="form-group">
                 <label>Primeiro nome</label>
-                <input type="text" class="form-control" required="required" autofocus="autofocus" name="nome" value="<?= $resultado->nome ?>">
+                <input type="text" class="form-control" required="required" autofocus="autofocus" name="nome" value="<?= htmlspecialchars($resultado->nome ?? $values['nome'] ?? '') ?>">
             </div>
             <div class="form-group">
                 <label>Sobrenome</label>
-                <input type="text" class="form-control" required="required" name="sobrenome" value="<?= $resultado->sobrenome ?>">
+                <input type="text" class="form-control" required="required" name="sobrenome" value="<?= htmlspecialchars($resultado->sobrenome ?? $values['sobrenome'] ?? '') ?>">
             </div>
             <div class="form-group">
                 <label>Data de nascimento</label>
-                <input type="date" class="form-control" required="required" name="nascimento" value="<?= $resultado->nascimento ?>">
+                <input type="date" class="form-control" required="required" name="nascimento" value="<?= htmlspecialchars($resultado->nascimento ?? $values['nascimento'] ?? '') ?>">
             </div>
             <div class="form-group">
                 <label>CPF (somente números)</label>
-                <input type="text" class="form-control" maxlength="11" name="cpf" value="<?= $resultado->cpf ?>">
+                <input type="text" class="form-control" maxlength="11" name="cpf" value="<?= htmlspecialchars($resultado->cpf ?? $values['cpf'] ?? '') ?>">
             </div>
             <div class="form-group">
                 <label>Salário</label>
-                <input type="number" step="0.01" class="form-control" required="required" name="salario" value="<?= $resultado->salario ?>">
+                <input type="number" step="0.01" class="form-control" required="required" name="salario" value="<?= htmlspecialchars($resultado->salario ?? $values['salario'] ?? '') ?>">
             </div>
-            <input type="hidden" name="id" value=<?=$id?>>
-            <input type="hidden" name="cargo" value=<?=$cargo?>>
+            <input type="hidden" name="id" value="<?= htmlspecialchars($id ?? '') ?>">
+            <input type="hidden" name="cargo" value="<?= htmlspecialchars($cargo ?? '') ?>">
             <button class="btn btn-primary btn-block" type="submit" name="botao">Avançar</button>
           </form>
         <?php } elseif ($flag == 1) { ?>
@@ -158,15 +56,15 @@ if (has_input('botao')) {
           <form action="editar-funcionario.php" method="post">
             <div class="form-group">
                 <label>Primeiro nome</label>
-                <input type="text" class="form-control" required="required" autofocus="autofocus" name="nome" value="<?=$nome?>">
+                <input type="text" class="form-control" required="required" autofocus="autofocus" name="nome" value="<?= htmlspecialchars($values['nome'] ?? '') ?>">
             </div>
             <div class="form-group">
                 <label>Sobrenome</label>
-                <input type="text" class="form-control" required="required" name="sobrenome" value="<?=$sobrenome?>">
+                <input type="text" class="form-control" required="required" name="sobrenome" value="<?= htmlspecialchars($values['sobrenome'] ?? '') ?>">
             </div>
             <div class="form-group">
                 <label>Data de nascimento</label>
-                <input type="date" class="form-control" required="required" name="nascimento" value="<?=$nascimento?>">
+                <input type="date" class="form-control" required="required" name="nascimento" value="<?= htmlspecialchars($values['nascimento'] ?? '') ?>">
             </div>
             <div class="form-group">
                 <label>CPF (somente números)</label>
@@ -174,36 +72,36 @@ if (has_input('botao')) {
             </div>
             <div class="form-group">
                 <label>Salário</label>
-                <input type="number" step="0.01" class="form-control" required="required" name="salario" value="<?=$salario?>"> 
+                <input type="number" step="0.01" class="form-control" required="required" name="salario" value="<?= htmlspecialchars($values['salario'] ?? '') ?>"> 
             </div>
-            <input type="hidden" name="id" value=<?=$id?>
-            <input type="hidden" name="cargo" value=<?=$cargo?>
+            <input type="hidden" name="id" value="<?= htmlspecialchars($id ?? '') ?>">
+            <input type="hidden" name="cargo" value="<?= htmlspecialchars($cargo ?? '') ?>">
             <button class="btn btn-primary btn-block" type="submit" name="botao">Avançar</button>
           </form>
        <?php } elseif ($flag == 2) { ?>
           <form action="editar-funcionario.php" method="post">
-    <?php  if ($cargo == "Recepcionista" || $cargo == "Administrador") { ?>
+    <?php  if ($cargo === 'Recepcionista' || $cargo === 'Administrador') { ?>
             <div class="form-group">
               <label>Nome de usuário</label>
-              <input type="text" class="form-control" required="required" autofocus="autofocus" name="nome_usuario" value="<?=$resultado->nome_usuario?>">
+              <input type="text" class="form-control" required="required" autofocus="autofocus" name="nome_usuario" value="<?= htmlspecialchars($resultado->nome_usuario ?? '') ?>">
             </div>
             <div class="form-group">
               <label>Senha</label>
               <input type="password" class="form-control" required="required" autofocus="autofocus" name="senha">
             </div>
-    <?php } elseif ($cargo == "Dentista") { ?>
+    <?php } elseif ($cargo === 'Dentista') { ?>
             <div class="form-group">
               <label>CRO</label>
-              <input type="text" class="form-control" required="required" autofocus="autofocus" maxlength="5" name="cro" value="<?=$resultado->cro?>">
+              <input type="text" class="form-control" required="required" autofocus="autofocus" maxlength="5" name="cro" value="<?= htmlspecialchars($resultado->cro ?? '') ?>">
             </div> 
         <?php } ?>
-            <input type="hidden" name="id" value=<?=$id?>>
-            <input type="hidden" name="nome" value=<?=$nome?>>
-            <input type="hidden" name="sobrenome" value=<?=$sobrenome?>>
-            <input type="hidden" name="nascimento" value=<?=$nascimento?>>
-            <input type="hidden" name="cpf" value=<?=$cpf?>>
-            <input type="hidden" name="salario" value=<?=$salario?>>
-            <input type="hidden" name="cargo" value=<?=$cargo?>>
+            <input type="hidden" name="id" value="<?= htmlspecialchars($id ?? '') ?>">
+            <input type="hidden" name="nome" value="<?= htmlspecialchars($values['nome'] ?? '') ?>">
+            <input type="hidden" name="sobrenome" value="<?= htmlspecialchars($values['sobrenome'] ?? '') ?>">
+            <input type="hidden" name="nascimento" value="<?= htmlspecialchars($values['nascimento'] ?? '') ?>">
+            <input type="hidden" name="cpf" value="<?= htmlspecialchars($values['cpf'] ?? '') ?>">
+            <input type="hidden" name="salario" value="<?= htmlspecialchars($values['salario'] ?? '') ?>">
+            <input type="hidden" name="cargo" value="<?= htmlspecialchars($cargo ?? '') ?>">
             <button class="btn btn-primary btn-block" type="submit" name="botao-detalhe">Atualizar</button>
       </form>
        <?php } ?> 
