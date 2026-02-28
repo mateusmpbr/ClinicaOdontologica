@@ -83,10 +83,10 @@ class ConsultaCreateController
                 $id = $dcp->insert();
 
                 if ($values['situacao'] == "Pago") {
-                    header("Location: cadastrar-recebimentos-consultas.php?id=$id");
+                    header("Location: RecebimentoConsultaCreate.php?id=$id");
                     exit;
                 } else {
-                    header("Location: consultas.php");
+                    header("Location: Consulta.php");
                     exit;
                 }
             }

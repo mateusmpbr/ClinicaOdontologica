@@ -1,22 +1,16 @@
-<?php include_once'header.php' ?>
 <?php
+require_once __DIR__ . '/../app/bootstrap.php';
 
-if (has_input('botao-remover')) {
-    $id = (request()->getParsedBody()['id'] ?? request()->getQueryParams()['id'] ?? null);
-    $paciente = new \ClinicaOdontologica\Models\Paciente();
-    $paciente->setId($id);
-    $paciente->delete();
-} ?>
+include_once __DIR__ . '/_partials/header.php';
+
+?>
+  <body class="bg-dark">
+    <div id="wrapper">
       <div id="content-wrapper">
-
         <div class="container-fluid">
 
           <!-- DataTables Example -->
           <div class="card mb-3">
-
-            <div>
-              <button class="btn btn-primary btn-block" onclick="window.location.href='../PacienteCreate.php'" name="cadastrar-paciente">Cadastrar Paciente</button>
-            </div>
 
             <div class="card-header">
               <i class="fas fa-table"></i>
@@ -32,8 +26,6 @@ if (has_input('botao-remover')) {
                       <th>Data de nascimento</th>
                       <th>CPF</th>
                       <th>Plano Dentário</th>
-                      <th></th>
-                      <th></th>
                     </tr>
                   </thead>
                   <tfoot>
@@ -43,8 +35,6 @@ if (has_input('botao-remover')) {
                       <th>Data de nascimento</th>
                       <th>CPF</th>
                       <th>Plano Dentário</th>
-                      <th></th>
-                      <th></th>
                     </tr>
                   </tfoot>
                   <tbody>
@@ -64,8 +54,6 @@ while ($row = $stmt->fetch(PDO::FETCH_OBJ)) { ?>
     $plano_dentario = $p->nomePlanoDentario();
     ?>
                         <td> <?= $plano_dentario; ?> </td>
-                        <td><a href="../PacienteEdit.php?id=<?=$row->id?>" class="btn btn-primary">Alterar</a></td>
-                        <td><a href="#" class="btn btn-danger" data-toggle="modal" data-target="#removeModal<?=$row->id?>">Remover</a></td>
                       </tr>
                       <?php } ?>
                   </tbody>
@@ -77,18 +65,26 @@ while ($row = $stmt->fetch(PDO::FETCH_OBJ)) { ?>
         <!-- /.container-fluid -->
       </div>
       <!-- /.content-wrapper -->
-<?php
-$stmt = $p->viewAll();
+    </div>
+    <!-- /#wrapper -->
+    <!-- Bootstrap core JavaScript-->
+    <script src="/vendor/jquery/jquery.min.js"></script>
+    <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-while ($row = $stmt->fetch(PDO::FETCH_OBJ)) {
-    $modalId = "removeModal{$row->id}";
-    $modalTitle = "Você tem certeza que deseja remover o paciente {$row->nome} ?";
-    $modalBody = "Essa ação não poderá ser desfeita";
-    $formAction = "index.php";
-    $hiddenFields = ['id' => $row->id];
-    $confirmButtonName = 'botao-remover';
-    $confirmButtonLabel = 'Remover';
-    include __DIR__ . '/../_partials/modal-confirm.php';
-}
-include_once 'footer.php';
-?>
+    <!-- Core plugin JavaScript-->
+    <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Page level plugin JavaScript-->
+    <script src="/vendor/chart.js/Chart.min.js"></script>
+    <script src="/vendor/datatables/jquery.dataTables.js"></script>
+    <script src="/vendor/datatables/dataTables.bootstrap4.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="/js/sb-admin.min.js"></script>
+
+    <!-- Demo scripts for this page-->
+    <script src="/js/datatables.js"></script>
+    
+  </body>
+
+</html>

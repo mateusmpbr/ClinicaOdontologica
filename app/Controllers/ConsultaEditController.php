@@ -66,14 +66,14 @@ class ConsultaEditController
                 $dcp->setOperacao($operacao);
                 $id = $dcp->edit();
                 if ($situacao_antiga == "Pago") {
-                    header("Location: editar-recebimentos-consultas.php?id=$id");
+                    header("Location: RecebimentoConsultaEdit.php?id=$id");
                     exit;
                 } else {
                     if ($situacao == "Pago") {
-                        header("Location: cadastrar-recebimentos-consultas.php?id=$id");
+                        header("Location: RecebimentoConsultaCreate.php?id=$id");
                         exit;
                     } else {
-                        header("Location: consultas.php");
+                        header("Location: Consulta.php");
                         exit;
                     }
                 }
