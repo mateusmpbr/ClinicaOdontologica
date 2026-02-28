@@ -40,7 +40,7 @@
     </a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="/views/Administrador/index.php">
+    <a class="nav-link" href="/">
       <i class="fas fa-sign-out-alt"></i>
       <span>Logout</span>
     </a>

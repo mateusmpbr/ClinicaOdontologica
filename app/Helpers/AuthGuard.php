@@ -19,8 +19,8 @@ class AuthGuard
             if($requiredRole === AuthRole::ADMIN){
                 $a = new Administrador();
                 $a->setFuncionarioId($_SESSION['funcionario']);
-                if (!empty($a->viewAdministrador())) {
-                    header('Location: /public/index.php');
+                if (empty($a->viewAdministrador())) {
+                    header('Location: index.php');
                     exit;
                 }
                 return;
@@ -29,8 +29,8 @@ class AuthGuard
             if($requiredRole === AuthRole::RECEPTIONIST){
                 $r = new Recepcionista();
                 $r->setFuncionarioId($_SESSION['funcionario']);
-                if (!empty($r->viewRecepcionista())) {
-                    header('Location: /public/index.php');
+                if (empty($r->viewRecepcionista())) {
+                    header('Location: index.php');
                     exit;
                 }
                 return;
@@ -38,7 +38,7 @@ class AuthGuard
         }
 
         // Fallback to public index
-        header('Location: /public/index.php');
+        header('Location: index.php');
         exit;
     }
 
