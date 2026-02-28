@@ -1,4 +1,9 @@
 <?php
+
+use ClinicaOdontologica\Helpers\AuthGuard;
+
+require_once __DIR__ . '/../app/bootstrap.php';
+
 $flag = 0;
 
 session_start();
@@ -23,35 +28,12 @@ if (!function_exists('has_input')) {
 
 if (has_input('login')) {
 
-    session_start();
-
     $nome_usuario = input('nome_usuario');
     $senha = input('senha');
-    $tipo  = input('tipo');
 
-    if ($tipo == "recepcionista") {
-        require_once __DIR__ . '/../app/bootstrap.php';
-        $recepcionista = new \ClinicaOdontologica\Models\Recepcionista();
-        $recepcionista->setNomeUsuario($nome_usuario);
-      $funcionario_id = $recepcionista->existe($senha);
-        if (!is_null($funcionario_id)) {
-            $_SESSION["funcionario"] = $funcionario_id;
-            header("Location: views/Recepcionista/index.php");
-        } else {
-            $flag = 1;
-        }
-    } elseif ($tipo == "administrador") {
-        require_once __DIR__ . '/../app/bootstrap.php';
-        $administrador = new \ClinicaOdontologica\Models\Administrador();
-        $administrador->setNomeUsuario($nome_usuario);
-      $funcionario_id = $administrador->existe($senha);
-        if (!is_null($funcionario_id)) {
-            $_SESSION["funcionario"] = $funcionario_id;
-            header("Location: views/Administrador/index.php");
-        } else {
-            $flag = 1;
-        }
-    }
+    AuthGuard::loginUser($nome_usuario, $senha);
+
+    $flag = 1;
 }
 ?>
 <!DOCTYPE html>
@@ -98,12 +80,6 @@ if (has_input('login')) {
             </div>
             <div class="form-group">
                 <input type="password" class="form-control" placeholder="Senha" required="required" name="senha">
-            </div>
-            <div class="form-group">
-              <select name="tipo">
-                <option value="recepcionista" checked="checked">Recepcionista</option>
-                <option value="administrador">Administrador</option>
-              </select>
             </div>
             <button class="btn btn-primary btn-block" type="submit" name="login">Login</button>
           </form>

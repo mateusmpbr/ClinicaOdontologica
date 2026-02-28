@@ -5,34 +5,14 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 use ClinicaOdontologica\Helpers\AuthGuard;
 
-function verificaFuncionarioLogado()
-{
-    AuthGuard::ensureFuncionarioLogged(2);
-}
+enum AuthRole {
+    case ADMIN;
+    case RECEPTIONIST;
+} 
 
-function verificaFuncionarioLogadoCadastro()
+function autenticar(AuthRole $requiredRole)
 {
-    AuthGuard::ensureFuncionarioLogged(3);
-}
-
-function verificarAdministradorLogado()
-{
-    AuthGuard::ensureAdministradorLogged(2);
-}
-
-function verificarAdministradorLogadoCadastro()
-{
-    AuthGuard::ensureAdministradorLogged(3);
-}
-
-function verificarRecepcionistaLogado()
-{
-    AuthGuard::ensureRecepcionistaLogged(2);
-}
-
-function verificarRecepcionistaLogadoCadastro()
-{
-    AuthGuard::ensureRecepcionistaLogged(3);
+    AuthGuard::authenticateRole($requiredRole);
 }
 
 // Request helpers to ease migration to PSR-7

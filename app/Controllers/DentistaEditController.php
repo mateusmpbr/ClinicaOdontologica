@@ -2,14 +2,14 @@
 
 namespace ClinicaOdontologica\Controllers;
 
+use AuthRole;
 use ClinicaOdontologica\Models\Dentista;
 
 class DentistaEditController
 {
     public function handleRequest(): array
     {
-        verificaFuncionarioLogadoCadastro();
-        verificarRecepcionistaLogadoCadastro();
+        autenticar(AuthRole::RECEPTIONIST);
 
         $flag = 0;
         $values = [];
@@ -28,7 +28,7 @@ class DentistaEditController
             $d->setNome($values['nome']);
             $d->setCro($values['cro']);
             $d->edit();
-            header('Location: index.php');
+            header('Location: /views/Administrador/index.php');
             exit;
         }
 

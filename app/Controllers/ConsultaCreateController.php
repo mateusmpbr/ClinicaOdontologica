@@ -2,6 +2,7 @@
 
 namespace ClinicaOdontologica\Controllers;
 
+use AuthRole;
 use ClinicaOdontologica\Models\DentistaConsultaPaciente;
 use ClinicaOdontologica\Models\Dentista;
 use ClinicaOdontologica\Models\Paciente;
@@ -11,8 +12,7 @@ class ConsultaCreateController
 {
     public function handleRequest(): array
     {
-        verificaFuncionarioLogadoCadastro();
-        verificarRecepcionistaLogadoCadastro();
+        autenticar(AuthRole::RECEPTIONIST);
 
         $dcp = new DentistaConsultaPaciente();
         $p = new Paciente();

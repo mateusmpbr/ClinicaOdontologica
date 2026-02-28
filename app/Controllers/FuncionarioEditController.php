@@ -2,19 +2,14 @@
 
 namespace ClinicaOdontologica\Controllers;
 
-use ClinicaOdontologica\Models\Funcionario;
-use ClinicaOdontologica\Models\Auxiliar;
-use ClinicaOdontologica\Models\Recepcionista;
-use ClinicaOdontologica\Models\Administrador;
-use ClinicaOdontologica\Models\Dentista;
+use AuthRole;
 use ClinicaOdontologica\Services\FuncionarioService;
 
 class FuncionarioEditController
 {
     public function handleRequest(): array
     {
-        verificaFuncionarioLogadoCadastro();
-        verificarRecepcionistaLogadoCadastro();
+        autenticar(AuthRole::RECEPTIONIST);
 
         $flag = 0;
         $step = 0;
@@ -58,7 +53,7 @@ class FuncionarioEditController
                 'cro' => input('cro', ''),
             ]);
 
-            header('Location: index.php');
+            header('Location: /views/Administrador/index.php');
             exit;
         } else {
             $id = input('id', null);

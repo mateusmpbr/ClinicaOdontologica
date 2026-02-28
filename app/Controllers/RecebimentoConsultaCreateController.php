@@ -1,6 +1,7 @@
 <?php
 namespace ClinicaOdontologica\Controllers;
 
+use AuthRole;
 use ClinicaOdontologica\Models\Paciente;
 use ClinicaOdontologica\Models\Recebimento;
 use ClinicaOdontologica\Models\DentistaConsultaPaciente;
@@ -9,13 +10,7 @@ class RecebimentoConsultaCreateController
 {
     public function handleRequest(): array
     {
-        // ensure only authorized employees can create receipts from consultations
-        if (function_exists('verificaFuncionarioLogadoCadastro')) {
-            verificaFuncionarioLogadoCadastro();
-        }
-        if (function_exists('verificarRecepcionistaLogadoCadastro')) {
-            verificarRecepcionistaLogadoCadastro();
-        }
+        autenticar(AuthRole::RECEPTIONIST);
 
         $flag = 0;
 

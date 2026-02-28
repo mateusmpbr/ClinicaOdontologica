@@ -2,14 +2,14 @@
 
 namespace ClinicaOdontologica\Controllers;
 
+use AuthRole;
 use ClinicaOdontologica\Services\FuncionarioService;
 
 class FuncionarioCreateController
 {
     public function handleRequest(): array
     {
-        verificaFuncionarioLogadoCadastro();
-        verificarRecepcionistaLogadoCadastro();
+        autenticar(AuthRole::RECEPTIONIST);
 
         $flag = 0;
         $step = 0; // 0 = initial, 1 = detail
@@ -50,8 +50,7 @@ class FuncionarioCreateController
                 'senha' => input('senha', ''),
                 'cro' => input('cro', ''),
             ]);
-
-            header('Location: index.php');
+            header('Location: /views/Administrador/index.php');
             exit;
         }
 

@@ -30,7 +30,7 @@
     </a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="../../index.php">
+    <a class="nav-link" href="/views/Recepcionista/index.php">
       <i class="fas fa-sign-out-alt"></i>
       <span>Logout</span>
     </a>

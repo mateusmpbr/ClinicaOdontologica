@@ -2,6 +2,7 @@
 
 namespace ClinicaOdontologica\Controllers;
 
+use AuthRole;
 use ClinicaOdontologica\Models\Paciente;
 use ClinicaOdontologica\Models\PlanoDentario;
 
@@ -9,8 +10,7 @@ class PacienteCreateController
 {
     public function handleRequest(): array
     {
-        verificaFuncionarioLogadoCadastro();
-        verificarRecepcionistaLogadoCadastro();
+        autenticar(AuthRole::RECEPTIONIST);
 
         $flag = 0;
         $values = [
@@ -48,7 +48,7 @@ class PacienteCreateController
 
             if ($flag == 0) {
                 $paciente->insert();
-                header('Location: index.php');
+                header('Location: /views/Recepcionista/index.php');
                 exit;
             }
         }
