@@ -50,7 +50,7 @@ if (strtolower($appEnv) === 'development') {
     error_reporting(E_ALL & ~E_DEPRECATED & ~E_STRICT);
 }
 
-$funcoes = __DIR__ . '/Helpers/funcoesAuxiliares.php';
+$funcoes = __DIR__ . '/Helpers/Utils.php';
 if (file_exists($funcoes)) {
     require_once $funcoes;
 }

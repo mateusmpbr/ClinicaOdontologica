@@ -9,7 +9,7 @@
       "config/"
     ],
     "files": [
-      "app/Helpers/funcoesAuxiliares.php"
+      "app/Helpers/Utils.php"
     ]
   },
   "require-dev": {
