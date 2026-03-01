@@ -12,7 +12,7 @@ $errors = $data['errors'] ?? [];
 $step = $data['step'] ?? 0;
 $values = $data['values'] ?? [];
 $resultado = $data['resultado'] ?? null;
-$id = $data['id'] ?? ($values['id'] ?? null);
+$id = $data['id'] ?? ($values['id'] ?? ($resultado->id ?? null));
 $cargo = $data['cargo'] ?? ($values['cargo'] ?? ($resultado->cargo ?? ''));
 ?>
   <body class="bg-dark">
@@ -25,7 +25,6 @@ $cargo = $data['cargo'] ?? ($values['cargo'] ?? ($resultado->cargo ?? ''));
         <div class="card-body">
         <?php if ($step == 0) { ?>
           <form action="FuncionarioEdit.php" method="post">
-            <?= function_exists('csrf_field') ? csrf_field() : '' ?>
             <?= function_exists('csrf_field') ? csrf_field() : '' ?>
             <div class="form-group">
                 <label>Primeiro nome</label>
@@ -56,6 +55,7 @@ $cargo = $data['cargo'] ?? ($values['cargo'] ?? ($resultado->cargo ?? ''));
             <b>O CPF informado não é válido</b>
           </div>
           <form action="FuncionarioEdit.php" method="post">
+            <?= function_exists('csrf_field') ? csrf_field() : '' ?>
             <div class="form-group">
                 <label>Primeiro nome</label>
                 <input type="text" class="form-control" required="required" autofocus="autofocus" name="nome" value="<?= htmlspecialchars($values['nome'] ?? '') ?>">
@@ -80,8 +80,9 @@ $cargo = $data['cargo'] ?? ($values['cargo'] ?? ($resultado->cargo ?? ''));
             <input type="hidden" name="cargo" value="<?= htmlspecialchars($cargo ?? '') ?>">
             <button class="btn btn-primary btn-block" type="submit" name="botao">Avançar</button>
           </form>
-       <?php } elseif ($step == 2) { ?>
+       <?php } elseif ($step == 1) { ?>
           <form action="FuncionarioEdit.php" method="post">
+            <?= function_exists('csrf_field') ? csrf_field() : '' ?>
     <?php  if ($cargo === 'Recepcionista' || $cargo === 'Administrador') { ?>
             <div class="form-group">
               <label>Nome de usuário</label>

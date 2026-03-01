@@ -18,10 +18,11 @@ class EspecialidadeEditController
             }
             $id = input('id', null);
             $nome = input('nome', '');
+            $nome_antigo = input('nome_antigo', '');
             $e = new Especialidade();
             $e->setId($id);
-            $e->setNome($nome);
-            $e->edit();
+            $e->setNome($nome_antigo);
+            $e->edit($nome);
             header('Location: Especialidade.php');
             exit;
         }

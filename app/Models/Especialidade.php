@@ -18,6 +18,11 @@ class Especialidade
         return $this->nome;
     }
 
+    public function setId($nome)
+    {
+        $this->nome = $nome;
+    }
+
     public function setNome($nome)
     {
         if (strlen($nome) <= 45) {

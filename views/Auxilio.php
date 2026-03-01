@@ -7,6 +7,10 @@ $controller = new AuxilioController();
 $data = $controller->handleRequest();
 
 include_once __DIR__ . '/_common/Header.php';
+
+if (!empty($data['sidebar'])) {
+    include $data['sidebar'];
+}
 ?>
       <div id="content-wrapper">
 

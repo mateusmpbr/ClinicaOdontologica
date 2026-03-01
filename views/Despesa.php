@@ -7,8 +7,26 @@ $controller = new DespesaController();
 $data = $controller->handleRequest();
 
 include_once __DIR__ . '/_common/Header.php';
+
+if (!empty($data['sidebar'])) {
+    include $data['sidebar'];
+}
 ?>
-              Despesas</div>
+      <div id="content-wrapper">
+
+        <div class="container-fluid">
+
+          <!-- DataTables Example -->
+          <div class="card mb-3">
+
+            <div>
+              <button class="btn btn-primary btn-block" onclick="window.location.href='DespesaCreate.php'" name="cadastrar-despesa">Cadastrar Despesa</button>
+            </div>
+
+            <div class="card-header">
+              <i class="fas fa-table"></i>
+              Despesas
+            </div>
 
             <div class="card-body">
               <div class="table-responsive">

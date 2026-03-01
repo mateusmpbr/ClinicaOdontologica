@@ -20,7 +20,7 @@ $auxiliar_id = $data['auxiliar_id'] ?? null;
         <div class="card-header">
           Atualização de Auxílio
              <div class="float-right">
-                <a href="auxiliar.php" target="_blank" class="btn">Buscar auxiliares</a>
+                <a href="Auxiliar.php" target="_blank" class="btn">Buscar auxiliares</a>
                 <a href="Dentista.php" target="_blank" class="btn">Buscar dentistas</a>
             </div>
         </div>
@@ -39,7 +39,6 @@ $auxiliar_id = $data['auxiliar_id'] ?? null;
           </div>
         <?php } ?>
           <form action="AuxilioEdit.php" method="post">
-            <?= function_exists('csrf_field') ? csrf_field() : '' ?>
             <?= function_exists('csrf_field') ? csrf_field() : '' ?>
             <div class="form-group">
                 <label>Nome do Dentista</label>

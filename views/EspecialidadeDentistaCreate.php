@@ -1,17 +1,7 @@
-<?php include_once __DIR__ . '/_common/Header.php' ?>
 <?php
+require_once __DIR__ . '/../app/bootstrap.php';
 
 $errors = [];
-
-// Inserção direta por IDs (formulário com selects)
-if (!empty($_POST) && isset($_POST['dentista_id']) && isset($_POST['especialidade_id']) && !isset($_POST['botao'])) {
-    $d = new \ClinicaOdontologica\Models\DentistaHasEspecialidade();
-    $d->setDentistaId($_POST['dentista_id']);
-    $d->setEspecialidadeId($_POST['especialidade_id']);
-    $d->insert();
-    header('Location: EspecialidadeDentistas.php');
-    exit;
-}
 
 if (!has_input('nome_dentista')) {
     $nome_dentista = "";
@@ -26,9 +16,9 @@ if (has_input('botao')) {
     $e = new \ClinicaOdontologica\Models\Especialidade();
     $dhe = new \ClinicaOdontologica\Models\DentistaHasEspecialidade();
 
-    $nome_dentista = (request()->getParsedBody()['nome_dentista'] ?? request()->getQueryParams()['nome_dentista'] ?? null);
-    $cro_dentista = (request()->getParsedBody()['cro_dentista'] ?? request()->getQueryParams()['cro_dentista'] ?? null);
-    $especialidade = (request()->getParsedBody()['especialidade'] ?? request()->getQueryParams()['especialidade'] ?? null);
+    $nome_dentista = input('nome_dentista', '');
+    $cro_dentista = input('cro_dentista', '');
+    $especialidade = input('especialidade', '');
 
     if (!($id_dentista = $d->existeNomeCro($nome_dentista, $cro_dentista))) {
       $errors['dentista'] = 'not_found';
@@ -43,44 +33,18 @@ if (has_input('botao')) {
     }
 
     if (empty($errors)) {
-        $dhe->insert();
-        header("Location: EspecialidadeDentistas.php");
-        exit;
+      $dhe->insert();
+      header("Location: EspecialidadeDentistas.php");
+      exit;
     }
-
 }
+
+include_once __DIR__ . '/_common/Header.php';
 
 ?>
 
-<body class="bg-dark">
-
+  <body class="bg-dark">
   <div class="container">
-    <div class="card card-register mx-auto mt-5">
-      <div class="card-header">Cadastro de Especialidade do Dentista</div>
-      <div class="card-body">
-        <form action="EspecialidadeDentistaCreate.php" method="post">
-          <?= function_exists('csrf_field') ? csrf_field() : '' ?>
-          <div class="form-group">
-            <label>Dentista</label>
-            <select name="dentista_id" class="form-control">
-              <?php foreach ((new \ClinicaOdontologica\Models\Dentista())->all() as $dentista) { ?>
-                <option value="<?= htmlspecialchars($dentista['id']) ?>"><?= htmlspecialchars($dentista['nome']) ?></option>
-              <?php } ?>
-            </select>
-          </div>
-          <div class="form-group">
-            <label>Especialidade</label>
-            <select name="especialidade_id" class="form-control">
-              <?php foreach ((new \ClinicaOdontologica\Models\Especialidade())->all() as $esp) { ?>
-                <option value="<?= htmlspecialchars($esp['id']) ?>"><?= htmlspecialchars($esp['nome']) ?></option>
-              <?php } ?>
-            </select>
-          </div>
-          <button class="btn btn-primary btn-block" type="submit">Cadastrar</button>
-        </form>
-      </div>
-    </div>
-
     <div class="card card-register mx-auto mt-4">
       <div class="card-header">
         Cadastro de Especialidade para Dentista
@@ -112,11 +76,10 @@ if (has_input('botao')) {
               <label>Especialidade</label><br>
               <select name="especialidade">
               <?php
-
-              $e = new \ClinicaOdontologica\Models\Especialidade();
-$stmt = $e->viewAll();
-
-while ($row = $stmt->fetch(PDO::FETCH_OBJ)) { ?>
+                $e = new \ClinicaOdontologica\Models\Especialidade();
+                $stmt = $e->viewAll();
+                while ($row = $stmt->fetch(PDO::FETCH_OBJ)) {
+              ?>
               <option value="<?= htmlspecialchars($row->nome) ?>"> <?= htmlspecialchars($row->nome) ?> </option>
               <?php } ?>
               </select>
@@ -125,7 +88,6 @@ while ($row = $stmt->fetch(PDO::FETCH_OBJ)) { ?>
         </form>
       </div>
     </div>
-
   </div>
 
   <!-- Bootstrap core JavaScript-->

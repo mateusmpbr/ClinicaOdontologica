@@ -15,13 +15,21 @@ class DespesaEditController
                 $errors = ['csrf' => 'invalid_token'];
             }
             $id = (request()->getParsedBody()['id'] ?? request()->getQueryParams()['id'] ?? null);
-            $descricao = (request()->getParsedBody()['descricao'] ?? request()->getQueryParams()['descricao'] ?? null);
+            $nome = (request()->getParsedBody()['nome'] ?? request()->getQueryParams()['nome'] ?? null);
+            $data = (request()->getParsedBody()['data'] ?? request()->getQueryParams()['data'] ?? null);
             $valor = (request()->getParsedBody()['valor'] ?? request()->getQueryParams()['valor'] ?? null);
+            $tipo = (request()->getParsedBody()['tipo'] ?? request()->getQueryParams()['tipo'] ?? null);
+            $situacao = (request()->getParsedBody()['situacao'] ?? request()->getQueryParams()['situacao'] ?? null);
+            $administrador_id = (request()->getParsedBody()['administrador_id'] ?? request()->getQueryParams()['administrador_id'] ?? null);
 
             if ($id) {
                 $d->setId($id);
-                $d->setDescricao($descricao);
+                $d->setNome($nome);
+                $d->setData($data);
                 $d->setValor($valor);
+                $d->setTipo($tipo);
+                $d->setSituacao($situacao);
+                $d->setAdministradorId($administrador_id);
                 $d->edit();
                 header('Location: Despesa.php');
                 exit;

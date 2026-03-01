@@ -19,6 +19,10 @@ if (!empty($data['sidebar'])) {
           <!-- DataTables Example -->
           <div class="card mb-3">
 
+            <div>
+              <button class="btn btn-primary btn-block" onclick="window.location.href='RecebimentoCreate.php'" name="cadastrar-recebimento">Cadastrar Recebimento</button>
+            </div>
+
             <div class="card-header">
               <i class="fas fa-table"></i>
               Recebimentos

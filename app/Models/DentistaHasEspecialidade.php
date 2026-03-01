@@ -145,5 +145,5 @@ class DentistaHasEspecialidade
             return 0;
         }
     }
-
+    
 }

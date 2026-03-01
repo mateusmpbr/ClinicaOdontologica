@@ -9,7 +9,7 @@ class FuncionarioCreateController
 {
     public function handleRequest(): array
     {
-        autenticar(AuthRole::RECEPTIONIST);
+        autenticar(AuthRole::ADMIN);
 
         $errors = [];
         $step = 0; // 0 = initial, 1 = detail
@@ -33,9 +33,8 @@ class FuncionarioCreateController
 
             if (!$service->validateCpf($values['cpf'])) {
                 $errors['cpf'] = 'invalid';
-                $step = 0;
             } else {
-                $step = 2; // proceed to detail
+                $step = 1; // proceed to detail
             }
         } elseif (function_exists('has_input') && has_input('botao-detalhe')) {
             $values['nome'] = input('nome', '');

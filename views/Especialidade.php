@@ -8,6 +8,9 @@ $data = $controller->handleRequest();
 
 include_once __DIR__ . '/_common/Header.php';
 
+if (!empty($data['sidebar'])) {
+    include $data['sidebar'];
+}
 ?>
       <div id="content-wrapper">
 
@@ -59,7 +62,7 @@ include_once __DIR__ . '/_common/Header.php';
         <!-- /.container-fluid -->
       </div>
       <!-- /.content-wrapper -->
-        <?php
+      <?php
         foreach ($data['especialidades'] as $row) {
           $modalId = "removeModal{$row->nome}";
           $modalTitle = "Você tem certeza que deseja remover a especialidade {$row->nome}?";

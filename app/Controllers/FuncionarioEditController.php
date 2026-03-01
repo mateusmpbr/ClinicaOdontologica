@@ -9,7 +9,7 @@ class FuncionarioEditController
 {
     public function handleRequest(): array
     {
-        autenticar(AuthRole::RECEPTIONIST);
+        autenticar(AuthRole::ADMIN);
 
         $errors = [];
         $step = 0;
@@ -34,7 +34,7 @@ class FuncionarioEditController
                 $errors['cpf'] = 'invalid';
                 $step = 0;
             } else {
-                $step = 2;
+                $step = 1;
                 $resultado = $service->getRoleView((int)$id, $values['cargo']);
             }
         } elseif (function_exists('has_input') && has_input('botao-detalhe')) {

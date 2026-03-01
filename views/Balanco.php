@@ -7,6 +7,7 @@ $controller = new BalancoController();
 $data = $controller->handleRequest();
 
 include_once __DIR__ . '/_common/Header.php';
+include_once __DIR__ . '/Administrador/Sidebar.php';
 ?>
       <div id="content-wrapper">
 

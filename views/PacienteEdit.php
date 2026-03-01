@@ -32,7 +32,6 @@ $planos = $data['planos'] ?? [];
         <?php } ?>
           <form action="PacienteEdit.php" method="post">
             <?= function_exists('csrf_field') ? csrf_field() : '' ?>
-            <?= function_exists('csrf_field') ? csrf_field() : '' ?>
             <div class="form-group">
               <label>Primeiro nome</label>
               <input type="text" class="form-control" required="required" autofocus="autofocus" name="nome" value="<?= htmlspecialchars($resultado->nome) ?>">

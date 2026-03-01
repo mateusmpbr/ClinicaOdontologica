@@ -15,14 +15,16 @@ $resultado = $data['resultado'] ?? null;
 $id = $data['id'] ?? ($values['id'] ?? null);
 $cargo = $data['cargo'] ?? ($values['cargo'] ?? ($resultado->cargo ?? ''));
 ?>
-  <?php if (!empty($errors['cpf'])) : ?>
-          <div class="alert alert-danger form-group" role="alert">
-            <b>O CPF informado não é válido</b>
-          </div>
-        <?php endif; ?>
+
 
   <div class="container">
+
     <div class="card card-register mx-auto mt-5">
+      <?php if (!empty($errors['cpf'])) : ?>
+        <div class="alert alert-danger form-group" role="alert">
+          <b>O CPF informado não é válido</b>
+        </div>
+      <?php endif; ?>
       <div class="card-header">Cadastro de Funcionário</div>
       <div class="card-body">
         <?php if ($step === 0) : ?>
@@ -32,6 +34,14 @@ $cargo = $data['cargo'] ?? ($values['cargo'] ?? ($resultado->cargo ?? ''));
           <div class="form-group">
             <label>Nome</label>
             <input class="form-control" name="nome" required value="<?= htmlspecialchars($values['nome']) ?>">
+          </div>
+          <div class="form-group">
+              <label>Sobrenome</label>
+              <input type="text" class="form-control" required="required" name="sobrenome" value="<?= htmlspecialchars($values['sobrenome']) ?>">
+          </div>
+          <div class="form-group">
+              <label>Data de nascimento</label>
+              <input type="date" class="form-control" required="required" name="nascimento" value="<?= htmlspecialchars($values['nascimento']) ?>">
           </div>
           <div class="form-group">
             <label>CPF</label>
@@ -52,7 +62,7 @@ $cargo = $data['cargo'] ?? ($values['cargo'] ?? ($resultado->cargo ?? ''));
           </div>
           <button class="btn btn-primary btn-block" type="submit" name="botao">Avançar</button>
         </form>
-        <?php elseif ($step === 2) : ?>
+        <?php elseif ($step === 1) : ?>
         <form action="FuncionarioCreate.php" method="post">
           <?= function_exists('csrf_field') ? csrf_field() : '' ?>
           <?= function_exists('csrf_field') ? csrf_field() : '' ?>

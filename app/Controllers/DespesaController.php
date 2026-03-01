@@ -1,7 +1,9 @@
 <?php
 namespace ClinicaOdontologica\Controllers;
 
+use ClinicaOdontologica\Models\Administrador;
 use ClinicaOdontologica\Models\Despesa;
+use ClinicaOdontologica\Models\Recepcionista;
 
 class DespesaController
 {
@@ -39,6 +41,29 @@ class DespesaController
             ];
         }
 
-        return ['rows' => $rows, 'modals' => $modals];
+        $sidebar = $this->determineSidebar();
+
+        return ['rows' => $rows, 'modals' => $modals, 'sidebar' => $sidebar];
+    }
+
+    private function determineSidebar(): ?string
+    {
+        if (!isset($_SESSION['funcionario'])) {
+            return null;
+        }
+
+        $a = new Administrador();
+        $a->setFuncionarioId($_SESSION['funcionario']);
+        if (!empty($a->viewAdministrador())) {
+            return __DIR__ . '/../../views/Administrador/Sidebar.php';
+        }
+
+        $r = new Recepcionista();
+        $r->setFuncionarioId($_SESSION['funcionario']);
+        if (!empty($r->viewRecepcionista())) {
+            return __DIR__ . '/../../views/Recepcionista/Sidebar.php';
+        }
+
+        return null;
     }
 }

@@ -19,7 +19,7 @@ class AuthGuard
                 $a = new Administrador();
                 $a->setFuncionarioId($_SESSION['funcionario']);
                 if (empty($a->viewAdministrador())) {
-                    header('Location: index.php');
+                    header('Location: /');
                     exit;
                 }
                 return;
@@ -29,7 +29,7 @@ class AuthGuard
                 $r = new Recepcionista();
                 $r->setFuncionarioId($_SESSION['funcionario']);
                 if (empty($r->viewRecepcionista())) {
-                    header('Location: index.php');
+                    header('Location: /');
                     exit;
                 }
                 return;
@@ -37,7 +37,7 @@ class AuthGuard
         }
 
         // Fallback to public index
-        header('Location: index.php');
+        header('Location: /');
         exit;
     }
 
