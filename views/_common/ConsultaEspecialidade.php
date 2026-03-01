@@ -1,5 +1,9 @@
-<?php include_once __DIR__ . '/../_common/Header.php';
+<?php
 
+use ClinicaOdontologica\Models\DentistaHasEspecialidade;
+
+require_once __DIR__ . '/../../app/bootstrap.php';
+include_once __DIR__ . '/../_common/Header.php';
 ?>
   <body class="bg-dark">
     <div id="wrapper">
@@ -31,7 +35,7 @@
                   <tbody>
                       <?php
 
-                      $dhe = new Dentista_has_Especialidade();
+                      $dhe = new DentistaHasEspecialidade();
 
 $stmt = $dhe->viewAll();
 

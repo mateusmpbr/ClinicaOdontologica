@@ -22,7 +22,8 @@ include_once __DIR__ . '/_common/Header.php';
 
             <div class="card-header">
               <i class="fas fa-table"></i>
-              Especialidades</div>
+              Especialidades
+            </div>
 
             <div class="card-body">
               <div class="table-responsive">
@@ -63,7 +64,7 @@ include_once __DIR__ . '/_common/Header.php';
           $modalId = "removeModal{$row->nome}";
           $modalTitle = "Você tem certeza que deseja remover a especialidade {$row->nome}?";
           $modalBody = "Essa ação não poderá ser desfeita";
-          $formAction = "especialidades.php";
+          $formAction = "Especialidade.php";
           $hiddenFields = ['nome' => $row->nome];
           $confirmButtonName = 'botao-remover';
           $confirmButtonLabel = 'Remover';

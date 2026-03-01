@@ -94,7 +94,7 @@ foreach ($data['consultas'] as $row) {
     $modalId = "removeModal{$row->id}";
     $modalTitle = "Você tem certeza que deseja remover a consulta ?";
     $modalBody = "Essa ação não poderá ser desfeita";
-    $formAction = "consultas.php";
+    $formAction = "Consulta.php";
     $hiddenFields = ['id' => $row->id];
     $confirmButtonName = 'botao-remover';
     $confirmButtonLabel = 'Remover';

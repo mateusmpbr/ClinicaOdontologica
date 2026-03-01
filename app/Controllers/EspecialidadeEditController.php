@@ -22,7 +22,7 @@ class EspecialidadeEditController
             $e->setId($id);
             $e->setNome($nome);
             $e->edit();
-            header('Location: especialidades.php');
+            header('Location: Especialidade.php');
             exit;
         }
 

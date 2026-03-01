@@ -6,9 +6,8 @@ use AuthRole;
 use ClinicaOdontologica\Models\Administrador;
 use ClinicaOdontologica\Models\Recepcionista;
 
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
+
+// Session is started in bootstrap.php; helpers assume session is active.
 
 class AuthGuard
 {
@@ -67,5 +66,26 @@ class AuthGuard
             header('Location: views/Recepcionista/index.php');
             exit;
         }
+    }
+
+        public static function redirectToIndex(): string
+    {
+        if (!isset($_SESSION['funcionario'])) {
+            return "";
+        }
+
+        $a = new Administrador();
+        $a->setFuncionarioId($_SESSION['funcionario']);
+        if (!empty($a->viewAdministrador())) {
+            return '/views/Administrador/index.php';
+        }
+
+        $r = new Recepcionista();
+        $r->setFuncionarioId($_SESSION['funcionario']);
+        if (!empty($r->viewRecepcionista())) {
+            return '/views/Recepcionista/index.php';
+        }
+
+        return "";
     }
 }

@@ -37,6 +37,7 @@ if (session_status() === PHP_SESSION_NONE) {
         $path = ($cookieParams['path'] ?? '/') . '; SameSite=Lax';
         session_set_cookie_params($cookieParams['lifetime'] ?? 0, $path, $cookieParams['domain'] ?? '', $isSecure, true);
     }
+    session_start();
 } else {
     error_log('Session already active when bootstrap ran; skipping session cookie/ini reconfiguration');
 }
@@ -59,7 +60,7 @@ if (file_exists($funcoes)) {
 $aliases = [
     'Administrador' => \ClinicaOdontologica\Models\Administrador::class,
     'Auxiliar' => \ClinicaOdontologica\Models\Auxiliar::class,
-    'Auxiliar_auxilia_Dentista' => \ClinicaOdontologica\Models\AuxiliarAuxiliaDentista::class,
+    'AuxiliarAuxiliaDentista' => \ClinicaOdontologica\Models\AuxiliarAuxiliaDentista::class,
     'Dentista' => \ClinicaOdontologica\Models\Dentista::class,
     'Despesa' => \ClinicaOdontologica\Models\Despesa::class,
     'Especialidade' => \ClinicaOdontologica\Models\Especialidade::class,
@@ -68,8 +69,8 @@ $aliases = [
     'PlanoDentario' => \ClinicaOdontologica\Models\PlanoDentario::class,
     'Recebimento' => \ClinicaOdontologica\Models\Recebimento::class,
     'Recepcionista' => \ClinicaOdontologica\Models\Recepcionista::class,
-    'Dentista_consulta_Paciente' => \ClinicaOdontologica\Models\DentistaConsultaPaciente::class,
-    'Dentista_has_Especialidade' => \ClinicaOdontologica\Models\DentistaHasEspecialidade::class,
+    'DentistaConsultaPaciente' => \ClinicaOdontologica\Models\DentistaConsultaPaciente::class,
+    'DentistaHasEspecialidade' => \ClinicaOdontologica\Models\DentistaHasEspecialidade::class,
     'Balanco' => \ClinicaOdontologica\Models\Balanco::class,
 ];
 

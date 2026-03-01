@@ -23,7 +23,7 @@ class DespesaEditController
                 $d->setDescricao($descricao);
                 $d->setValor($valor);
                 $d->edit();
-                header('Location: despesas.php');
+                header('Location: Despesa.php');
                 exit;
             }
         }

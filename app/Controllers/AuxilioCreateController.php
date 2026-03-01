@@ -40,7 +40,7 @@ class AuxilioCreateController
                 $aad->setDentistaId($id_dentista);
                 $aad->setAuxiliarId($id_auxiliar);
                 $aad->insert();
-                header('Location: auxilios.php');
+                header('Location: Auxilio.php');
                 exit;
             }
         }

@@ -42,7 +42,7 @@ class RecebimentoCreateController
                 $recebimento->setRecepcionistaId($id_recepcionista);
                 $recebimento->setModoPagamento($values['modo_pagamento']);
                 $recebimento->insert();
-                header('Location: recebimentos.php');
+                header('Location: Recebimento.php');
                 exit;
 
             } elseif (($id_paciente = $paciente->existeNomeCpf())) {
@@ -52,7 +52,7 @@ class RecebimentoCreateController
                 $recebimento->setRecepcionistaId($id_recepcionista);
                 $recebimento->setModoPagamento($values['modo_pagamento']);
                 $recebimento->insert();
-                header('Location: recebimentos.php');
+                header('Location: Recebimento.php');
                 exit;
             } else {
                 $errors['paciente'] = 'not_found';

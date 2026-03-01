@@ -16,7 +16,7 @@ class AuxilioController
                 $aad->setDentistaId($dentista_id);
                 $aad->setAuxiliarId($auxiliar_id);
                 $aad->delete();
-                header('Location: auxilios.php');
+                header('Location: Auxilio.php');
                 exit;
             }
         }

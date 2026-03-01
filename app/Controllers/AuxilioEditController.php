@@ -44,7 +44,7 @@ class AuxilioEditController
                 $aad->setDentistaId($dentista_id_atual);
                 $aad->setAuxiliarId($auxiliar_id_atual);
                 $aad->edit($dentista_id_novo, $auxiliar_id_novo);
-                header('Location: auxilios.php');
+                header('Location: Auxilio.php');
                 exit;
             }
 

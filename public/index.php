@@ -6,14 +6,9 @@ require_once __DIR__ . '/../app/bootstrap.php';
 
 $errors = [];
 
-session_start();
+// session should already be active from bootstrap
 
-if (isset($_SESSION)) {
-  session_unset();
-  session_destroy();
-}
-
-if (isset($_SESSION)) {
+if (isset($_SESSION) && !has_input('login')) {
   session_unset();
   session_destroy();
 }

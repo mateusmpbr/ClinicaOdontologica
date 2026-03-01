@@ -14,7 +14,7 @@ class DespesaController
             if ($id) {
                 $d->setId($id);
                 $d->delete();
-                header('Location: despesas.php');
+                header('Location: Despesa.php');
                 exit;
             }
         }
@@ -32,7 +32,7 @@ class DespesaController
                 'modalId' => $modalId,
                 'modalTitle' => "Você tem certeza que deseja remover a despesa {$row->nome}?",
                 'modalBody' => 'Essa ação não poderá ser desfeita',
-                'formAction' => 'despesas.php',
+                'formAction' => 'Despesa.php',
                 'hiddenFields' => ['id' => $row->id],
                 'confirmButtonName' => 'botao-remover',
                 'confirmButtonLabel' => 'Remover',

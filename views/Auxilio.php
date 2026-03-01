@@ -68,7 +68,7 @@ include_once __DIR__ . '/_common/Header.php';
           $modalId = "removeModal{$row->dentista_id}-{$row->auxiliar_id}";
           $modalTitle = "Você tem certeza que deseja remover esse auxílio?";
           $modalBody = "Essa ação não poderá ser desfeita";
-          $formAction = "auxilios.php";
+          $formAction = "Auxilio.php";
           $hiddenFields = ['dentista_id' => $row->dentista_id, 'auxiliar_id' => $row->auxiliar_id];
           $confirmButtonName = 'botao-remover';
           $confirmButtonLabel = 'Remover';

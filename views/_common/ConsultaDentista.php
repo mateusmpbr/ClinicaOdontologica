@@ -1,5 +1,6 @@
-<?php include_once __DIR__ . '/../_common/Header.php';
-
+<?php
+require_once __DIR__ . '/../../app/bootstrap.php';
+include_once __DIR__ . '/../_common/Header.php';
 ?>
   <body class="bg-dark">
     <div id="wrapper">

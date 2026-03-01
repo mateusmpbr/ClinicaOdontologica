@@ -42,7 +42,7 @@ class DespesaCreateController
                 $d->setSituacao($values['situacao']);
                 $d->setAdministradorId($administrador_id);
                 $d->insert();
-                header('Location: despesas.php');
+                header('Location: Despesa.php');
                 exit;
             }
         }

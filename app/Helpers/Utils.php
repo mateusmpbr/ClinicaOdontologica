@@ -1,8 +1,6 @@
 <?php
 
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
+// Session is started in bootstrap.php; helpers assume session is active.
 use ClinicaOdontologica\Helpers\AuthGuard;
 
 enum AuthRole {
@@ -62,9 +60,7 @@ if (!function_exists('server_param')) {
 if (!function_exists('csrf_token')) {
     function csrf_token(): string
     {
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
+        // session should already be active from bootstrap
         if (empty($_SESSION['_csrf_token'])) {
             $_SESSION['_csrf_token'] = bin2hex(random_bytes(32));
         }
@@ -83,9 +79,7 @@ if (!function_exists('csrf_field')) {
 if (!function_exists('validate_csrf')) {
     function validate_csrf(): bool
     {
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
+        // session should already be active from bootstrap
         $posted = $_POST['_csrf_token'] ?? null;
         if (empty($posted) || empty($_SESSION['_csrf_token'])) {
             return false;

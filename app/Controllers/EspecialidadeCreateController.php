@@ -23,7 +23,7 @@ class EspecialidadeCreateController
                 $errors['nome'] = 'duplicate';
             } else {
                 $e->insert();
-                header('Location: especialidades.php');
+                header('Location: Especialidade.php');
                 exit;
             }
         }
